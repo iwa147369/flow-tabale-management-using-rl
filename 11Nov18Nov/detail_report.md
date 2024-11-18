@@ -129,11 +129,6 @@ The training results visualized in output.png demonstrate the agent's learning p
 - Steady decrease in loss through first 50 episodes
 - Stabilizes around 0.2-0.3 in later episodes
 
-#### c. Key Observations
-- The inverse relationship between increasing rewards and decreasing loss confirms effective learning
-- Initial high variability reflects exploration phase
-- Later stability indicates the agent has learned optimal policies
-- Final performance shows the agent can consistently make beneficial flow table management decisions
 
 
 
