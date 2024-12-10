@@ -11,14 +11,15 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f"Using device: {device}")
 
 TABLE_SIZE = 10
-NUM_FLOWS = 1000
+NUM_FLOWS = 500
+BATCH_SIZE = 64
 
 def generate_flows(num_flows=NUM_FLOWS):
     flows = []
     for i in range(num_flows):
         flows.append({
             'priority': np.random.randint(0, 100),
-            'age': np.random.randint(0, 100),
+            'timeout': np.random.randint(0, 100),
             'packet_count': np.random.randint(0, 100),
             'bytes_count': np.random.randint(0, 100),
         })
@@ -30,11 +31,11 @@ class FlowTableEnvironment(gym.Env):
     def __init__(self, table_size=TABLE_SIZE):
         super(FlowTableEnvironment, self).__init__()
         self.table_size = table_size
-        self.action_space = gym.spaces.Discrete(table_size)
-        self.observation_space = gym.spaces.Box(low=0, high=1, shape=(table_size,), dtype=np.float32)
+        self.action_space = gym.spaces.Discrete(5)
+        self.observation_space = gym.spaces.Box(low=0, high=1, shape=(table_size * 4,), dtype=np.float32)
 
         self.flow_table = table_flow
-        self.flows = generate_flows(500)
+        self.flows = generate_flows(NUM_FLOWS)
         self.current_flow_index = 0
         self.step_count = 0
         self.print_flow_table()
@@ -52,68 +53,80 @@ class FlowTableEnvironment(gym.Env):
         
         # Find max values for normalization
         max_priority = max(flow['priority'] for flow in self.flow_table)
-        # max_age = max(flow['age'] for flow in self.flow_table)
-        # max_packets = max(flow['packet_count'] for flow in self.flow_table)
-        # max_bytes = max(flow['bytes_count'] for flow in self.flow_table)
+        max_timeout = max(flow['timeout'] for flow in self.flow_table)
+        max_packets = max(flow['packet_count'] for flow in self.flow_table)
+        max_bytes = max(flow['bytes_count'] for flow in self.flow_table)
         
         # Normalize each feature to [0,1] range for each flow
         for flow in self.flow_table:
-            flow_info.append(flow['priority'] / max_priority if max_priority > 0 else 0)
-            # flow_info.append(flow['age'] / max_age if max_age > 0 else 0)
-            # flow_info.append(flow['packet_count'] / max_packets if max_packets > 0 else 0)
-            # flow_info.append(flow['bytes_count'] / max_bytes if max_bytes > 0 else 0)
+            flow_info.append(flow['priority'] / max_priority)
+            flow_info.append(flow['timeout'] / max_timeout)
+            flow_info.append(flow['packet_count'] / max_packets)
+            flow_info.append(flow['bytes_count'] / max_bytes)
 
         return np.array(flow_info, dtype=np.float32)
 
-    # Return max age of the flow table and its index
-    def max_age(self):
-        max_age = max(flow['age'] for flow in self.flow_table)
-        max_age_index = [flow['age'] for flow in self.flow_table].index(max_age)
-        return max_age, max_age_index
-
     def step(self, action):
         self.step_count += 1
-        reward = self._calculate_reward(action)
-        # max_age, max_age_index = self.max_age()
-        self.flow_table[action] = self.flows[self.current_flow_index]
-        # print(f"New flow added to index {action} with age {self.flow_table[action]['age']}. Max age is {max_age} at index {max_age_index}")
-        self.current_flow_index += 1
-            
+        
+        flow_index = -1
+        if action == 0: # Delete flow with lowest priority
+            flow_index = self.flow_table.index(min(self.flow_table, key=lambda x: x['priority']))
+        elif action == 1: # Delete flow with highest age
+            flow_index = self.flow_table.index(max(self.flow_table, key=lambda x: x['timeout']))
+        elif action == 2: # Delete flow with lowest packet count
+            flow_index = self.flow_table.index(min(self.flow_table, key=lambda x: x['packet_count']))
+        elif action == 3: # Delete flow with lowest bytes count
+            flow_index = self.flow_table.index(min(self.flow_table, key=lambda x: x['bytes_count']))
+
+        reward = self._calculate_reward(flow_index)
+        if flow_index != -1:
+            self.flow_table.pop(flow_index)
+            self.flow_table.append(self.flows[self.current_flow_index])
+            self.current_flow_index += 1
+        
         done = self.current_flow_index >= len(self.flows)
         return self._get_state(), reward, done
 
-    def _calculate_reward(self, action):
-        flow_stats = self.flow_table[action]
+    def _calculate_reward(self, flow_index):
+        flow_stats = self.flow_table[flow_index]
         # Find max values for normalization
-        max_priority = max(flow['priority'] for flow in self.flow_table)
-        # max_age = max(flow['age'] for flow in self.flow_table)
-        # max_packets = max(flow['packet_count'] for flow in self.flow_table)
-        # max_bytes = max(flow['bytes_count'] for flow in self.flow_table)
-
-        # age_reward = (flow_stats['age'] / max_age)
-        # priority_reward = 1 - (flow_stats['priority'] / max_priority)
-        # packet_reward = 1 - (flow_stats['packet_count'] / max_packets)
-        # bytes_reward = 1 - (flow_stats['bytes_count'] / max_bytes)
-
-        # if flow_stats['age'] < max_age * 0.2:
-        #     reward -= 0.5
+        avg_priority = sum(flow['priority'] for flow in self.flow_table) / len(self.flow_table)
+        avg_timeout = sum(flow['timeout'] for flow in self.flow_table) / len(self.flow_table)
+        avg_packets = sum(flow['packet_count'] for flow in self.flow_table) / len(self.flow_table)
+        avg_bytes = sum(flow['bytes_count'] for flow in self.flow_table) / len(self.flow_table)
 
         reward = 0
-        
-        if flow_stats['priority'] > max_priority * 0.8:
-            reward = -1
+                   
+        if flow_stats['priority'] > avg_priority * 1.25:
+            priority_reward = -1
+        elif flow_stats['priority'] < avg_priority * 0.5:
+            priority_reward = 1
+        else:
+            priority_reward = 0
 
-        if flow_stats['priority'] < max_priority * 0.2:
-            reward = 1
-            
-        # if flow_stats['packet_count'] > max_packets * 0.8:
-        #     reward -= 0.3
-            
-        # if flow_stats['bytes_count'] > max_bytes * 0.8:
-        #     reward -= 0.3
+        if flow_stats['timeout'] > avg_timeout * 1.25:
+            timeout_reward = -1
+        elif flow_stats['timeout'] < avg_timeout * 0.5:
+            timeout_reward = 1
+        else:
+            timeout_reward = 0
 
-        # if reward < -1:
-        #     reward = -1
+        if flow_stats['packet_count'] > avg_packets * 1.25:
+            packet_reward = -1
+        elif flow_stats['packet_count'] < avg_packets * 0.75:
+            packet_reward = 1
+        else:
+            packet_reward = 0
+
+        if flow_stats['bytes_count'] > avg_bytes * 1.25:
+            bytes_reward = -1
+        elif flow_stats['bytes_count'] < avg_bytes * 0.75:
+            bytes_reward = 1
+        else:
+            bytes_reward = 0
+
+        reward = priority_reward * 0.3 + timeout_reward * 0.3 + packet_reward * 0.2 + bytes_reward * 0.2
 
         return reward
     def print_flow_table(self):
@@ -170,7 +183,7 @@ class DoubleDQNAgent:
                 q_values = self.q_network(state)
             return np.argmax(q_values.cpu().data.numpy())  
         
-    def learn(self, replay_buffer, batch_size=256):
+    def learn(self, replay_buffer, batch_size=BATCH_SIZE):
         """Update networks using dynamic prioritized experience replay"""
         if len(replay_buffer) < batch_size:
             return
@@ -282,8 +295,8 @@ class ReplayBuffer:
         return len(self.buffer)
     
 
-def train_agent(env, agent, episodes=500, batch_size=256, epsilon_decay=0.995):
-    wandb.init(project="flow-table-management-v1", 
+def train_agent(env, agent, episodes=500, batch_size=BATCH_SIZE, epsilon_decay=0.995):
+    wandb.init(project="flow-table-management-v3", 
                config={
                    "episodes": episodes,
                    "batch_size": batch_size,
@@ -328,12 +341,13 @@ def train_agent(env, agent, episodes=500, batch_size=256, epsilon_decay=0.995):
             "epsilon": epsilon
         })
         
-        print(f"Episode {episode + 1} finished with total reward {total_reward}, average loss {avg_loss:.4f}, end in {steps} steps")
+        print(f"Episode {episode + 1} finished with total reward {total_reward}, average loss {avg_loss:.4f}, end in {steps} steps, epsilon {epsilon:.4f}")
 
     wandb.finish()
     return agent, episode_rewards, loss_history
 
 if __name__ == "__main__":
     env = FlowTableEnvironment()
-    agent = DoubleDQNAgent(env.observation_space.shape[0], env.action_space.n)
+    action_size = env.action_space.n
+    agent = DoubleDQNAgent(env.observation_space.shape[0], action_size)
     train_agent(env, agent)

@@ -23,3 +23,10 @@ config: {'episodes': 500, 'batch_size': 256, 'epsilon_decay': 0.995}
 2024-12-09 22:12:18,673 INFO    MainThread:1404 [wandb_run.py:_redirect():2370] Wrapping output streams.
 2024-12-09 22:12:18,673 INFO    MainThread:1404 [wandb_run.py:_redirect():2395] Redirects installed.
 2024-12-09 22:12:18,676 INFO    MainThread:1404 [wandb_init.py:init():911] run started, returning control to user process
+2024-12-10 01:26:05,008 INFO    MainThread:1404 [wandb_run.py:_finish():2155] finishing run iwa147369/flow-table-management-v1/4sbroq0t
+2024-12-10 01:26:05,015 INFO    MainThread:1404 [wandb_run.py:_atexit_cleanup():2420] got exitcode: 0
+2024-12-10 01:26:05,016 INFO    MainThread:1404 [wandb_run.py:_restore():2402] restore
+2024-12-10 01:26:05,017 INFO    MainThread:1404 [wandb_run.py:_restore():2408] restore done
+2024-12-10 01:26:10,236 INFO    MainThread:1404 [wandb_run.py:_footer_history_summary_info():3960] rendering history
+2024-12-10 01:26:10,240 INFO    MainThread:1404 [wandb_run.py:_footer_history_summary_info():3992] rendering summary
+2024-12-10 01:26:10,267 INFO    MainThread:1404 [wandb_run.py:_footer_sync_info():3921] logging synced files
