@@ -301,6 +301,8 @@ def train_agent(env, agent, episodes=500, batch_size=BATCH_SIZE, epsilon_decay=0
                    "episodes": episodes,
                    "batch_size": batch_size,
                    "epsilon_decay": epsilon_decay,
+                   "table_size": TABLE_SIZE,
+                   "num_flows": NUM_FLOWS,
                })
     
     epsilon = 1.0
@@ -335,7 +337,6 @@ def train_agent(env, agent, episodes=500, batch_size=BATCH_SIZE, epsilon_decay=0
         loss_history.append(avg_loss)
         
         wandb.log({
-            "episode": episode + 1,
             "total_reward": total_reward,
             "average_loss": avg_loss,
             "epsilon": epsilon
