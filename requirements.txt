@@ -1,5 +1,5 @@
-gymnasium
-numpy
 torch
-tabulate
+numpy
+gymnasium
 wandb
+tabulate

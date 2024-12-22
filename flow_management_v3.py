@@ -6,13 +6,14 @@ import torch.optim as optim
 from tabulate import tabulate
 from collections import deque
 import wandb
+import os
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f"Using device: {device}")
 
-TABLE_SIZE = 10
-NUM_FLOWS = 500
-BATCH_SIZE = 64
+TABLE_SIZE = 100
+NUM_FLOWS = 1000
+BATCH_SIZE = 128
 
 def generate_flows(num_flows=NUM_FLOWS):
     flows = []
@@ -41,7 +42,7 @@ class FlowTableEnvironment(gym.Env):
         self.print_flow_table()
 
     def reset(self):
-        self.flows = generate_flows(500)
+        self.flows = generate_flows(NUM_FLOWS)
         self.flow_table = table_flow
         self.step_count = 0
         self.current_flow_index = 0
@@ -79,7 +80,7 @@ class FlowTableEnvironment(gym.Env):
         elif action == 3: # Delete flow with lowest bytes count
             flow_index = self.flow_table.index(min(self.flow_table, key=lambda x: x['bytes_count']))
 
-        reward = self._calculate_reward(flow_index)
+        reward = self._calculate_reward(flow_index) if flow_index != -1 else -0.01
         if flow_index != -1:
             self.flow_table.pop(flow_index)
             self.flow_table.append(self.flows[self.current_flow_index])
@@ -238,7 +239,11 @@ class DoubleDQNAgent:
         """Soft update target network parameters using tau"""
         for target_param, local_param in zip(self.target_q_network.parameters(), self.q_network.parameters()):
             target_param.data.copy_(self.tau * local_param.data + (1.0 - self.tau) * target_param.data)
-            
+
+    def save_model(self, path):
+        """Save model state dict"""
+        torch.
+
 class ReplayBuffer:
     """Prioritized Experience Replay Buffer with dynamic sampling"""
     def __init__(self, buffer_size=10000, alpha=0.6, beta=0.4, beta_increment=0.001):
@@ -343,6 +348,12 @@ def train_agent(env, agent, episodes=500, batch_size=BATCH_SIZE, epsilon_decay=0
         })
         
         print(f"Episode {episode + 1} finished with total reward {total_reward}, average loss {avg_loss:.4f}, end in {steps} steps, epsilon {epsilon:.4f}")
+
+        # Save model every 100 episodes
+        if (episode + 1) % 10 == 0:
+            save_path = f'models/model_episode_{episode+1}.pt'
+            agent.save_model(save_path)
+            print(f"Model saved to {save_path}")
 
     wandb.finish()
     return agent, episode_rewards, loss_history
