@@ -29,9 +29,8 @@ class FlowManagerController(app_manager.RyuApp):
     def load_trained_model(self, model_path='models/model_episode_500.pt'):
         try:
             checkpoint = torch.load(model_path, map_location=self.device)
-            self.agent.q_network.load_state_dict(checkpoint['q_network'])
             self.agent.target_q_network.load_state_dict(checkpoint['target_q_network'])
-            self.logger.info("Loaded trained model successfully")
+            self.logger.info("Loaded trained target model successfully")
         except Exception as e:
             self.logger.error(f"Failed to load model: {e}")
 
@@ -146,7 +145,7 @@ class FlowManagerController(app_manager.RyuApp):
                 if state is not None:
                     with torch.no_grad():
                         state_tensor = torch.FloatTensor(state).unsqueeze(0).to(self.device)
-                        action = self.agent.q_network(state_tensor).argmax().item()
+                        action = self.agent.target_q_network(state_tensor).argmax().item()
                         self.remove_flow(datapath, action)
 
             # Add new flow
@@ -161,4 +160,4 @@ class FlowManagerController(app_manager.RyuApp):
 
         out = parser.OFPPacketOut(datapath=datapath, buffer_id=msg.buffer_id,
                                  in_port=in_port, actions=actions, data=data)
-        datapath.send_msg(out) 
+        datapath.send_msg(out)
