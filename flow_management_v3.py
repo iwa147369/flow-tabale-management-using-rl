@@ -242,7 +242,7 @@ class DoubleDQNAgent:
 
     def save_model(self, path):
         """Save model state dict"""
-        torch.
+        torch.save(self.q_network.state_dict(), path)
 
 class ReplayBuffer:
     """Prioritized Experience Replay Buffer with dynamic sampling"""
@@ -350,7 +350,7 @@ def train_agent(env, agent, episodes=500, batch_size=BATCH_SIZE, epsilon_decay=0
         print(f"Episode {episode + 1} finished with total reward {total_reward}, average loss {avg_loss:.4f}, end in {steps} steps, epsilon {epsilon:.4f}")
 
         # Save model every 100 episodes
-        if (episode + 1) % 10 == 0:
+        if (episode + 1) % 100 == 0:
             save_path = f'models/model_episode_{episode+1}.pt'
             agent.save_model(save_path)
             print(f"Model saved to {save_path}")
