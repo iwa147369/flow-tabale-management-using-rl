@@ -5,21 +5,49 @@ from concurrent.futures import ThreadPoolExecutor
 import numpy as np
 
 class TrafficFlow:
-    def __init__(self, priority, timeout, flow_type):
+    def __init__(self, priority, timeout, flow_type, qos_requirements=None):
         self.priority = priority
         self.timeout = timeout
         self.flow_type = flow_type
+        self.qos_requirements = qos_requirements or {}
 
 class TrafficGenerator:
     def __init__(self, num_hosts=100):
         self.num_hosts = num_hosts
         self.hosts = [f"00:00:00:00:00:{i:02x}" for i in range(num_hosts)]
         
-        # Define different types of traffic flows
+        # Define different types of traffic flows with QoS requirements
         self.flow_types = {
-            'realtime': TrafficFlow(priority=3, timeout=5, flow_type='realtime'),    # High priority, short timeout
-            'streaming': TrafficFlow(priority=2, timeout=30, flow_type='streaming'), # Medium priority, longer timeout
-            'background': TrafficFlow(priority=1, timeout=60, flow_type='background')# Low priority, longest timeout
+            'realtime': TrafficFlow(
+                priority=3,
+                timeout=5,
+                flow_type='realtime',
+                qos_requirements={
+                    'max_latency': 10,    # ms
+                    'min_bandwidth': 10,   # Mbps
+                    'packet_loss': 0.001   # 0.1%
+                }
+            ),
+            'streaming': TrafficFlow(
+                priority=2,
+                timeout=30,
+                flow_type='streaming',
+                qos_requirements={
+                    'max_latency': 100,    # ms
+                    'min_bandwidth': 5,     # Mbps
+                    'packet_loss': 0.01     # 1%
+                }
+            ),
+            'background': TrafficFlow(
+                priority=1,
+                timeout=60,
+                flow_type='background',
+                qos_requirements={
+                    'max_latency': 1000,    # ms
+                    'min_bandwidth': 1,      # Mbps
+                    'packet_loss': 0.05      # 5%
+                }
+            )
         }
         
     def generate_packet(self, flow_type='background'):
