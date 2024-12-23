@@ -76,10 +76,7 @@ class FIFOController(app_manager.RyuApp):
             table_id=ofproto.OFPTT_ALL
         )
         datapath.send_msg(mod)
-        self.logger.info(
-            f"Removed specific flow entry: {match.to_jsondict()['OFPMatch']}",
-            extra={'color': 'red'}
-        )
+
     def add_flow(self, datapath, priority, match, actions, buffer_id=None):
         # First, check if this exact match already exists
         for flow in self.flow_table:
@@ -95,6 +92,14 @@ class FIFOController(app_manager.RyuApp):
                 extra={'color': 'yellow', 'bold': True}
             )
             self.remove_flow(datapath, oldest_flow['match'])
+            
+            # Recheck if we're still at the limit after removal
+            if len(self.flow_table) >= self.max_flows:
+                self.logger.warning(
+                    "Flow table still full after removal, skipping flow installation",
+                    extra={'color': 'yellow', 'bold': True}
+                )
+                return
 
         # Add new flow
         flow_entry = {

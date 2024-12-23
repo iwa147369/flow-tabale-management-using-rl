@@ -4,6 +4,7 @@ from ryu.controller.handler import CONFIG_DISPATCHER, MAIN_DISPATCHER
 from ryu.controller.handler import set_ev_cls
 from ryu.ofproto import ofproto_v1_3
 from ryu.lib.packet import packet, ethernet, ether_types
+from collections import deque
 import time
 import colorlog
 
@@ -51,29 +52,33 @@ class LRUController(app_manager.RyuApp):
         """Remove a specific flow entry"""
         ofproto = datapath.ofproto
         parser = datapath.ofproto_parser
-        match_fields = match.to_dict()
 
+        # Skip removal if match is empty (table-miss entry)
         if not match.to_jsondict()['OFPMatch']['oxm_fields']:
             self.logger.warning("Attempted to remove table-miss entry, skipping...")
             return
 
+        # Only delete if match has required fields
+        match_fields = match.to_jsondict()['OFPMatch']['oxm_fields']
+        required_fields = {'in_port', 'eth_dst', 'eth_src'}
+        match_field_set = {field['OXMTlv']['field'] for field in match_fields}
+        
+        if not required_fields.issubset(match_field_set):
+            self.logger.warning("Skipping flow removal - missing required match fields")
+            return
+
         mod = parser.OFPFlowMod(
             datapath=datapath,
-            command=ofproto.OFPFC_DELETE_STRICT,  # Use DELETE_STRICT to match exactly
+            command=ofproto.OFPFC_DELETE_STRICT,  # Use STRICT to match exactly
             match=match,
             out_port=ofproto.OFPP_ANY,
             out_group=ofproto.OFPG_ANY,
-            table_id=ofproto.OFPTT_ALL  # Specify table ID
+            table_id=ofproto.OFPTT_ALL
         )
         datapath.send_msg(mod)
         
         # Remove from our tracking table
         self.flow_table = [f for f in self.flow_table if f['match'] != match]
-        
-        self.logger.info(
-            f"Removed flow entry: {match}",
-            extra={'color': 'red'}
-        )
 
     def update_flow_usage(self, match):
         """Update the last_used timestamp for a flow when it's matched"""
@@ -98,6 +103,14 @@ class LRUController(app_manager.RyuApp):
                 extra={'color': 'yellow', 'bold': True}
             )
             self.remove_flow(datapath, lru_flow['match'])
+            
+            # Recheck if we're still at the limit after removal
+            if len(self.flow_table) >= self.max_flows:
+                self.logger.warning(
+                    "Flow table still full after removal, skipping flow installation",
+                    extra={'color': 'yellow', 'bold': True}
+                )
+                return
 
         # Add new flow to tracking table
         flow_entry = {
@@ -120,8 +133,8 @@ class LRUController(app_manager.RyuApp):
                 priority=priority,
                 match=match,
                 instructions=inst,
-                hard_timeout=0,
-                flags=ofproto.OFPFF_SEND_FLOW_REM
+                hard_timeout=0,  # Flow entry never expires
+                flags=ofproto.OFPFF_SEND_FLOW_REM  # Request flow removal notification
             )
         else:
             mod = parser.OFPFlowMod(
@@ -138,7 +151,6 @@ class LRUController(app_manager.RyuApp):
             extra={'color': 'green'}
         )
         datapath.send_msg(mod)
-
     @set_ev_cls(ofp_event.EventOFPPacketIn, MAIN_DISPATCHER)
     def _packet_in_handler(self, ev):
         msg = ev.msg
@@ -158,10 +170,6 @@ class LRUController(app_manager.RyuApp):
 
         dpid = datapath.id
         self.mac_to_port.setdefault(dpid, {})
-
-        # Update flow usage time if this packet matches an existing flow
-        match = msg.match
-        self.update_flow_usage(match)
 
         # learn a mac address to avoid FLOOD next time.
         self.mac_to_port[dpid][src] = in_port
