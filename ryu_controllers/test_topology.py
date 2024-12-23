@@ -31,7 +31,7 @@ class ControllerTest:
     def start_controller(self, controller_type):
         """Start the specified controller"""
         if controller_type == "DQN":
-            cmd = ["ryu-manager", "ryu_flow_controller.py"]
+            cmd = ["ryu-manager", "RL_controller.py"]
         elif controller_type == "FIFO":
             cmd = ["ryu-manager", "fifo_controller.py"]
         else:  # LRU
