@@ -1,13 +1,28 @@
-from base_controller import BaseController
+from ryu.app.simple_switch_13 import SimpleSwitch13
 from collections import deque
 import time
 import colorlog
 
-class FIFOController(BaseController):
+class FIFOController(SimpleSwitch13):
     def __init__(self, *args, **kwargs):
         super(FIFOController, self).__init__(*args, **kwargs)
-        self.flow_table = deque(maxlen=100)
-        self.max_flows = 100
+        self.flow_table = deque(maxlen=100)  # Track flow entries with FIFO queue
+        self.max_flows = 100  # Maximum number of flows allowed
+        
+        # Set up colored logging
+        handler = colorlog.StreamHandler()
+        handler.setFormatter(colorlog.ColoredFormatter(
+            '%(log_color)s%(levelname)s:%(name)s:%(message)s',
+            log_colors={
+                'DEBUG': 'cyan',
+                'INFO': 'green', 
+                'WARNING': 'yellow',
+                'ERROR': 'red',
+                'CRITICAL': 'red,bg_white',
+            }
+        ))
+        self.logger.handlers = [handler]
+        
         self.logger.info(
             f"Initialized FIFO Controller with max {self.max_flows} flows",
             extra={'color': 'green', 'bold': True}
@@ -29,8 +44,7 @@ class FIFOController(BaseController):
             extra={'color': 'red'}
         )
 
-    def add_flow(self, datapath, priority, match, actions, timeout=0):
-        # Log current table status
+    def add_flow(self, datapath, priority, match, actions, buffer_id=None):
         self.logger.info(
             f"Current flow table size: {len(self.flow_table)}/{self.max_flows}",
             extra={'color': 'cyan'}
@@ -38,7 +52,7 @@ class FIFOController(BaseController):
 
         # Check if flow table is full
         if len(self.flow_table) >= self.max_flows:
-            oldest_flow = self.flow_table.popleft()
+            oldest_flow = self.flow_table.popleft()  # Remove oldest flow (FIFO)
             self.logger.warning(
                 "Flow table full! Removing oldest entry...",
                 extra={'color': 'yellow', 'bold': True}
@@ -53,19 +67,10 @@ class FIFOController(BaseController):
         }
         self.flow_table.append(flow_entry)
         
-        # Log new flow addition
         self.logger.info(
             f"Adding new flow - Priority: {priority}, Match: {match}",
             extra={'color': 'green'}
         )
         
-        # Add the new flow to the switch
-        super().add_flow(datapath, priority, match, actions, timeout)
-
-    def _packet_in_handler(self, ev):
-        # Log packet arrival
-        self.logger.debug(
-            "Processing new packet...",
-            extra={'color': 'blue'}
-        )
-        super()._packet_in_handler(ev)
+        # Add the new flow to the switch using parent's add_flow
+        super().add_flow(datapath, priority, match, actions, buffer_id)
