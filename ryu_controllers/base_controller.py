@@ -3,7 +3,7 @@ from ryu.controller import ofp_event
 from ryu.controller.handler import CONFIG_DISPATCHER, MAIN_DISPATCHER
 from ryu.controller.handler import set_ev_cls
 from ryu.ofproto import ofproto_v1_3
-from ryu.lib.packet import packet, ethernet, ipv4, tcp, raw
+from ryu.lib.packet import packet, ethernet, tcp
 
 class BaseController(app_manager.RyuApp):
     OFP_VERSIONS = [ofproto_v1_3.OFP_VERSION]
@@ -14,12 +14,15 @@ class BaseController(app_manager.RyuApp):
 
     def extract_flow_type(self, pkt):
         """Extract flow type and priority from packet payload"""
-        for p in pkt.protocols:
-            if isinstance(p, raw.Raw):
-                flow_type = p.load.decode()
-                # Get flow requirements from traffic generator's flow types
+        # Try to get flow type from TCP payload if present
+        tcp_pkt = pkt.get_protocol(tcp.tcp)
+        if tcp_pkt and hasattr(tcp_pkt, 'data'):
+            try:
+                flow_type = tcp_pkt.data.decode()
                 if flow_type in ['realtime', 'streaming', 'background']:
                     return flow_type
+            except:
+                pass
         return 'background'  # default to background if not specified
 
     def get_flow_priority(self, flow_type):
