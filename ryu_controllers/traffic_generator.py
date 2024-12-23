@@ -65,29 +65,32 @@ class TrafficGenerator:
         start_time = time.time()
         
         while time.time() - start_time < duration:
-            # Select flow type based on probabilities
-            flow_type = random.choices(
-                ['realtime', 'streaming', 'background'],
-                weights=[0.2, 0.3, 0.5]  # 20% realtime, 30% streaming, 50% background
-            )[0]
-            
             if pattern == "uniform":
+                # Uniform traffic with random hosts
                 time.sleep(1/rate)
-                yield self.generate_packet(flow_type)
+                yield self.generate_packet('background')
                 
             elif pattern == "bursty":
-                if random.random() < 0.1:
-                    # Generate burst with same flow type
-                    burst_size = random.randint(10, 50)
+                # Create bursts of traffic between same host pairs
+                if random.random() < 0.2:  # Increased burst probability
+                    burst_size = random.randint(20, 100)  # Larger bursts
+                    src = random.choice(self.hosts)
+                    dst = random.choice([h for h in self.hosts if h != src])
+                    
                     for _ in range(burst_size):
-                        yield self.generate_packet(flow_type)
-                time.sleep(1/rate)
-                
+                        pkt = Ether(src=src, dst=dst)/IP()/Raw(load='background')
+                        yield pkt
+                        time.sleep(0.001)  # Small delay between burst packets
+                else:
+                    time.sleep(1/rate)
+                    
             elif pattern == "periodic":
+                # Create periodic waves of traffic
                 t = time.time() - start_time
-                current_rate = rate * (1 + np.sin(2 * np.pi * t / 60))
-                time.sleep(1/current_rate)
-                yield self.generate_packet(flow_type)
+                # More pronounced sine wave pattern
+                current_rate = rate * (1.5 + np.sin(2 * np.pi * t / 30))
+                time.sleep(1/max(current_rate, 1))
+                yield self.generate_packet('background')
 
     def send_traffic(self, pattern="uniform", duration=300, rate=100):
         """Send traffic to the network"""

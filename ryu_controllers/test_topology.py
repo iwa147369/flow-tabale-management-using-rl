@@ -14,6 +14,9 @@ import threading
 from traffic_generator import TrafficGenerator
 
 NUM_HOSTS = 20
+FLOW_TABLE_LIMIT = 100  # Maximum number of flows in the table
+TEST_DURATION = 180     # 3 minutes per pattern
+TRAFFIC_RATE = 50      # packets per second
 
 class TestTopo(Topo):
     def build(self):
@@ -47,13 +50,11 @@ class ControllerTest:
     def run_traffic_test(self, test_type="uniform"):
         """Run different types of traffic patterns"""
         print(f"\nRunning {test_type} traffic pattern...")
-        duration = 60  # 1 minute per pattern
-        rate = 100     # packets per second
         
         self.traffic_gen.send_traffic(
             pattern=test_type,
-            duration=duration,
-            rate=rate
+            duration=TEST_DURATION,  # Updated duration
+            rate=TRAFFIC_RATE       # Updated rate
         )
 
     def collect_metrics(self, duration=60):
@@ -62,32 +63,38 @@ class ControllerTest:
         start_time = time.time()
         
         while time.time() - start_time < duration:
-            # Get flow table size
-            flow_count = int(subprocess.check_output(
-                "sudo ovs-ofctl dump-flows s1 | wc -l", 
-                shell=True
-            ).decode()) - 1
-
-            # Get port statistics
-            port_stats = subprocess.check_output(
-                "sudo ovs-ofctl dump-ports s1", 
+            # Get flow table size and details
+            flow_output = subprocess.check_output(
+                "sudo ovs-ofctl dump-flows s1", 
                 shell=True
             ).decode()
-
-            # Calculate bandwidth utilization
-            bytes_tx = sum(int(line.split("tx bytes=")[1].split()[0]) 
-                         for line in port_stats.split('\n') 
-                         if "tx bytes=" in line)
-
+            
+            flow_count = len([line for line in flow_output.split('\n') if 'actions=' in line])
+            
+            # Calculate table utilization
+            table_utilization = (flow_count / FLOW_TABLE_LIMIT) * 100
+            
             metrics.append({
                 'timestamp': time.time() - start_time,
                 'flow_count': flow_count,
-                'bytes_transmitted': bytes_tx
+                'table_utilization': table_utilization,
+                'bytes_transmitted': self.get_bytes_transmitted()
             })
             
             time.sleep(1)
             
         return metrics
+
+    def get_bytes_transmitted(self):
+        """Helper method to get total bytes transmitted"""
+        port_stats = subprocess.check_output(
+            "sudo ovs-ofctl dump-ports s1", 
+            shell=True
+        ).decode()
+        
+        return sum(int(line.split("tx bytes=")[1].split()[0]) 
+                  for line in port_stats.split('\n') 
+                  if "tx bytes=" in line)
 
     def test_controller(self, controller_type):
         """Test a single controller with all traffic patterns"""
@@ -182,7 +189,8 @@ def main():
     tester = ControllerTest()
     
     # Test each controller
-    controllers = ["FIFO", "LRU", "DQN"]
+    # controllers = ["FIFO", "LRU", "DQN"]
+    controllers = ["FIFO", "LRU"]
     all_metrics = {}
     
     for controller in controllers:
