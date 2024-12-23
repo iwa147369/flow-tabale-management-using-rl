@@ -5,7 +5,6 @@ import torch.nn as nn
 import torch.optim as optim
 from tabulate import tabulate
 from collections import deque
-import wandb
 import os
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -301,15 +300,6 @@ class ReplayBuffer:
     
 
 def train_agent(env, agent, episodes=1000, batch_size=BATCH_SIZE, epsilon_decay=0.995):
-    wandb.init(project="flow-table-management-v3", 
-               config={
-                   "episodes": episodes,
-                   "batch_size": batch_size,
-                   "epsilon_decay": epsilon_decay,
-                   "table_size": TABLE_SIZE,
-                   "num_flows": NUM_FLOWS,
-               })
-    
     epsilon = 1.0
     epsilon_min = 0.01
     replay_buffer = ReplayBuffer()
@@ -341,12 +331,6 @@ def train_agent(env, agent, episodes=1000, batch_size=BATCH_SIZE, epsilon_decay=
         episode_rewards.append(total_reward)
         loss_history.append(avg_loss)
         
-        wandb.log({
-            "total_reward": total_reward,
-            "average_loss": avg_loss,
-            "epsilon": epsilon
-        })
-        
         print(f"Episode {episode + 1} finished with total reward {total_reward}, average loss {avg_loss:.4f}, end in {steps} steps, epsilon {epsilon:.4f}")
 
         # Save model every 100 episodes
@@ -355,7 +339,6 @@ def train_agent(env, agent, episodes=1000, batch_size=BATCH_SIZE, epsilon_decay=
             agent.save_model(save_path)
             print(f"Model saved to {save_path}")
 
-    wandb.finish()
     return agent, episode_rewards, loss_history
 
 if __name__ == "__main__":
