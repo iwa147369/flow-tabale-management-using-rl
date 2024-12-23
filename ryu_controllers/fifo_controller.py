@@ -90,6 +90,8 @@ class FIFOController(app_manager.RyuApp):
             
             if result.returncode == 0:
                 self.logger.info(f"Successfully removed flow: {match_criteria}")
+                # Remove from our tracking table
+                self.flow_table = [f for f in self.flow_table if f['match'] != match]
             else:
                 self.logger.error(f"Failed to remove flow: {result.stderr}")
 

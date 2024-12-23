@@ -11,6 +11,7 @@ import time
 import colorlog
 import subprocess
 from flow_management_v3 import QNetwork
+import os
 
 class RLController(app_manager.RyuApp):
     OFP_VERSIONS = [ofproto_v1_3.OFP_VERSION]
@@ -21,20 +22,31 @@ class RLController(app_manager.RyuApp):
         self.flow_table = deque(maxlen=100)  # Track flow entries with max size 100
         self.max_flows = 100
         
-        # Initialize DQN model
-        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        self.state_size = self.max_flows * 4  # 4 features per flow
-        self.action_size = 4  # Same as in training
-        self.model = QNetwork(self.state_size, self.action_size).to(self.device)
-        
-        # Load trained model
+        # Initialize DQN model with error handling
         try:
-            self.model.load_state_dict(torch.load('models/model_episode_1000.pt'))
-            self.model.eval()
-            self.logger.info("Successfully loaded DQN model")
+            # Check if CUDA is available, but default to CPU for safety
+            self.device = torch.device("cpu")  # Force CPU usage initially
+            self.logger.info(f"Using device: {self.device}")
+            
+            self.state_size = self.max_flows * 4  # 4 features per flow
+            self.action_size = 4  # Same as in training
+            
+            # Initialize model
+            self.model = QNetwork(self.state_size, self.action_size).to(self.device)
+            
+            # Load model with error handling
+            model_path = 'models/model_episode_1000.pt'
+            if os.path.exists(model_path):
+                self.model.load_state_dict(torch.load(model_path, map_location=self.device))
+                self.model.eval()
+                self.logger.info("Successfully loaded DQN model")
+            else:
+                self.logger.error(f"Model file not found: {model_path}")
+                self.model = None
         except Exception as e:
-            self.logger.error(f"Failed to load model: {e}")
-        
+            self.logger.error(f"Failed to initialize RL components: {e}")
+            self.model = None
+            
         # Set up colored logging
         handler = colorlog.StreamHandler()
         handler.setFormatter(colorlog.ColoredFormatter(
@@ -120,21 +132,34 @@ class RLController(app_manager.RyuApp):
 
     def select_flow_to_remove(self):
         """Use DQN to select which flow to remove"""
-        state = self.get_state()
-        state_tensor = torch.FloatTensor(state).unsqueeze(0).to(self.device)
-        
-        with torch.no_grad():
-            action = self.model(state_tensor).argmax().item()
-        
-        # Map action to flow selection criteria
-        if action == 0:  # Lowest priority
-            return min(enumerate(self.flow_table), key=lambda x: self.get_flow_stats(x[1]['match'])['priority'])[0]
-        elif action == 1:  # Highest age (timeout)
-            return max(enumerate(self.flow_table), key=lambda x: self.get_flow_stats(x[1]['match'])['timeout'])[0]
-        elif action == 2:  # Lowest packet count
-            return min(enumerate(self.flow_table), key=lambda x: self.get_flow_stats(x[1]['match'])['packet_count'])[0]
-        else:  # Lowest byte count
-            return min(enumerate(self.flow_table), key=lambda x: self.get_flow_stats(x[1]['match'])['bytes_count'])[0]
+        try:
+            if self.model is None:
+                self.logger.warning("Model not loaded, using fallback FIFO strategy")
+                return 0  # Return first flow (FIFO behavior)
+                
+            state = self.get_state()
+            state_tensor = torch.FloatTensor(state).unsqueeze(0).to(self.device)
+            
+            with torch.no_grad():
+                action = self.model(state_tensor).argmax().item()
+            
+            # Map action to flow selection criteria
+            if action == 0:  # Lowest priority
+                return min(enumerate(self.flow_table), 
+                         key=lambda x: self.get_flow_stats(x[1]['match'])['priority'])[0]
+            elif action == 1:  # Highest age (timeout)
+                return max(enumerate(self.flow_table), 
+                         key=lambda x: self.get_flow_stats(x[1]['match'])['timeout'])[0]
+            elif action == 2:  # Lowest packet count
+                return min(enumerate(self.flow_table), 
+                         key=lambda x: self.get_flow_stats(x[1]['match'])['packet_count'])[0]
+            else:  # Lowest byte count
+                return min(enumerate(self.flow_table), 
+                         key=lambda x: self.get_flow_stats(x[1]['match'])['bytes_count'])[0]
+                
+        except Exception as e:
+            self.logger.error(f"Error in flow selection: {e}")
+            return 0  # Fallback to FIFO behavior
 
     @set_ev_cls(ofp_event.EventOFPSwitchFeatures, CONFIG_DISPATCHER)
     def switch_features_handler(self, ev):
