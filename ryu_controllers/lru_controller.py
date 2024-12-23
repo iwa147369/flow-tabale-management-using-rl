@@ -46,7 +46,7 @@ class LRUController(app_manager.RyuApp):
         actions = [parser.OFPActionOutput(ofproto.OFPP_CONTROLLER,
                                         ofproto.OFPCML_NO_BUFFER)]
         self.add_flow(datapath, 0, match, actions)
-    
+
     def remove_flow(self, datapath, match):
         """Remove a specific flow entry"""
         ofproto = datapath.ofproto

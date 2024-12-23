@@ -58,6 +58,15 @@ class FIFOController(app_manager.RyuApp):
             self.logger.warning("Attempted to remove table-miss entry, skipping...")
             return
 
+        # Only delete if match has required fields
+        match_fields = match.to_jsondict()['OFPMatch']['oxm_fields']
+        required_fields = {'in_port', 'eth_dst', 'eth_src'}
+        match_field_set = {field['OXMTlv']['field'] for field in match_fields}
+        
+        if not required_fields.issubset(match_field_set):
+            self.logger.warning("Skipping flow removal - missing required match fields")
+            return
+
         mod = parser.OFPFlowMod(
             datapath=datapath,
             command=ofproto.OFPFC_DELETE_STRICT,  # Use STRICT to match exactly
@@ -71,7 +80,6 @@ class FIFOController(app_manager.RyuApp):
             f"Removed specific flow entry: {match.to_jsondict()['OFPMatch']}",
             extra={'color': 'red'}
         )
-
     def add_flow(self, datapath, priority, match, actions, buffer_id=None):
         # First, check if this exact match already exists
         for flow in self.flow_table:
