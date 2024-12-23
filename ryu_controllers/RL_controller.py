@@ -3,18 +3,37 @@ from ryu.controller import ofp_event
 from ryu.controller.handler import CONFIG_DISPATCHER, MAIN_DISPATCHER
 from ryu.controller.handler import set_ev_cls
 from ryu.ofproto import ofproto_v1_3
-from ryu.lib.packet import packet, ethernet
+from ryu.lib.packet import packet, ethernet, ether_types
 import torch
 import numpy as np
-from flow_management_v3 import DoubleDQNAgent, FlowTableEnvironment, TABLE_SIZE
-import logging
+from collections import deque
+import time
 import colorlog
+import subprocess
+from flow_management_v3 import QNetwork
 
-class FlowManagerController(app_manager.RyuApp):
+class RLController(app_manager.RyuApp):
     OFP_VERSIONS = [ofproto_v1_3.OFP_VERSION]
 
     def __init__(self, *args, **kwargs):
-        super(FlowManagerController, self).__init__(*args, **kwargs)
+        super(RLController, self).__init__(*args, **kwargs)
+        self.mac_to_port = {}
+        self.flow_table = deque(maxlen=100)  # Track flow entries with max size 100
+        self.max_flows = 100
+        
+        # Initialize DQN model
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        self.state_size = self.max_flows * 4  # 4 features per flow
+        self.action_size = 4  # Same as in training
+        self.model = QNetwork(self.state_size, self.action_size).to(self.device)
+        
+        # Load trained model
+        try:
+            self.model.load_state_dict(torch.load('models/model_episode_1000.pt'))
+            self.model.eval()
+            self.logger.info("Successfully loaded DQN model")
+        except Exception as e:
+            self.logger.error(f"Failed to load model: {e}")
         
         # Set up colored logging
         handler = colorlog.StreamHandler()
@@ -29,29 +48,93 @@ class FlowManagerController(app_manager.RyuApp):
             }
         ))
         self.logger.handlers = [handler]
-        self.logger.setLevel(logging.DEBUG)
-        self.logger.debug('Initializing RL Controller')
-        
-        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        
-        # Initialize environment and agent
-        self.env = FlowTableEnvironment()
-        self.agent = DoubleDQNAgent(self.env.observation_space.shape[0], self.env.action_space.n)
-        
-        # Load the trained model
-        self.load_trained_model()
-        
-        # Initialize flow table
-        self.flow_table = []
-        self.mac_to_port = {}
 
-    def load_trained_model(self, model_path='models/model_episode_500.pt'):
+    def get_flow_stats(self, flow_match):
+        """Get flow statistics using ovs-ofctl"""
         try:
-            checkpoint = torch.load(model_path, map_location=self.device)
-            self.agent.target_q_network.load_state_dict(checkpoint['target_q_network'])
-            self.logger.info("Loaded trained target model successfully")
+            cmd = "sudo ovs-ofctl dump-flows s1"
+            result = subprocess.run(cmd.split(), capture_output=True, text=True, check=True)
+            
+            for line in result.stdout.split('\n'):
+                if line.strip():
+                    # Parse flow entry
+                    stats = {
+                        'priority': 0,
+                        'timeout': 0,
+                        'packet_count': 0,
+                        'bytes_count': 0
+                    }
+                    
+                    # Extract values from flow entry
+                    parts = line.split(',')
+                    for part in parts:
+                        if 'priority=' in part:
+                            stats['priority'] = int(part.split('=')[1])
+                        elif 'n_packets=' in part:
+                            stats['packet_count'] = int(part.split('=')[1])
+                        elif 'n_bytes=' in part:
+                            stats['bytes_count'] = int(part.split('=')[1])
+                        elif 'idle_timeout=' in part:
+                            stats['timeout'] = int(part.split('=')[1])
+                    
+                    return stats
+                    
         except Exception as e:
-            self.logger.error(f"Failed to load model: {e}")
+            self.logger.error(f"Error getting flow stats: {e}")
+            return None
+
+    def get_state(self):
+        """Preprocess current flow table state for DQN input"""
+        flow_info = []
+        
+        # Get stats for all flows
+        flow_stats = []
+        for flow in self.flow_table:
+            stats = self.get_flow_stats(flow['match'])
+            if stats:
+                flow_stats.append(stats)
+        
+        if not flow_stats:
+            return np.zeros(self.state_size, dtype=np.float32)
+        
+        # Normalize features
+        max_priority = max(stat['priority'] for stat in flow_stats)
+        max_timeout = max(stat['timeout'] for stat in flow_stats)
+        max_packets = max(stat['packet_count'] for stat in flow_stats)
+        max_bytes = max(stat['bytes_count'] for stat in flow_stats)
+        
+        # Create normalized state vector
+        for stat in flow_stats:
+            flow_info.extend([
+                stat['priority'] / (max_priority + 1e-6),
+                stat['timeout'] / (max_timeout + 1e-6),
+                stat['packet_count'] / (max_packets + 1e-6),
+                stat['bytes_count'] / (max_bytes + 1e-6)
+            ])
+        
+        # Pad if necessary
+        while len(flow_info) < self.state_size:
+            flow_info.extend([0, 0, 0, 0])
+        
+        return np.array(flow_info, dtype=np.float32)
+
+    def select_flow_to_remove(self):
+        """Use DQN to select which flow to remove"""
+        state = self.get_state()
+        state_tensor = torch.FloatTensor(state).unsqueeze(0).to(self.device)
+        
+        with torch.no_grad():
+            action = self.model(state_tensor).argmax().item()
+        
+        # Map action to flow selection criteria
+        if action == 0:  # Lowest priority
+            return min(enumerate(self.flow_table), key=lambda x: self.get_flow_stats(x[1]['match'])['priority'])[0]
+        elif action == 1:  # Highest age (timeout)
+            return max(enumerate(self.flow_table), key=lambda x: self.get_flow_stats(x[1]['match'])['timeout'])[0]
+        elif action == 2:  # Lowest packet count
+            return min(enumerate(self.flow_table), key=lambda x: self.get_flow_stats(x[1]['match'])['packet_count'])[0]
+        else:  # Lowest byte count
+            return min(enumerate(self.flow_table), key=lambda x: self.get_flow_stats(x[1]['match'])['bytes_count'])[0]
 
     @set_ev_cls(ofp_event.EventOFPSwitchFeatures, CONFIG_DISPATCHER)
     def switch_features_handler(self, ev):
@@ -65,57 +148,59 @@ class FlowManagerController(app_manager.RyuApp):
                                         ofproto.OFPCML_NO_BUFFER)]
         self.add_flow(datapath, 0, match, actions)
 
-    def add_flow(self, datapath, priority, match, actions, timeout=0):
+    def add_flow(self, datapath, priority, match, actions, buffer_id=None):
         ofproto = datapath.ofproto
         parser = datapath.ofproto_parser
 
         inst = [parser.OFPInstructionActions(ofproto.OFPIT_APPLY_ACTIONS,
                                            actions)]
-        
-        mod = parser.OFPFlowMod(datapath=datapath,
-                               priority=priority,
-                               match=match,
-                               instructions=inst,
-                               hard_timeout=timeout)
+        if buffer_id:
+            mod = parser.OFPFlowMod(datapath=datapath, buffer_id=buffer_id,
+                                  priority=priority, match=match,
+                                  instructions=inst)
+        else:
+            mod = parser.OFPFlowMod(datapath=datapath, priority=priority,
+                                  match=match, instructions=inst)
         datapath.send_msg(mod)
 
-    def remove_flow(self, datapath, flow_index):
-        ofproto = datapath.ofproto
-        parser = datapath.ofproto_parser
-
-        if 0 <= flow_index < len(self.flow_table):
-            flow = self.flow_table[flow_index]
-            match = parser.OFPMatch(**flow['match'])
+    def remove_flow(self, datapath, match):
+        """Remove a specific flow entry using ovs-ofctl"""
+        try:
+            # Get match fields
+            match_fields = match.to_jsondict()['OFPMatch']['oxm_fields']
             
-            mod = parser.OFPFlowMod(
-                datapath=datapath,
-                command=ofproto.OFPFC_DELETE,
-                out_port=ofproto.OFPP_ANY,
-                out_group=ofproto.OFPG_ANY,
-                match=match
-            )
-            datapath.send_msg(mod)
-            self.flow_table.pop(flow_index)
+            # Skip if match is empty (table-miss entry)
+            if not match_fields:
+                self.logger.warning("Attempted to remove table-miss entry, skipping...")
+                return
 
-    def get_state(self):
-        if len(self.flow_table) < TABLE_SIZE:
-            return None
+            # Build ovs-ofctl command
+            match_str = []
+            for field in match_fields:
+                field_name = field['OXMTlv']['field']
+                field_value = field['OXMTlv']['value']
+                
+                if field_name == 'in_port':
+                    match_str.append(f"in_port={field_value}")
+                elif field_name == 'eth_dst':
+                    match_str.append(f"dl_dst={field_value}")
+                elif field_name == 'eth_src':
+                    match_str.append(f"dl_src={field_value}")
 
-        flow_info = []
-        max_priority = max(flow['priority'] for flow in self.flow_table)
-        max_timeout = max(flow['timeout'] for flow in self.flow_table)
-        max_packets = max(flow['packet_count'] for flow in self.flow_table)
-        max_bytes = max(flow['bytes_count'] for flow in self.flow_table)
+            match_criteria = ",".join(match_str)
+            
+            cmd = f"sudo ovs-ofctl del-flows s1 {match_criteria}"
+            self.logger.info(f"Executing command: {cmd}")
+            
+            result = subprocess.run(cmd.split(), capture_output=True, text=True, check=True)
+            
+            if result.returncode == 0:
+                self.logger.info(f"Successfully removed flow: {match_criteria}")
+            else:
+                self.logger.error(f"Failed to remove flow: {result.stderr}")
 
-        for flow in self.flow_table:
-            flow_info.extend([
-                flow['priority'] / max_priority,
-                flow['timeout'] / max_timeout,
-                flow['packet_count'] / max_packets,
-                flow['bytes_count'] / max_bytes
-            ])
-
-        return np.array(flow_info, dtype=np.float32)
+        except Exception as e:
+            self.logger.error(f"Error removing flow: {str(e)}")
 
     @set_ev_cls(ofp_event.EventOFPPacketIn, MAIN_DISPATCHER)
     def packet_in_handler(self, ev):
@@ -128,55 +213,29 @@ class FlowManagerController(app_manager.RyuApp):
         pkt = packet.Packet(msg.data)
         eth = pkt.get_protocols(ethernet.ethernet)[0]
 
+        # Ignore LLDP packets
+        if eth.ethertype == ether_types.ETH_TYPE_LLDP:
+            return
+
         dst = eth.dst
         src = eth.src
 
-        dpid = datapath.id
-        self.mac_to_port.setdefault(dpid, {})
+        # Create match
+        match = parser.OFPMatch(in_port=in_port, eth_dst=dst, eth_src=src)
+        actions = [parser.OFPActionOutput(ofproto.OFPP_NORMAL)]
 
-        # Learn MAC address to avoid FLOOD
-        self.mac_to_port[dpid][src] = in_port
+        # If flow table is full, use DQN to select flow to remove
+        if len(self.flow_table) >= self.max_flows:
+            flow_index = self.select_flow_to_remove()
+            removed_flow = self.flow_table[flow_index]
+            self.remove_flow(datapath, removed_flow['match'])
+            self.flow_table.pop(flow_index)
 
-        if dst in self.mac_to_port[dpid]:
-            out_port = self.mac_to_port[dpid][dst]
-        else:
-            out_port = ofproto.OFPP_FLOOD
-
-        actions = [parser.OFPActionOutput(out_port)]
-
-        # Install a flow to avoid packet_in next time
-        if out_port != ofproto.OFPP_FLOOD:
-            match = parser.OFPMatch(in_port=in_port, eth_dst=dst, eth_src=src)
-            
-            # Generate flow statistics similar to your training environment
-            new_flow = {
-                'match': {'in_port': in_port, 'eth_dst': dst, 'eth_src': src},
-                'priority': np.random.randint(0, 100),
-                'timeout': np.random.randint(0, 100),
-                'packet_count': np.random.randint(0, 100),
-                'bytes_count': np.random.randint(0, 100),
-                'actions': actions
-            }
-
-            # Manage flow table using the trained agent
-            if len(self.flow_table) >= TABLE_SIZE:
-                state = self.get_state()
-                if state is not None:
-                    with torch.no_grad():
-                        state_tensor = torch.FloatTensor(state).unsqueeze(0).to(self.device)
-                        action = self.agent.target_q_network(state_tensor).argmax().item()
-                        self.remove_flow(datapath, action)
-
-            # Add new flow
-            self.flow_table.append(new_flow)
-            self.add_flow(datapath, new_flow['priority'], match, actions, 
-                         timeout=new_flow['timeout'])
-
-        # Send packet out
-        data = None
-        if msg.buffer_id == ofproto.OFP_NO_BUFFER:
-            data = msg.data
-
-        out = parser.OFPPacketOut(datapath=datapath, buffer_id=msg.buffer_id,
-                                 in_port=in_port, actions=actions, data=data)
-        datapath.send_msg(out)
+    @set_ev_cls(ofp_event.EventOFPFlowRemoved, MAIN_DISPATCHER)
+    def flow_removed_handler(self, ev):
+        msg = ev.msg
+        match = msg.match
+        self.logger.info(
+            f"Flow removed from switch: {match}",
+            extra={'color': 'yellow'}
+        )

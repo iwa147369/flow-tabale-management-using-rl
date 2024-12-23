@@ -7,6 +7,7 @@ from ryu.lib.packet import packet, ethernet, ether_types
 from collections import deque
 import time
 import colorlog
+import subprocess
 
 class LRUController(app_manager.RyuApp):
     OFP_VERSIONS = [ofproto_v1_3.OFP_VERSION]
@@ -49,36 +50,53 @@ class LRUController(app_manager.RyuApp):
         self.add_flow(datapath, 0, match, actions)
 
     def remove_flow(self, datapath, match):
-        """Remove a specific flow entry"""
-        ofproto = datapath.ofproto
-        parser = datapath.ofproto_parser
+        """Remove a specific flow entry using ovs-ofctl"""
+        try:
+            # Get match fields
+            match_fields = match.to_jsondict()['OFPMatch']['oxm_fields']
+            
+            # Skip if match is empty (table-miss entry)
+            if not match_fields:
+                self.logger.warning("Attempted to remove table-miss entry, skipping...")
+                return
 
-        # Skip removal if match is empty (table-miss entry)
-        if not match.to_jsondict()['OFPMatch']['oxm_fields']:
-            self.logger.warning("Attempted to remove table-miss entry, skipping...")
-            return
+            # Build ovs-ofctl command
+            match_str = []
+            for field in match_fields:
+                field_name = field['OXMTlv']['field']
+                field_value = field['OXMTlv']['value']
+                
+                # Convert field names to ovs-ofctl format
+                if field_name == 'in_port':
+                    match_str.append(f"in_port={field_value}")
+                elif field_name == 'eth_dst':
+                    match_str.append(f"dl_dst={field_value}")
+                elif field_name == 'eth_src':
+                    match_str.append(f"dl_src={field_value}")
 
-        # Only delete if match has required fields
-        match_fields = match.to_jsondict()['OFPMatch']['oxm_fields']
-        required_fields = {'in_port', 'eth_dst', 'eth_src'}
-        match_field_set = {field['OXMTlv']['field'] for field in match_fields}
-        
-        if not required_fields.issubset(match_field_set):
-            self.logger.warning("Skipping flow removal - missing required match fields")
-            return
+            # Join all match criteria
+            match_criteria = ",".join(match_str)
+            
+            # Execute ovs-ofctl command
+            cmd = f"sudo ovs-ofctl del-flows s1 {match_criteria}"
+            self.logger.info(f"Executing command: {cmd}")
+            
+            result = subprocess.run(
+                cmd.split(),
+                capture_output=True,
+                text=True,
+                check=True
+            )
+            
+            if result.returncode == 0:
+                self.logger.info(f"Successfully removed flow: {match_criteria}")
+                # Remove from our tracking table
+                self.flow_table = [f for f in self.flow_table if f['match'] != match]
+            else:
+                self.logger.error(f"Failed to remove flow: {result.stderr}")
 
-        mod = parser.OFPFlowMod(
-            datapath=datapath,
-            command=ofproto.OFPFC_DELETE_STRICT,  # Use STRICT to match exactly
-            match=match,
-            out_port=ofproto.OFPP_ANY,
-            out_group=ofproto.OFPG_ANY,
-            table_id=ofproto.OFPTT_ALL
-        )
-        datapath.send_msg(mod)
-        
-        # Remove from our tracking table
-        self.flow_table = [f for f in self.flow_table if f['match'] != match]
+        except Exception as e:
+            self.logger.error(f"Error removing flow: {str(e)}")
 
     def update_flow_usage(self, match):
         """Update the last_used timestamp for a flow when it's matched"""
