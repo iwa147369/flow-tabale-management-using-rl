@@ -5,6 +5,8 @@ from ryu.controller.handler import set_ev_cls
 from ryu.ofproto import ofproto_v1_3
 from ryu.lib.packet import packet, ethernet
 import time
+import logging
+import colorlog
 
 class LRUController(app_manager.RyuApp):
     OFP_VERSIONS = [ofproto_v1_3.OFP_VERSION]
@@ -14,6 +16,22 @@ class LRUController(app_manager.RyuApp):
         self.flow_table = []  # List to store flows
         self.mac_to_port = {}
         self.MAX_FLOWS = 100
+        
+        # Set up colored logging
+        handler = colorlog.StreamHandler()
+        handler.setFormatter(colorlog.ColoredFormatter(
+            '%(log_color)s%(levelname)s:%(name)s:%(message)s',
+            log_colors={
+                'DEBUG': 'cyan',
+                'INFO': 'green',
+                'WARNING': 'yellow',
+                'ERROR': 'red',
+                'CRITICAL': 'red,bg_white',
+            }
+        ))
+        self.logger.handlers = [handler]
+        self.logger.setLevel(logging.DEBUG)
+        self.logger.debug('Initializing LRU Controller')
 
     @set_ev_cls(ofp_event.EventOFPSwitchFeatures, CONFIG_DISPATCHER)
     def switch_features_handler(self, ev):

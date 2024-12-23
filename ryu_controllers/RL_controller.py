@@ -7,12 +7,31 @@ from ryu.lib.packet import packet, ethernet
 import torch
 import numpy as np
 from flow_management_v3 import DoubleDQNAgent, FlowTableEnvironment, TABLE_SIZE
+import logging
+import colorlog
 
 class FlowManagerController(app_manager.RyuApp):
     OFP_VERSIONS = [ofproto_v1_3.OFP_VERSION]
 
     def __init__(self, *args, **kwargs):
         super(FlowManagerController, self).__init__(*args, **kwargs)
+        
+        # Set up colored logging
+        handler = colorlog.StreamHandler()
+        handler.setFormatter(colorlog.ColoredFormatter(
+            '%(log_color)s%(levelname)s:%(name)s:%(message)s',
+            log_colors={
+                'DEBUG': 'cyan',
+                'INFO': 'green',
+                'WARNING': 'yellow',
+                'ERROR': 'red',
+                'CRITICAL': 'red,bg_white',
+            }
+        ))
+        self.logger.handlers = [handler]
+        self.logger.setLevel(logging.DEBUG)
+        self.logger.debug('Initializing RL Controller')
+        
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         
         # Initialize environment and agent
