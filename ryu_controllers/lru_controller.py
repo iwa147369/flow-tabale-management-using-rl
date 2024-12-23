@@ -48,7 +48,8 @@ class LRUController(app_manager.RyuApp):
             lru_flow = min(self.flow_table, key=lambda x: x['last_used'])
             self.flow_table.remove(lru_flow)
             self.remove_flow(datapath, lru_flow['match'])
-            self.logger.info(f"LRU: Removed least recently used flow (table size: {len(self.flow_table)})")
+            self.logger.info(f"LRU: Table full! Removed flow - Match: {lru_flow['match']}, "
+                           f"Priority: {lru_flow['priority']}, Last used: {lru_flow['last_used']}")
 
         # Add new flow to our table
         flow_entry = {
