@@ -55,7 +55,7 @@ class FIFOController(app_manager.RyuApp):
 
         mod = parser.OFPFlowMod(
             datapath=datapath,
-            command=ofproto.OFPFC_DELETE,
+            command=ofproto.OFPFC_DELETE_STRICT,
             match=match,
             out_port=ofproto.OFPP_ANY,
             out_group=ofproto.OFPG_ANY
@@ -77,7 +77,7 @@ class FIFOController(app_manager.RyuApp):
         if len(self.flow_table) >= self.max_flows:
             oldest_flow = self.flow_table.popleft()
             self.logger.warning(
-                "Flow table full! Removing oldest entry...",
+                f"Flow table full! Removing oldest entry: {oldest_flow['match']}",
                 extra={'color': 'yellow', 'bold': True}
             )
             self.remove_flow(datapath, oldest_flow['match'])
