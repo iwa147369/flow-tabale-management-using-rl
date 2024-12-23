@@ -26,9 +26,12 @@ MICE_FLOW_SIZE = 100 * 1024  # 100KB
 ELEPHANT_FLOW_SIZE = 10 * 1024 * 1024  # 10MB
 
 class TrafficGenerator:
-    def __init__(self, num_hosts):
+    def __init__(self, num_hosts, net):
         self.num_hosts = num_hosts
-        self.hosts = [f"00:00:00:00:00:{i:02x}" for i in range(num_hosts)]
+        self.net = net
+        self.hosts = [host.MAC() for host in self.net.hosts]
+
+        print(self.hosts)
 
     def generate_flow(self, is_elephant=False):
         """Generate a single flow with specified size"""
@@ -97,6 +100,9 @@ class ControllerTest:
                      switch=OVSKernelSwitch, link=TCLink)
         net.start()
         time.sleep(5)
+        
+        # Update TrafficGenerator initialization to include network
+        self.traffic_gen = TrafficGenerator(num_hosts=NUM_HOSTS, net=net)
         
         # Start metrics collection in a separate thread
         metrics = []
