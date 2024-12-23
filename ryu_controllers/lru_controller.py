@@ -54,10 +54,11 @@ class LRUController(app_manager.RyuApp):
 
         mod = parser.OFPFlowMod(
             datapath=datapath,
-            command=ofproto.OFPFC_DELETE_STRICT,
+            command=ofproto.OFPFC_DELETE_STRICT,  # Use DELETE_STRICT to match exactly
             match=match,
             out_port=ofproto.OFPP_ANY,
-            out_group=ofproto.OFPG_ANY
+            out_group=ofproto.OFPG_ANY,
+            table_id=ofproto.OFPTT_ALL  # Specify table ID
         )
         datapath.send_msg(mod)
         
