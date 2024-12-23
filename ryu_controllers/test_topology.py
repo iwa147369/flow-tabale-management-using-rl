@@ -26,12 +26,9 @@ MICE_FLOW_SIZE = 100 * 1024  # 100KB
 ELEPHANT_FLOW_SIZE = 10 * 1024 * 1024  # 10MB
 
 class TrafficGenerator:
-    def __init__(self, num_hosts, net):
+    def __init__(self, num_hosts):
         self.num_hosts = num_hosts
-        self.net = net
-        self.hosts = [host.MAC() for host in self.net.hosts]
-
-        print(self.hosts)
+        self.hosts = []
 
     def generate_flow(self, is_elephant=False):
         """Generate a single flow with specified size"""
@@ -101,8 +98,7 @@ class ControllerTest:
         net.start()
         time.sleep(5)
         
-        # Update TrafficGenerator initialization to include network
-        self.traffic_gen = TrafficGenerator(num_hosts=NUM_HOSTS, net=net)
+        self.traffic_gen.hosts = [host.MAC() for host in net.hosts]
         
         # Start metrics collection in a separate thread
         metrics = []
