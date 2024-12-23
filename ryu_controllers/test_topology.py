@@ -33,29 +33,49 @@ class ControllerTest:
         self.results_dir = "test_results"
         os.makedirs(self.results_dir, exist_ok=True)
         self.timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        self.traffic_gen = TrafficGenerator(num_hosts=NUM_HOSTS)  # Match number of hosts in topology
-        
-    def start_controller(self, controller_type):
-        """Start the specified controller"""
-        if controller_type == "DQN":
-            cmd = ["ryu-manager", "RL_controller.py"]
-        elif controller_type == "FIFO":
-            cmd = ["ryu-manager", "fifo_controller.py"]
-        else:  # LRU
-            cmd = ["ryu-manager", "lru_controller.py"]
-            
-        print(f"Starting {controller_type} controller...")
-        return subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        self.traffic_gen = TrafficGenerator(num_hosts=NUM_HOSTS)
 
-    def run_traffic_test(self, test_type="uniform"):
-        """Run different types of traffic patterns"""
-        print(f"\nRunning {test_type} traffic pattern...")
+    def test_controller(self, controller_type):
+        """Test a single controller with all traffic patterns"""
+        print(f"\nTesting {controller_type} controller...")
+        print("Please ensure the controller is running in another terminal")
+        input("Press Enter when the controller is ready...")
         
-        self.traffic_gen.send_traffic(
-            pattern=test_type,
-            duration=TEST_DURATION,  # Updated duration
-            rate=TRAFFIC_RATE       # Updated rate
-        )
+        # Create and start network
+        topo = TestTopo()
+        net = Mininet(topo=topo, controller=RemoteController('c0', ip='127.0.0.1'),
+                     switch=OVSKernelSwitch, link=TCLink)
+        net.start()
+        time.sleep(5)
+        
+        # Start metrics collection in a separate thread
+        metrics = []
+        stop_collection = threading.Event()
+        
+        def collect_metrics_thread():
+            while not stop_collection.is_set():
+                metrics.extend(self.collect_metrics(duration=1))
+        
+        collector = threading.Thread(target=collect_metrics_thread)
+        collector.start()
+        
+        # Run different traffic patterns
+        for pattern in ["uniform", "bursty", "periodic"]:
+            self.run_traffic_test(pattern)
+        
+        # Stop metrics collection and cleanup
+        stop_collection.set()
+        collector.join()
+        
+        # Save results
+        self.save_metrics(metrics, controller_type)
+        
+        # Cleanup
+        net.stop()
+        subprocess.run(["sudo", "mn", "-c"])
+        time.sleep(5)
+        
+        return metrics
 
     def collect_metrics(self, duration=60):
         """Collect flow table and performance metrics"""
@@ -96,50 +116,15 @@ class ControllerTest:
                   for line in port_stats.split('\n') 
                   if "tx bytes=" in line)
 
-    def test_controller(self, controller_type):
-        """Test a single controller with all traffic patterns"""
-        print(f"\nTesting {controller_type} controller...")
+    def run_traffic_test(self, test_type="uniform"):
+        """Run different types of traffic patterns"""
+        print(f"\nRunning {test_type} traffic pattern...")
         
-        # Start controller
-        controller = self.start_controller(controller_type)
-        time.sleep(5)
-        
-        # Create and start network
-        topo = TestTopo()
-        net = Mininet(topo=topo, controller=RemoteController('c0', ip='127.0.0.1'),
-                     switch=OVSKernelSwitch, link=TCLink)
-        net.start()
-        time.sleep(5)
-        
-        # Start metrics collection in a separate thread
-        metrics = []
-        stop_collection = threading.Event()
-        
-        def collect_metrics_thread():
-            while not stop_collection.is_set():
-                metrics.extend(self.collect_metrics(duration=1))
-        
-        collector = threading.Thread(target=collect_metrics_thread)
-        collector.start()
-        
-        # Run different traffic patterns
-        for pattern in ["uniform", "bursty", "periodic"]:
-            self.run_traffic_test(pattern)
-        
-        # Stop metrics collection and cleanup
-        stop_collection.set()
-        collector.join()
-        
-        # Save results
-        self.save_metrics(metrics, controller_type)
-        
-        # Cleanup
-        net.stop()
-        controller.terminate()
-        subprocess.run(["sudo", "mn", "-c"])
-        time.sleep(5)
-        
-        return metrics
+        self.traffic_gen.send_traffic(
+            pattern=test_type,
+            duration=TEST_DURATION,  # Updated duration
+            rate=TRAFFIC_RATE       # Updated rate
+        )
 
     def save_metrics(self, metrics, controller_type):
         """Save metrics to CSV file"""
@@ -189,13 +174,19 @@ def main():
     tester = ControllerTest()
     
     # Test each controller
-    # controllers = ["FIFO", "LRU", "DQN"]
     controllers = ["FIFO", "LRU"]
     all_metrics = {}
     
     for controller in controllers:
+        print(f"\nPreparing to test {controller} controller...")
+        print(f"Please start the {controller} controller in another terminal using:")
+        print(f"ryu-manager {controller.lower()}_controller.py")
         metrics = tester.test_controller(controller)
         all_metrics[controller] = metrics
+        
+        if controller != controllers[-1]:
+            print("\nPlease stop the current controller and prepare to start the next one")
+            input("Press Enter when ready to continue...")
     
     # Generate comparison plots
     tester.plot_results(all_metrics)
