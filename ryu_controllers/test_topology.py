@@ -11,6 +11,9 @@ import os
 from datetime import datetime
 import matplotlib.pyplot as plt
 import threading
+from traffic_generator import TrafficGenerator
+
+NUM_HOSTS = 20
 
 class TestTopo(Topo):
     def build(self):
@@ -18,7 +21,7 @@ class TestTopo(Topo):
         s1 = self.addSwitch('s1')
         
         # Add 30 hosts
-        for i in range(30):
+        for i in range(NUM_HOSTS):
             host = self.addHost(f'h{i+1}')
             self.addLink(host, s1, cls=TCLink, bw=100)
 
@@ -27,6 +30,7 @@ class ControllerTest:
         self.results_dir = "test_results"
         os.makedirs(self.results_dir, exist_ok=True)
         self.timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        self.traffic_gen = TrafficGenerator(num_hosts=NUM_HOSTS)  # Match number of hosts in topology
         
     def start_controller(self, controller_type):
         """Start the specified controller"""
@@ -40,41 +44,17 @@ class ControllerTest:
         print(f"Starting {controller_type} controller...")
         return subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
-    def run_iperf_test(self, net, test_type="sequential"):
-        """Run different types of iperf tests"""
-        hosts = net.hosts
+    def run_traffic_test(self, test_type="uniform"):
+        """Run different types of traffic patterns"""
+        print(f"\nRunning {test_type} traffic pattern...")
+        duration = 60  # 1 minute per pattern
+        rate = 100     # packets per second
         
-        # Start iperf servers on all hosts
-        for host in hosts:
-            host.cmd('iperf -s &')
-        time.sleep(2)
-        
-        if test_type == "sequential":
-            print("\nRunning sequential traffic test...")
-            for i in range(len(hosts)-1):
-                h1, h2 = hosts[i], hosts[i+1]
-                print(f"Testing {h1.name} -> {h2.name}")
-                h1.cmd(f'iperf -c {h2.IP()} -t 10 -i 1 &')
-                time.sleep(5)
-                
-        elif test_type == "burst":
-            print("\nRunning burst traffic test...")
-            # Start multiple flows simultaneously
-            for i in range(0, len(hosts)-1, 2):
-                h1, h2 = hosts[i], hosts[i+1]
-                print(f"Burst: {h1.name} -> {h2.name}")
-                h1.cmd(f'iperf -c {h2.IP()} -t 10 -i 1 &')
-            time.sleep(15)
-            
-        elif test_type == "mesh":
-            print("\nRunning mesh traffic test...")
-            # Each host connects to every other host
-            for h1 in hosts:
-                for h2 in hosts:
-                    if h1 != h2:
-                        print(f"Mesh: {h1.name} -> {h2.name}")
-                        h1.cmd(f'iperf -c {h2.IP()} -t 5 -i 1 &')
-                        time.sleep(1)
+        self.traffic_gen.send_traffic(
+            pattern=test_type,
+            duration=duration,
+            rate=rate
+        )
 
     def collect_metrics(self, duration=60):
         """Collect flow table and performance metrics"""
@@ -136,8 +116,8 @@ class ControllerTest:
         collector.start()
         
         # Run different traffic patterns
-        for pattern in ["sequential", "burst", "mesh"]:
-            self.run_iperf_test(net, pattern)
+        for pattern in ["uniform", "bursty", "periodic"]:
+            self.run_traffic_test(pattern)
         
         # Stop metrics collection and cleanup
         stop_collection.set()

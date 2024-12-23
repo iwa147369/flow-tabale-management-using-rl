@@ -5,9 +5,11 @@ from traffic_generator import TrafficGenerator
 
 def run_controller(controller_type):
     if controller_type == "DQN":
-        cmd = "ryu-manager ryu_flow_controller.py"
-    else:  # FIFO or LRU
-        cmd = f"ryu-manager classic_flow_controller.py --mechanism {controller_type}"
+        cmd = "ryu-manager ryu_controllers/RL_controller.py"
+    elif controller_type == "FIFO":
+        cmd = "ryu-manager ryu_controllers/fifo_controller.py"
+    elif controller_type == "LRU":
+        cmd = "ryu-manager ryu_controllers/lru_controller.py"
     return subprocess.Popen(cmd.split())
 
 def measure_performance(controller_proc, traffic_generator, duration=300):
