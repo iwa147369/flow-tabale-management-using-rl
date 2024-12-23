@@ -3,3 +3,5 @@ numpy
 gymnasium
 wandb
 tabulate
+mininet
+matplotlib

@@ -17,8 +17,8 @@ class TestTopo(Topo):
         # Add one switch
         s1 = self.addSwitch('s1')
         
-        # Add 12 hosts (can generate up to 132 flows)
-        for i in range(12):
+        # Add 30 hosts
+        for i in range(30):
             host = self.addHost(f'h{i+1}')
             self.addLink(host, s1, cls=TCLink, bw=100)
 
@@ -225,4 +225,4 @@ def main():
         print(f"  Total data transferred: {total_bytes:.2f} MB")
 
 if __name__ == '__main__':
-    main() 
+    main()
