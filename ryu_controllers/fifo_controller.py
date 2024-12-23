@@ -7,17 +7,13 @@ from ryu.lib.packet import packet, ethernet
 from collections import deque
 import time
 
-class ClassicFlowController(app_manager.RyuApp):
+class FIFOController(app_manager.RyuApp):
     OFP_VERSIONS = [ofproto_v1_3.OFP_VERSION]
 
-    def __init__(self, *args, mechanism="FIFO", table_size=100, **kwargs):
-        super(ClassicFlowController, self).__init__(*args, **kwargs)
-        self.mechanism = mechanism
-        self.table_size = table_size
-        self.flow_table = deque(maxlen=table_size) if mechanism == "FIFO" else []
-        self.flow_timestamps = {}  # For LRU
+    def __init__(self, *args, **kwargs):
+        super(FIFOController, self).__init__(*args, **kwargs)
+        self.flow_table = deque(maxlen=100)  # FIFO queue with 100 entry limit
         self.mac_to_port = {}
-        self.logger.info(f"Using {mechanism} flow management mechanism")
 
     @set_ev_cls(ofp_event.EventOFPSwitchFeatures, CONFIG_DISPATCHER)
     def switch_features_handler(self, ev):
@@ -31,18 +27,37 @@ class ClassicFlowController(app_manager.RyuApp):
                                         ofproto.OFPCML_NO_BUFFER)]
         self.add_flow(datapath, 0, match, actions)
 
-    def add_flow(self, datapath, priority, match, actions, timeout=0):
+    def add_flow(self, datapath, priority, match, actions, buffer_id=None, timeout=0):
         ofproto = datapath.ofproto
         parser = datapath.ofproto_parser
 
         inst = [parser.OFPInstructionActions(ofproto.OFPIT_APPLY_ACTIONS,
                                            actions)]
-        
-        mod = parser.OFPFlowMod(datapath=datapath,
-                               priority=priority,
-                               match=match,
-                               instructions=inst,
-                               hard_timeout=timeout)
+        if buffer_id:
+            mod = parser.OFPFlowMod(datapath=datapath, buffer_id=buffer_id,
+                                  priority=priority, match=match,
+                                  instructions=inst, hard_timeout=timeout)
+        else:
+            mod = parser.OFPFlowMod(datapath=datapath, priority=priority,
+                                  match=match, instructions=inst,
+                                  hard_timeout=timeout)
+
+        # If flow table is full, remove oldest entry (FIFO)
+        if len(self.flow_table) >= 100:
+            oldest_flow = self.flow_table.popleft()
+            self.remove_flow(datapath, oldest_flow['match'])
+            self.logger.info(f"FIFO: Removed oldest flow (table size: {len(self.flow_table)})")
+
+        # Add new flow to our table
+        flow_entry = {
+            'match': match,
+            'priority': priority,
+            'actions': actions,
+            'time': time.time()
+        }
+        self.flow_table.append(flow_entry)
+        self.logger.info(f"FIFO: Added new flow (table size: {len(self.flow_table)})")
+
         datapath.send_msg(mod)
 
     def remove_flow(self, datapath, match):
@@ -58,34 +73,8 @@ class ClassicFlowController(app_manager.RyuApp):
         )
         datapath.send_msg(mod)
 
-    def manage_flow_table(self, datapath, new_flow):
-        if self.mechanism == "FIFO":
-            if len(self.flow_table) >= self.table_size:
-                old_flow = self.flow_table.popleft()
-                self.remove_flow(datapath, old_flow['match'])
-            self.flow_table.append(new_flow)
-
-        elif self.mechanism == "LRU":
-            if len(self.flow_table) >= self.table_size:
-                # Find least recently used flow
-                lru_time = float('inf')
-                lru_flow = None
-                for flow in self.flow_table:
-                    flow_key = str(flow['match'])
-                    if self.flow_timestamps[flow_key] < lru_time:
-                        lru_time = self.flow_timestamps[flow_key]
-                        lru_flow = flow
-                
-                # Remove LRU flow
-                self.flow_table.remove(lru_flow)
-                self.remove_flow(datapath, lru_flow['match'])
-                del self.flow_timestamps[str(lru_flow['match'])]
-
-            self.flow_table.append(new_flow)
-            self.flow_timestamps[str(new_flow['match'])] = time.time()
-
     @set_ev_cls(ofp_event.EventOFPPacketIn, MAIN_DISPATCHER)
-    def packet_in_handler(self, ev):
+    def _packet_in_handler(self, ev):
         msg = ev.msg
         datapath = msg.datapath
         ofproto = datapath.ofproto
@@ -100,6 +89,8 @@ class ClassicFlowController(app_manager.RyuApp):
 
         dpid = datapath.id
         self.mac_to_port.setdefault(dpid, {})
+
+        # Learn MAC addresses to avoid FLOOD
         self.mac_to_port[dpid][src] = in_port
 
         if dst in self.mac_to_port[dpid]:
@@ -109,24 +100,19 @@ class ClassicFlowController(app_manager.RyuApp):
 
         actions = [parser.OFPActionOutput(out_port)]
 
+        # Install a flow to avoid packet_in next time
         if out_port != ofproto.OFPP_FLOOD:
             match = parser.OFPMatch(in_port=in_port, eth_dst=dst, eth_src=src)
-            
-            new_flow = {
-                'match': match,
-                'actions': actions
-            }
+            if msg.buffer_id != ofproto.OFP_NO_BUFFER:
+                self.add_flow(datapath, 1, match, actions, msg.buffer_id)
+            else:
+                self.add_flow(datapath, 1, match, actions)
 
-            # Manage flow table using the selected mechanism
-            self.manage_flow_table(datapath, new_flow)
-            
-            # Install new flow
-            self.add_flow(datapath, 1, match, actions)
-
+        # Send packet out
         data = None
         if msg.buffer_id == ofproto.OFP_NO_BUFFER:
             data = msg.data
 
         out = parser.OFPPacketOut(datapath=datapath, buffer_id=msg.buffer_id,
-                                 in_port=in_port, actions=actions, data=data)
+                                in_port=in_port, actions=actions, data=data)
         datapath.send_msg(out) 
