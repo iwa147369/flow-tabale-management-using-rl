@@ -11,22 +11,72 @@ import os
 from datetime import datetime
 import matplotlib.pyplot as plt
 import threading
-from traffic_generator import TrafficGenerator
+import random
+from scapy.all import *
+import socket
 
 NUM_HOSTS = 20
 FLOW_TABLE_LIMIT = 100  # Maximum number of flows in the table
 TEST_DURATION = 180     # 3 minutes per pattern
 TRAFFIC_RATE = 50      # packets per second
+PACKET_TIMEOUT = 2     # 2 second timeout for packets
+
+# Traffic flow definitions
+MICE_FLOW_SIZE = 100 * 1024  # 100KB
+ELEPHANT_FLOW_SIZE = 10 * 1024 * 1024  # 10MB
+
+class TrafficGenerator:
+    def __init__(self, num_hosts):
+        self.num_hosts = num_hosts
+        self.hosts = [f"00:00:00:00:00:{i:02x}" for i in range(num_hosts)]
+
+    def generate_flow(self, is_elephant=False):
+        """Generate a single flow with specified size"""
+        src = random.choice(self.hosts)
+        dst = random.choice([h for h in self.hosts if h != src])
+        
+        flow_size = ELEPHANT_FLOW_SIZE if is_elephant else MICE_FLOW_SIZE
+        num_packets = flow_size // 1024  # Assuming 1KB per packet
+        
+        return src, dst, num_packets
+
+    def send_traffic(self, duration):
+        """Send mixed traffic with 80% mice flows and 20% elephant flows"""
+        start_time = time.time()
+        
+        while time.time() - start_time < duration:
+            # Determine flow type based on 80-20 distribution
+            is_elephant = random.random() < 0.2
+            
+            src, dst, num_packets = self.generate_flow(is_elephant)
+            flow_type = "elephant" if is_elephant else "mice"
+            
+            print(f"Generating {flow_type} flow from {src} to {dst}")
+            
+            # Create and send packets for this flow
+            for _ in range(num_packets):
+                pkt = Ether(src=src, dst=dst)/IP()/Raw(load=flow_type)
+                try:
+                    # Set socket timeout
+                    socket.setdefaulttimeout(PACKET_TIMEOUT)
+                    sendp(pkt, verbose=False)
+                except socket.timeout:
+                    print(f"Packet timeout occurred sending from {src} to {dst}")
+                    continue
+                time.sleep(0.001)  # Small delay between packets
+            
+            # Add random delay between flows
+            time.sleep(random.uniform(0.1, 0.5))
 
 class TestTopo(Topo):
     def build(self):
         # Add one switch
         s1 = self.addSwitch('s1')
         
-        # Add 30 hosts
+        # Add hosts
         for i in range(NUM_HOSTS):
             host = self.addHost(f'h{i+1}')
-            self.addLink(host, s1, cls=TCLink, bw=100)
+            self.addLink(host, s1, cls=TCLink, bw=10)
 
 class ControllerTest:
     def __init__(self):
@@ -36,7 +86,7 @@ class ControllerTest:
         self.traffic_gen = TrafficGenerator(num_hosts=NUM_HOSTS)
 
     def test_controller(self, controller_type):
-        """Test a single controller with all traffic patterns"""
+        """Test a single controller with mixed traffic patterns"""
         print(f"\nTesting {controller_type} controller...")
         print("Please ensure the controller is running in another terminal")
         input("Press Enter when the controller is ready...")
@@ -59,9 +109,8 @@ class ControllerTest:
         collector = threading.Thread(target=collect_metrics_thread)
         collector.start()
         
-        # Run different traffic patterns
-        for pattern in ["uniform", "bursty", "periodic"]:
-            self.run_traffic_test(pattern)
+        # Generate mixed traffic
+        self.traffic_gen.send_traffic(duration=TEST_DURATION)
         
         # Stop metrics collection and cleanup
         stop_collection.set()
@@ -116,16 +165,6 @@ class ControllerTest:
                   for line in port_stats.split('\n') 
                   if "tx bytes=" in line)
 
-    def run_traffic_test(self, test_type="uniform"):
-        """Run different types of traffic patterns"""
-        print(f"\nRunning {test_type} traffic pattern...")
-        
-        self.traffic_gen.send_traffic(
-            pattern=test_type,
-            duration=TEST_DURATION,  # Updated duration
-            rate=TRAFFIC_RATE       # Updated rate
-        )
-
     def save_metrics(self, metrics, controller_type):
         """Save metrics to CSV file"""
         filename = f"{self.results_dir}/{controller_type}_metrics_{self.timestamp}.csv"
@@ -174,7 +213,7 @@ def main():
     tester = ControllerTest()
     
     # Test each controller
-    controllers = ["FIFO", "LRU"]
+    controllers = ["FIFO", "LRU"] 
     all_metrics = {}
     
     for controller in controllers:
