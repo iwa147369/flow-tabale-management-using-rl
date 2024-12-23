@@ -51,24 +51,12 @@ class LRUController(app_manager.RyuApp):
         """Remove a specific flow entry"""
         ofproto = datapath.ofproto
         parser = datapath.ofproto_parser
-
-        # Extract match fields from the match object
-        match_dict = match.to_dict()
-        in_port = match_dict.get('in_port')
-        eth_dst = match_dict.get('eth_dst') 
-        eth_src = match_dict.get('eth_src')
-
-        # Create new match with extracted fields
-        new_match = parser.OFPMatch(
-            in_port=in_port,
-            eth_dst=eth_dst,
-            eth_src=eth_src
-        )
+        match_fields = match.to_dict()
 
         mod = parser.OFPFlowMod(
             datapath=datapath,
-            command=ofproto.OFPFC_DELETE,  # Use DELETE_STRICT to match exactly
-            match=new_match,
+            command=ofproto.OFPFC_DELETE_STRICT,  # Use DELETE_STRICT to match exactly
+            match=match_fields,
             out_port=ofproto.OFPP_ANY,
             out_group=ofproto.OFPG_ANY,
             table_id=ofproto.OFPTT_ALL  # Specify table ID
@@ -79,9 +67,10 @@ class LRUController(app_manager.RyuApp):
         self.flow_table = [f for f in self.flow_table if f['match'] != match]
         
         self.logger.info(
-            f"Removed flow entry with fields - in_port: {in_port}, eth_dst: {eth_dst}, eth_src: {eth_src}",
+            f"Removed flow entry: {match}",
             extra={'color': 'red'}
         )
+
     def update_flow_usage(self, match):
         """Update the last_used timestamp for a flow when it's matched"""
         for flow in self.flow_table:

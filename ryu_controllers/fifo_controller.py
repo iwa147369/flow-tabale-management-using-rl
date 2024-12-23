@@ -53,16 +53,22 @@ class FIFOController(app_manager.RyuApp):
         ofproto = datapath.ofproto
         parser = datapath.ofproto_parser
 
+        # Skip removal if match is empty (table-miss entry)
+        if not match.to_jsondict()['OFPMatch']['oxm_fields']:
+            self.logger.warning("Attempted to remove table-miss entry, skipping...")
+            return
+
         mod = parser.OFPFlowMod(
             datapath=datapath,
-            command=ofproto.OFPFC_DELETE_STRICT,
+            command=ofproto.OFPFC_DELETE_STRICT,  # Use STRICT to match exactly
             match=match,
             out_port=ofproto.OFPP_ANY,
-            out_group=ofproto.OFPG_ANY
+            out_group=ofproto.OFPG_ANY,
+            table_id=ofproto.OFPTT_ALL
         )
         datapath.send_msg(mod)
         self.logger.info(
-            f"Removed flow entry: {match}",
+            f"Removed specific flow entry: {match.to_jsondict()['OFPMatch']}",
             extra={'color': 'red'}
         )
 
