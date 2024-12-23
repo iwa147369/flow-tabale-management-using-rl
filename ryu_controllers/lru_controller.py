@@ -1,23 +1,194 @@
-from base_controller import BaseController
+from ryu.base import app_manager
+from ryu.controller import ofp_event
+from ryu.controller.handler import CONFIG_DISPATCHER, MAIN_DISPATCHER
+from ryu.controller.handler import set_ev_cls
+from ryu.ofproto import ofproto_v1_3
+from ryu.lib.packet import packet, ethernet, ether_types
 import time
+import colorlog
 
-class LRUController(BaseController):
+class LRUController(app_manager.RyuApp):
+    OFP_VERSIONS = [ofproto_v1_3.OFP_VERSION]
+
     def __init__(self, *args, **kwargs):
         super(LRUController, self).__init__(*args, **kwargs)
-        self.flow_table = []
+        self.mac_to_port = {}
+        self.flow_table = []  # List to track flow entries with timestamps
+        self.max_flows = 100  # Maximum number of flows allowed
         
-    def add_flow(self, datapath, priority, match, actions, timeout=0):
+        # Set up colored logging
+        handler = colorlog.StreamHandler()
+        handler.setFormatter(colorlog.ColoredFormatter(
+            '%(log_color)s%(levelname)s:%(name)s:%(message)s',
+            log_colors={
+                'DEBUG': 'cyan',
+                'INFO': 'green',
+                'WARNING': 'yellow',
+                'ERROR': 'red',
+                'CRITICAL': 'red,bg_white',
+            }
+        ))
+        self.logger.handlers = [handler]
+        
+        self.logger.info(
+            f"Initialized LRU Controller with max {self.max_flows} flows",
+            extra={'color': 'green', 'bold': True}
+        )
+
+    @set_ev_cls(ofp_event.EventOFPSwitchFeatures, CONFIG_DISPATCHER)
+    def switch_features_handler(self, ev):
+        datapath = ev.msg.datapath
+        ofproto = datapath.ofproto
+        parser = datapath.ofproto_parser
+
+        # Install table-miss flow entry
+        match = parser.OFPMatch()
+        actions = [parser.OFPActionOutput(ofproto.OFPP_CONTROLLER,
+                                        ofproto.OFPCML_NO_BUFFER)]
+        self.add_flow(datapath, 0, match, actions)
+
+    def remove_flow(self, datapath, match):
+        """Remove a specific flow entry"""
+        ofproto = datapath.ofproto
+        parser = datapath.ofproto_parser
+
+        mod = parser.OFPFlowMod(
+            datapath=datapath,
+            command=ofproto.OFPFC_DELETE_STRICT,
+            match=match,
+            out_port=ofproto.OFPP_ANY,
+            out_group=ofproto.OFPG_ANY
+        )
+        datapath.send_msg(mod)
+        
+        # Remove from our tracking table
+        self.flow_table = [f for f in self.flow_table if f['match'] != match]
+        
+        self.logger.info(
+            f"Removed flow entry: {match}",
+            extra={'color': 'red'}
+        )
+
+    def update_flow_usage(self, match):
+        """Update the last_used timestamp for a flow when it's matched"""
+        for flow in self.flow_table:
+            if flow['match'] == match:
+                flow['last_used'] = time.time()
+                self.logger.debug(f"Updated usage time for flow: {match}")
+                return True
+        return False
+
+    def add_flow(self, datapath, priority, match, actions, buffer_id=None):
+        # First, check if this exact match already exists
+        if self.update_flow_usage(match):
+            self.logger.info("Flow already exists, updated usage time")
+            return
+
         # If flow table is full, remove least recently used entry
-        if len(self.flow_table) >= 100:
+        if len(self.flow_table) >= self.max_flows:
             lru_flow = min(self.flow_table, key=lambda x: x['last_used'])
-            self.flow_table.remove(lru_flow)
+            self.logger.warning(
+                f"Flow table full! Removing LRU entry: {lru_flow['match']}",
+                extra={'color': 'yellow', 'bold': True}
+            )
             self.remove_flow(datapath, lru_flow['match'])
-            
-        # Add new flow to table
-        self.flow_table.append({
+
+        # Add new flow to tracking table
+        flow_entry = {
             'match': match,
             'priority': priority,
-            'last_used': time.time()
-        })
+            'last_used': time.time(),
+            'created_time': time.time()
+        }
+        self.flow_table.append(flow_entry)
         
-        super().add_flow(datapath, priority, match, actions, timeout) 
+        # Install flow in switch
+        ofproto = datapath.ofproto
+        parser = datapath.ofproto_parser
+        inst = [parser.OFPInstructionActions(ofproto.OFPIT_APPLY_ACTIONS, actions)]
+        
+        if buffer_id:
+            mod = parser.OFPFlowMod(
+                datapath=datapath,
+                buffer_id=buffer_id,
+                priority=priority,
+                match=match,
+                instructions=inst,
+                hard_timeout=0,
+                flags=ofproto.OFPFF_SEND_FLOW_REM
+            )
+        else:
+            mod = parser.OFPFlowMod(
+                datapath=datapath,
+                priority=priority,
+                match=match,
+                instructions=inst,
+                hard_timeout=0,
+                flags=ofproto.OFPFF_SEND_FLOW_REM
+            )
+        
+        self.logger.info(
+            f"Installing new flow - Priority: {priority}, Match: {match}",
+            extra={'color': 'green'}
+        )
+        datapath.send_msg(mod)
+
+    @set_ev_cls(ofp_event.EventOFPPacketIn, MAIN_DISPATCHER)
+    def _packet_in_handler(self, ev):
+        msg = ev.msg
+        datapath = msg.datapath
+        ofproto = datapath.ofproto
+        parser = datapath.ofproto_parser
+        in_port = msg.match['in_port']
+
+        pkt = packet.Packet(msg.data)
+        eth = pkt.get_protocols(ethernet.ethernet)[0]
+
+        if eth.ethertype == ether_types.ETH_TYPE_LLDP:
+            # ignore lldp packet
+            return
+        dst = eth.dst
+        src = eth.src
+
+        dpid = datapath.id
+        self.mac_to_port.setdefault(dpid, {})
+
+        # Update flow usage time if this packet matches an existing flow
+        match = msg.match
+        self.update_flow_usage(match)
+
+        # learn a mac address to avoid FLOOD next time.
+        self.mac_to_port[dpid][src] = in_port
+
+        if dst in self.mac_to_port[dpid]:
+            out_port = self.mac_to_port[dpid][dst]
+        else:
+            out_port = ofproto.OFPP_FLOOD
+
+        actions = [parser.OFPActionOutput(out_port)]
+
+        # install a flow to avoid packet_in next time
+        if out_port != ofproto.OFPP_FLOOD:
+            match = parser.OFPMatch(in_port=in_port, eth_dst=dst, eth_src=src)
+            if msg.buffer_id != ofproto.OFP_NO_BUFFER:
+                self.add_flow(datapath, 1, match, actions, msg.buffer_id)
+                return
+            else:
+                self.add_flow(datapath, 1, match, actions)
+
+        data = None
+        if msg.buffer_id == ofproto.OFP_NO_BUFFER:
+            data = msg.data
+
+        out = parser.OFPPacketOut(datapath=datapath, buffer_id=msg.buffer_id,
+                                in_port=in_port, actions=actions, data=data)
+        datapath.send_msg(out)
+
+    @set_ev_cls(ofp_event.EventOFPFlowRemoved, MAIN_DISPATCHER)
+    def flow_removed_handler(self, ev):
+        msg = ev.msg
+        match = msg.match
+        self.logger.info(
+            f"Flow removed from switch: {match}",
+            extra={'color': 'yellow'}
+        )
