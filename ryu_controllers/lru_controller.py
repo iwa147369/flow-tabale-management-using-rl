@@ -46,17 +46,21 @@ class LRUController(app_manager.RyuApp):
         actions = [parser.OFPActionOutput(ofproto.OFPP_CONTROLLER,
                                         ofproto.OFPCML_NO_BUFFER)]
         self.add_flow(datapath, 0, match, actions)
-
+    
     def remove_flow(self, datapath, match):
         """Remove a specific flow entry"""
         ofproto = datapath.ofproto
         parser = datapath.ofproto_parser
         match_fields = match.to_dict()
 
+        if not match.to_jsondict()['OFPMatch']['oxm_fields']:
+            self.logger.warning("Attempted to remove table-miss entry, skipping...")
+            return
+
         mod = parser.OFPFlowMod(
             datapath=datapath,
             command=ofproto.OFPFC_DELETE_STRICT,  # Use DELETE_STRICT to match exactly
-            match=match_fields,
+            match=match,
             out_port=ofproto.OFPP_ANY,
             out_group=ofproto.OFPG_ANY,
             table_id=ofproto.OFPTT_ALL  # Specify table ID
