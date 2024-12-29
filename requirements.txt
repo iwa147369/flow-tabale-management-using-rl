@@ -5,3 +5,4 @@ wandb
 tabulate
 mininet
 matplotlib
+colorlog
