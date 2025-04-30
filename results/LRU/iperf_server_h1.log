@@ -1,0 +1,161 @@
+------------------------------------------------------------
+Server listening on TCP port 5001
+TCP window size: 85.3 KByte (default)
+------------------------------------------------------------
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.12 port 52982
+[ ID] Interval       Transfer     Bandwidth
+[  4]  0.0- 2.0 sec   896 KBytes  3.67 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.14 port 43082
+[  4]  0.0- 0.5 sec   590 KBytes  10.3 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.14 port 58430
+[  4]  0.0- 1.0 sec   512 KBytes  4.20 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.11 port 35382
+[  4]  0.0- 2.0 sec   896 KBytes  3.67 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.12 port 51538
+[  4]  0.0- 1.0 sec   256 KBytes  2.09 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.12 port 45952
+[  4]  0.0- 1.0 sec   640 KBytes  5.19 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.12 port 45962
+[  4]  0.0- 1.0 sec   384 KBytes  3.09 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.20 port 43966
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.68 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.14 port 44696
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.72 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.14 port 55280
+[  4]  0.0- 2.0 sec   896 KBytes  3.63 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.19 port 38778
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.71 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.12 port 43116
+[  4]  0.0- 2.0 sec   640 KBytes  2.61 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.20 port 50262
+[  4]  0.0- 1.0 sec   768 KBytes  6.25 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.12 port 60794
+[  4]  0.0- 1.0 sec   384 KBytes  3.15 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.20 port 41958
+[  4]  0.0- 2.0 sec   896 KBytes  3.65 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.18 port 48006
+[  4]  0.0- 1.5 sec   640 KBytes  3.57 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.11 port 45820
+[  4]  0.0- 1.0 sec   640 KBytes  5.26 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.20 port 36068
+[  4]  0.0- 1.0 sec   384 KBytes  3.11 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.9 port 46180
+[  4]  0.0- 1.0 sec   384 KBytes  3.12 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.16 port 57316
+[  4]  0.0- 1.0 sec   512 KBytes  4.20 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.20 port 35242
+[  4]  0.0- 1.0 sec   512 KBytes  4.12 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.19 port 35532
+[  4]  0.0- 1.0 sec   384 KBytes  3.15 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.11 port 42680
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.75 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.13 port 39860
+[  4]  0.0- 0.6 sec   512 KBytes  6.57 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.19 port 48848
+[  4]  0.0- 2.0 sec   896 KBytes  3.66 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.20 port 47126
+[  4]  0.0- 2.0 sec   640 KBytes  2.62 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.14 port 38260
+[  4]  0.0- 1.0 sec   640 KBytes  5.19 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.14 port 51888
+[  4]  0.0- 2.0 sec   512 KBytes  2.09 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.14 port 53198
+[  4]  0.0- 1.0 sec   640 KBytes  5.22 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.18 port 49282
+[  4]  0.0- 1.0 sec   768 KBytes  6.26 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.10 port 51974
+[  4]  0.0- 1.0 sec   512 KBytes  4.21 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.18 port 54156
+[  4]  0.0- 1.0 sec   512 KBytes  4.18 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.12 port 34216
+[  4]  0.0- 2.0 sec   512 KBytes  2.10 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.14 port 51762
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.76 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.19 port 45298
+[  4]  0.0- 2.0 sec   640 KBytes  2.61 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.19 port 41530
+[  4]  0.0- 1.0 sec   512 KBytes  4.19 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.20 port 43976
+[  4]  0.0- 1.0 sec   640 KBytes  5.16 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.14 port 40458
+[  4]  0.0- 1.0 sec   512 KBytes  4.20 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.11 port 54932
+[  4]  0.0- 2.0 sec   512 KBytes  2.08 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.20 port 41482
+[  4]  0.0- 1.0 sec   640 KBytes  5.15 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.20 port 45350
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.76 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.8 port 58276
+[  4]  0.0- 1.0 sec   384 KBytes  3.08 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.12 port 55994
+[  4]  0.0- 1.0 sec   768 KBytes  6.29 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.14 port 60332
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.72 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.20 port 46078
+[  4]  0.0- 1.0 sec   256 KBytes  2.09 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.17 port 45664
+[  4]  0.0- 0.6 sec   256 KBytes  3.65 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.18 port 43700
+[  4]  0.0- 1.0 sec   384 KBytes  3.12 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.12 port 58286
+[  4]  0.0- 1.0 sec   640 KBytes  5.26 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.18 port 60540
+[  4]  0.0- 1.0 sec   640 KBytes  5.24 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.20 port 50542
+[  4]  0.0- 2.0 sec   640 KBytes  2.62 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.20 port 37878
+[  4]  0.0- 2.0 sec   896 KBytes  3.65 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.20 port 52072
+[  4]  0.0- 1.0 sec   768 KBytes  6.28 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.14 port 37402
+[  4]  0.0- 1.0 sec   640 KBytes  5.24 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.14 port 32770
+[  4]  0.0- 2.0 sec   896 KBytes  3.64 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.11 port 44798
+[  4]  0.0- 1.0 sec   384 KBytes  3.13 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.11 port 48326
+[  4]  0.0- 1.0 sec   384 KBytes  3.10 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.19 port 44220
+[  4]  0.0- 2.0 sec   768 KBytes  3.13 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.19 port 59664
+[  4]  0.0- 1.0 sec   512 KBytes  4.18 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.18 port 39592
+[  4]  0.0- 1.0 sec   512 KBytes  4.16 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.14 port 59082
+[  4]  0.0- 1.0 sec   640 KBytes  5.23 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.11 port 48322
+[  4]  0.0- 2.0 sec   640 KBytes  2.63 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.15 port 58740
+[  4]  0.0- 0.6 sec   128 KBytes  1.77 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.19 port 33756
+[  4]  0.0- 1.0 sec   512 KBytes  4.19 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.14 port 39408
+[  4]  0.0- 1.0 sec   768 KBytes  6.24 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.19 port 36726
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.68 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.12 port 57490
+[  4]  0.0- 2.0 sec   640 KBytes  2.62 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.19 port 34552
+[  4]  0.0- 0.7 sec  77.8 KBytes   862 Kbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.5 port 54840
+[  4]  0.0- 1.0 sec   256 KBytes  2.06 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.14 port 57976
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.72 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.18 port 35968
+[  4]  0.0- 1.0 sec   640 KBytes  5.16 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.12 port 55690
+[  4]  0.0- 1.0 sec   384 KBytes  3.13 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.12 port 48740
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.71 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.14 port 39500
+[  4]  0.0- 2.0 sec   512 KBytes  2.08 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.20 port 33630
+[  4]  0.0- 1.0 sec   384 KBytes  3.13 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.20 port 52702
+[  4]  0.0- 1.0 sec   512 KBytes  4.18 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.2 port 53644
+[  4]  0.0- 1.0 sec   384 KBytes  3.09 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.14 port 33484
+[  4]  0.0- 2.0 sec  1.25 MBytes  5.24 Mbits/sec
+[  4] local 10.0.0.1 port 5001 connected with 10.0.0.11 port 56610
+[  4]  0.0- 1.0 sec   512 KBytes  4.17 Mbits/sec

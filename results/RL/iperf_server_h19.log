@@ -1,0 +1,141 @@
+------------------------------------------------------------
+Server listening on TCP port 5019
+TCP window size: 85.3 KByte (default)
+------------------------------------------------------------
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.1 port 34956
+[ ID] Interval       Transfer     Bandwidth
+[  4]  0.0- 1.0 sec   256 KBytes  2.07 Mbits/sec
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.2 port 33908
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.76 Mbits/sec
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.3 port 51662
+[  4]  0.0- 1.0 sec   512 KBytes  4.28 Mbits/sec
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.2 port 34218
+[  4]  0.0- 2.0 sec  1.00 MBytes  4.18 Mbits/sec
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.5 port 42842
+[  4]  0.0- 1.0 sec   768 KBytes  6.24 Mbits/sec
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.5 port 43170
+[  4]  0.0- 2.0 sec  1.25 MBytes  5.20 Mbits/sec
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.2 port 56454
+[  4]  0.0- 1.0 sec   640 KBytes  5.21 Mbits/sec
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.3 port 41510
+[  4]  0.0- 1.0 sec   512 KBytes  4.17 Mbits/sec
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.3 port 47812
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.76 Mbits/sec
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.5 port 56872
+[  4]  0.0- 1.0 sec   256 KBytes  2.09 Mbits/sec
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.1 port 58242
+[  4]  0.0- 1.0 sec   512 KBytes  4.18 Mbits/sec
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.6 port 36912
+[  4]  0.0- 1.0 sec   384 KBytes  3.10 Mbits/sec
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.3 port 36714
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.69 Mbits/sec
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.16 port 36106
+[  4]  0.0- 0.6 sec   512 KBytes  7.52 Mbits/sec
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.20 port 49796
+[  4]  0.0- 0.6 sec   256 KBytes  3.57 Mbits/sec
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.10 port 41542
+[  4]  0.0- 1.0 sec   512 KBytes  4.19 Mbits/sec
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.5 port 52730
+[  4]  0.0- 1.0 sec   512 KBytes  4.18 Mbits/sec
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.3 port 45056
+[  4]  0.0- 2.0 sec   640 KBytes  2.61 Mbits/sec
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.5 port 60542
+[  4]  0.0- 2.0 sec   896 KBytes  3.67 Mbits/sec
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.13 port 53624
+[  4]  0.0- 0.6 sec   384 KBytes  5.54 Mbits/sec
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.4 port 49048
+[  4]  0.0- 1.0 sec   512 KBytes  4.17 Mbits/sec
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.3 port 35284
+[  4]  0.0- 1.0 sec   768 KBytes  6.22 Mbits/sec
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.3 port 50404
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.68 Mbits/sec
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.2 port 41208
+[  4]  0.0- 1.0 sec   512 KBytes  4.13 Mbits/sec
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.2 port 55056
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.71 Mbits/sec
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.20 port 59150
+[  4]  0.0- 2.0 sec   896 KBytes  3.64 Mbits/sec
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.1 port 37366
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.74 Mbits/sec
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.1 port 48546
+[  4]  0.0- 1.0 sec   768 KBytes  6.19 Mbits/sec
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.1 port 43450
+[  4]  0.0- 1.0 sec   512 KBytes  4.16 Mbits/sec
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.2 port 43120
+[  4]  0.0- 1.0 sec   384 KBytes  3.14 Mbits/sec
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.5 port 53740
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.72 Mbits/sec
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.20 port 59002
+[  4]  0.0- 2.0 sec  1.25 MBytes  5.23 Mbits/sec
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.18 port 32888
+[  4]  0.0- 0.5 sec   384 KBytes  6.04 Mbits/sec
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.1 port 48028
+[  4]  0.0- 1.0 sec   768 KBytes  6.29 Mbits/sec
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.2 port 58178
+[  4]  0.0- 1.0 sec   768 KBytes  6.18 Mbits/sec
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.1 port 55138
+[  4]  0.0- 2.0 sec   896 KBytes  3.66 Mbits/sec
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.5 port 57244
+[  4]  0.0- 1.0 sec   768 KBytes  6.32 Mbits/sec
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.2 port 52490
+[  4]  0.0- 1.0 sec   512 KBytes  4.18 Mbits/sec
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.5 port 47762
+[  4]  0.0- 2.0 sec   768 KBytes  3.12 Mbits/sec
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.3 port 54432
+[  4]  0.0- 1.0 sec   768 KBytes  6.28 Mbits/sec
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.3 port 47200
+[  4]  0.0- 1.0 sec   384 KBytes  3.10 Mbits/sec
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.1 port 59256
+[  4]  0.0- 2.0 sec   640 KBytes  2.61 Mbits/sec
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.1 port 53156
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.72 Mbits/sec
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.2 port 48538
+[  4]  0.0- 1.0 sec   512 KBytes  4.18 Mbits/sec
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.1 port 56032
+[  4]  0.0- 1.0 sec   768 KBytes  6.19 Mbits/sec
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.17 port 35616
+[  4]  0.0- 1.0 sec   128 KBytes  1.04 Mbits/sec
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.1 port 57408
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.75 Mbits/sec
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.5 port 55424
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.68 Mbits/sec
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.14 port 60808
+[  4]  0.0- 1.0 sec   384 KBytes  3.13 Mbits/sec
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.15 port 59278
+[  4]  0.0- 1.0 sec   384 KBytes  3.11 Mbits/sec
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.2 port 58380
+[  4]  0.0- 1.0 sec   768 KBytes  6.29 Mbits/sec
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.2 port 35098
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.75 Mbits/sec
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.5 port 49644
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.71 Mbits/sec
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.5 port 44390
+[  4]  0.0- 2.0 sec  1.25 MBytes  5.21 Mbits/sec
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.20 port 55980
+[  4]  0.0- 1.0 sec   384 KBytes  3.16 Mbits/sec
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.20 port 44506
+[  4]  0.0- 1.0 sec   384 KBytes  3.14 Mbits/sec
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.1 port 58600
+[  4]  0.0- 1.0 sec   768 KBytes  6.28 Mbits/sec
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.2 port 46690
+[  4]  0.0- 1.0 sec   384 KBytes  3.11 Mbits/sec
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.3 port 57322
+[  4]  0.0- 1.0 sec   384 KBytes  3.12 Mbits/sec
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.20 port 51766
+[  4]  0.0- 2.0 sec   640 KBytes  2.62 Mbits/sec
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.5 port 49356
+[  4]  0.0- 1.0 sec   512 KBytes  4.19 Mbits/sec
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.2 port 54710
+[  4]  0.0- 1.0 sec   256 KBytes  2.09 Mbits/sec
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.2 port 57036
+[  4]  0.0- 2.0 sec   896 KBytes  3.65 Mbits/sec
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.2 port 59324
+[  4]  0.0- 1.0 sec   256 KBytes  2.09 Mbits/sec
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.5 port 33626
+[  4]  0.0- 1.0 sec   768 KBytes  6.27 Mbits/sec
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.3 port 34806
+[  4]  0.0- 2.0 sec  1.00 MBytes  4.19 Mbits/sec
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.5 port 50362
+[  4]  0.0- 1.0 sec   640 KBytes  5.18 Mbits/sec
+[  4] local 10.0.0.19 port 5019 connected with 10.0.0.5 port 36424
+[  4]  0.0- 2.0 sec   768 KBytes  3.12 Mbits/sec

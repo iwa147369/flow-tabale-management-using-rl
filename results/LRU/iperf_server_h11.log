@@ -1,0 +1,97 @@
+------------------------------------------------------------
+Server listening on TCP port 5011
+TCP window size: 85.3 KByte (default)
+------------------------------------------------------------
+[  4] local 10.0.0.11 port 5011 connected with 10.0.0.2 port 51532
+[ ID] Interval       Transfer     Bandwidth
+[  4]  0.0- 1.0 sec   384 KBytes  3.24 Mbits/sec
+[  4] local 10.0.0.11 port 5011 connected with 10.0.0.18 port 58970
+[  4]  0.0- 0.4 sec   206 KBytes  4.16 Mbits/sec
+[  4] local 10.0.0.11 port 5011 connected with 10.0.0.5 port 52186
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.73 Mbits/sec
+[  4] local 10.0.0.11 port 5011 connected with 10.0.0.13 port 38476
+[  4]  0.0- 2.0 sec   896 KBytes  3.66 Mbits/sec
+[  4] local 10.0.0.11 port 5011 connected with 10.0.0.20 port 32768
+[  4]  0.0- 1.0 sec   384 KBytes  3.12 Mbits/sec
+[  4] local 10.0.0.11 port 5011 connected with 10.0.0.10 port 52770
+[  4]  0.0- 2.0 sec   640 KBytes  2.63 Mbits/sec
+[  4] local 10.0.0.11 port 5011 connected with 10.0.0.5 port 53244
+[  4]  0.0- 1.0 sec   512 KBytes  4.20 Mbits/sec
+[  4] local 10.0.0.11 port 5011 connected with 10.0.0.13 port 57552
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.69 Mbits/sec
+[  4] local 10.0.0.11 port 5011 connected with 10.0.0.10 port 52722
+[  4]  0.0- 2.0 sec   896 KBytes  3.67 Mbits/sec
+[  4] local 10.0.0.11 port 5011 connected with 10.0.0.10 port 36438
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.68 Mbits/sec
+[  4] local 10.0.0.11 port 5011 connected with 10.0.0.13 port 36406
+[  4]  0.0- 1.0 sec   640 KBytes  5.15 Mbits/sec
+[  4] local 10.0.0.11 port 5011 connected with 10.0.0.13 port 53534
+[  4]  0.0- 1.0 sec   384 KBytes  3.14 Mbits/sec
+[  4] local 10.0.0.11 port 5011 connected with 10.0.0.13 port 53544
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.73 Mbits/sec
+[  4] local 10.0.0.11 port 5011 connected with 10.0.0.20 port 33150
+[  4]  0.0- 1.0 sec   768 KBytes  6.19 Mbits/sec
+[  4] local 10.0.0.11 port 5011 connected with 10.0.0.5 port 58878
+[  4]  0.0- 2.0 sec   768 KBytes  3.12 Mbits/sec
+[  4] local 10.0.0.11 port 5011 connected with 10.0.0.8 port 49946
+[  4]  0.0- 1.0 sec   256 KBytes  2.05 Mbits/sec
+[  4] local 10.0.0.11 port 5011 connected with 10.0.0.20 port 45268
+[  4]  0.0- 1.0 sec   384 KBytes  3.09 Mbits/sec
+[  4] local 10.0.0.11 port 5011 connected with 10.0.0.9 port 44690
+[  4]  0.0- 0.6 sec   384 KBytes  4.87 Mbits/sec
+[  4] local 10.0.0.11 port 5011 connected with 10.0.0.10 port 32864
+[  4]  0.0- 2.0 sec   896 KBytes  3.64 Mbits/sec
+[  4] local 10.0.0.11 port 5011 connected with 10.0.0.17 port 38036
+[  4]  0.0- 1.0 sec   512 KBytes  4.14 Mbits/sec
+[  4] local 10.0.0.11 port 5011 connected with 10.0.0.19 port 51774
+[  4]  0.0- 1.0 sec   256 KBytes  2.09 Mbits/sec
+[  4] local 10.0.0.11 port 5011 connected with 10.0.0.10 port 49086
+[  4]  0.0- 1.0 sec   384 KBytes  3.14 Mbits/sec
+[  4] local 10.0.0.11 port 5011 connected with 10.0.0.20 port 53608
+[  4]  0.0- 1.0 sec   512 KBytes  4.19 Mbits/sec
+[  4] local 10.0.0.11 port 5011 connected with 10.0.0.20 port 54550
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.68 Mbits/sec
+[  4] local 10.0.0.11 port 5011 connected with 10.0.0.13 port 45836
+[  4]  0.0- 2.0 sec   896 KBytes  3.66 Mbits/sec
+[  4] local 10.0.0.11 port 5011 connected with 10.0.0.5 port 53696
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.76 Mbits/sec
+[  4] local 10.0.0.11 port 5011 connected with 10.0.0.20 port 33040
+[  4]  0.0- 1.0 sec   768 KBytes  6.21 Mbits/sec
+[  4] local 10.0.0.11 port 5011 connected with 10.0.0.20 port 57064
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.69 Mbits/sec
+[  4] local 10.0.0.11 port 5011 connected with 10.0.0.16 port 58014
+[  4]  0.0- 1.0 sec   256 KBytes  2.08 Mbits/sec
+[  4] local 10.0.0.11 port 5011 connected with 10.0.0.1 port 57686
+[  4]  0.0- 1.0 sec   384 KBytes  3.10 Mbits/sec
+[  4] local 10.0.0.11 port 5011 connected with 10.0.0.13 port 58662
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.75 Mbits/sec
+[  4] local 10.0.0.11 port 5011 connected with 10.0.0.10 port 33686
+[  4]  0.0- 2.0 sec   896 KBytes  3.65 Mbits/sec
+[  4] local 10.0.0.11 port 5011 connected with 10.0.0.13 port 55208
+[  4]  0.0- 1.0 sec   512 KBytes  4.17 Mbits/sec
+[  4] local 10.0.0.11 port 5011 connected with 10.0.0.20 port 44336
+[  4]  0.0- 2.0 sec   640 KBytes  2.60 Mbits/sec
+[  4] local 10.0.0.11 port 5011 connected with 10.0.0.13 port 33384
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.69 Mbits/sec
+[  4] local 10.0.0.11 port 5011 connected with 10.0.0.14 port 37540
+[  4]  0.0- 1.0 sec   512 KBytes  4.19 Mbits/sec
+[  4] local 10.0.0.11 port 5011 connected with 10.0.0.20 port 37142
+[  4]  0.0- 2.0 sec   896 KBytes  3.65 Mbits/sec
+[  4] local 10.0.0.11 port 5011 connected with 10.0.0.5 port 45564
+[  4]  0.0- 1.0 sec   256 KBytes  2.08 Mbits/sec
+[  4] local 10.0.0.11 port 5011 connected with 10.0.0.10 port 46972
+[  4]  0.0- 1.0 sec   768 KBytes  6.20 Mbits/sec
+[  4] local 10.0.0.11 port 5011 connected with 10.0.0.3 port 53122
+[  4]  0.0- 1.0 sec   256 KBytes  2.09 Mbits/sec
+[  4] local 10.0.0.11 port 5011 connected with 10.0.0.13 port 51622
+[  4]  0.0- 1.0 sec   512 KBytes  4.14 Mbits/sec
+[  4] local 10.0.0.11 port 5011 connected with 10.0.0.5 port 55142
+[  4]  0.0- 2.0 sec   896 KBytes  3.64 Mbits/sec
+[  4] local 10.0.0.11 port 5011 connected with 10.0.0.10 port 52062
+[  4]  0.0- 2.0 sec  1.25 MBytes  5.19 Mbits/sec
+[  4] local 10.0.0.11 port 5011 connected with 10.0.0.7 port 34650
+[  4]  0.0- 1.0 sec   384 KBytes  3.12 Mbits/sec
+[  4] local 10.0.0.11 port 5011 connected with 10.0.0.13 port 60154
+[  4]  0.0- 1.0 sec   256 KBytes  2.10 Mbits/sec
+[  4] local 10.0.0.11 port 5011 connected with 10.0.0.4 port 41642
+[  4]  0.0- 1.0 sec   256 KBytes  2.08 Mbits/sec

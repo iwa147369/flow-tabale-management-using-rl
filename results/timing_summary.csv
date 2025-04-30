@@ -1,0 +1,4 @@
+Model,Install Time (s),Remove Time (s),Install Count,Remove Count,Throughput (Mbps),Average Latency (ms)
+FIFO,1042.098,1035.99537,4431,4330,3994.23,0.47
+LRU,969.3687,964.44307,4566,4465,4003.48,0.54
+RL,250.23019,248.75285,1718,1129,3996.92,0.31

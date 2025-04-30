@@ -1,0 +1,87 @@
+------------------------------------------------------------
+Server listening on TCP port 5018
+TCP window size: 85.3 KByte (default)
+------------------------------------------------------------
+[  4] local 10.0.0.18 port 5018 connected with 10.0.0.2 port 36258
+[ ID] Interval       Transfer     Bandwidth
+[  4]  0.0- 2.0 sec   640 KBytes  2.63 Mbits/sec
+[  4] local 10.0.0.18 port 5018 connected with 10.0.0.3 port 33144
+[  4]  0.0- 1.0 sec   512 KBytes  4.32 Mbits/sec
+[  4] local 10.0.0.18 port 5018 connected with 10.0.0.2 port 40618
+[  4]  0.0- 1.0 sec   640 KBytes  5.22 Mbits/sec
+[  4] local 10.0.0.18 port 5018 connected with 10.0.0.5 port 56232
+[  4]  0.0- 0.6 sec   384 KBytes  5.26 Mbits/sec
+[  4] local 10.0.0.18 port 5018 connected with 10.0.0.16 port 41434
+[  4]  0.0- 1.0 sec   384 KBytes  3.09 Mbits/sec
+[  4] local 10.0.0.18 port 5018 connected with 10.0.0.2 port 47760
+[  4]  0.0- 2.0 sec   896 KBytes  3.64 Mbits/sec
+[  4] local 10.0.0.18 port 5018 connected with 10.0.0.16 port 51210
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.68 Mbits/sec
+[  4] local 10.0.0.18 port 5018 connected with 10.0.0.2 port 56908
+[  4]  0.0- 2.0 sec   640 KBytes  2.62 Mbits/sec
+[  4] local 10.0.0.18 port 5018 connected with 10.0.0.2 port 34358
+[  4]  0.0- 2.0 sec   640 KBytes  2.62 Mbits/sec
+[  4] local 10.0.0.18 port 5018 connected with 10.0.0.16 port 49178
+[  4]  0.0- 1.0 sec   512 KBytes  4.19 Mbits/sec
+[  4] local 10.0.0.18 port 5018 connected with 10.0.0.14 port 51990
+[  4]  0.0- 1.0 sec   384 KBytes  3.15 Mbits/sec
+[  4] local 10.0.0.18 port 5018 connected with 10.0.0.14 port 59078
+[  4]  0.0- 1.0 sec   384 KBytes  3.12 Mbits/sec
+[  4] local 10.0.0.18 port 5018 connected with 10.0.0.16 port 47762
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.70 Mbits/sec
+[  4] local 10.0.0.18 port 5018 connected with 10.0.0.16 port 47432
+[  4]  0.0- 2.0 sec   640 KBytes  2.62 Mbits/sec
+[  4] local 10.0.0.18 port 5018 connected with 10.0.0.14 port 43342
+[  4]  0.0- 1.0 sec   512 KBytes  4.19 Mbits/sec
+[  4] local 10.0.0.18 port 5018 connected with 10.0.0.8 port 45036
+[  4]  0.0- 1.0 sec   256 KBytes  2.09 Mbits/sec
+[  4] local 10.0.0.18 port 5018 connected with 10.0.0.2 port 50502
+[  4]  0.0- 1.0 sec   640 KBytes  5.17 Mbits/sec
+[  4] local 10.0.0.18 port 5018 connected with 10.0.0.14 port 56580
+[  4]  0.0- 2.0 sec  1.00 MBytes  4.16 Mbits/sec
+[  4] local 10.0.0.18 port 5018 connected with 10.0.0.16 port 53300
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.68 Mbits/sec
+[  4] local 10.0.0.18 port 5018 connected with 10.0.0.16 port 55334
+[  4]  0.0- 1.0 sec   768 KBytes  6.19 Mbits/sec
+[  4] local 10.0.0.18 port 5018 connected with 10.0.0.2 port 55346
+[  4]  0.0- 1.0 sec   640 KBytes  5.21 Mbits/sec
+[  4] local 10.0.0.18 port 5018 connected with 10.0.0.14 port 49846
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.72 Mbits/sec
+[  4] local 10.0.0.18 port 5018 connected with 10.0.0.14 port 60348
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.72 Mbits/sec
+[  4] local 10.0.0.18 port 5018 connected with 10.0.0.14 port 34556
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.73 Mbits/sec
+[  4] local 10.0.0.18 port 5018 connected with 10.0.0.16 port 43890
+[  4]  0.0- 2.0 sec   896 KBytes  3.65 Mbits/sec
+[  4] local 10.0.0.18 port 5018 connected with 10.0.0.4 port 39898
+[  4]  0.0- 1.0 sec   256 KBytes  2.07 Mbits/sec
+[  4] local 10.0.0.18 port 5018 connected with 10.0.0.16 port 34282
+[  4]  0.0- 1.0 sec   640 KBytes  5.24 Mbits/sec
+[  4] local 10.0.0.18 port 5018 connected with 10.0.0.13 port 41846
+[  4]  0.0- 1.0 sec   512 KBytes  4.17 Mbits/sec
+[  4] local 10.0.0.18 port 5018 connected with 10.0.0.2 port 40872
+[  4]  0.0- 1.0 sec   384 KBytes  3.14 Mbits/sec
+[  4] local 10.0.0.18 port 5018 connected with 10.0.0.14 port 50284
+[  4]  0.0- 2.0 sec   896 KBytes  3.66 Mbits/sec
+[  4] local 10.0.0.18 port 5018 connected with 10.0.0.16 port 51936
+[  4]  0.0- 1.0 sec   512 KBytes  4.19 Mbits/sec
+[  4] local 10.0.0.18 port 5018 connected with 10.0.0.16 port 47296
+[  4]  0.0- 2.0 sec   896 KBytes  3.66 Mbits/sec
+[  4] local 10.0.0.18 port 5018 connected with 10.0.0.20 port 36810
+[  4]  0.0- 1.0 sec   256 KBytes  2.10 Mbits/sec
+[  4] local 10.0.0.18 port 5018 connected with 10.0.0.16 port 38092
+[  4]  0.0- 1.0 sec   640 KBytes  5.21 Mbits/sec
+[  4] local 10.0.0.18 port 5018 connected with 10.0.0.1 port 55344
+[  4]  0.0- 1.0 sec   256 KBytes  2.09 Mbits/sec
+[  4] local 10.0.0.18 port 5018 connected with 10.0.0.16 port 57300
+[  4]  0.0- 1.0 sec   640 KBytes  5.23 Mbits/sec
+[  4] local 10.0.0.18 port 5018 connected with 10.0.0.2 port 47382
+[  4]  0.0- 1.0 sec   512 KBytes  4.19 Mbits/sec
+[  4] local 10.0.0.18 port 5018 connected with 10.0.0.16 port 37932
+[  4]  0.0- 1.0 sec   768 KBytes  6.24 Mbits/sec
+[  4] local 10.0.0.18 port 5018 connected with 10.0.0.16 port 49084
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.69 Mbits/sec
+[  4] local 10.0.0.18 port 5018 connected with 10.0.0.10 port 56906
+[  4]  0.0- 1.0 sec   384 KBytes  3.15 Mbits/sec
+[  4] local 10.0.0.18 port 5018 connected with 10.0.0.11 port 36246
+[  4]  0.0- 1.0 sec   128 KBytes  1.04 Mbits/sec

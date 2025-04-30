@@ -1,0 +1,137 @@
+------------------------------------------------------------
+Server listening on TCP port 5020
+TCP window size: 85.3 KByte (default)
+------------------------------------------------------------
+[  4] local 10.0.0.20 port 5020 connected with 10.0.0.4 port 58572
+[ ID] Interval       Transfer     Bandwidth
+[  4]  0.0- 1.0 sec   256 KBytes  2.16 Mbits/sec
+[  4] local 10.0.0.20 port 5020 connected with 10.0.0.14 port 38758
+[  4]  0.0- 1.0 sec   256 KBytes  2.08 Mbits/sec
+[  4] local 10.0.0.20 port 5020 connected with 10.0.0.10 port 48764
+[  4]  0.0- 0.6 sec   640 KBytes  8.19 Mbits/sec
+[  4] local 10.0.0.20 port 5020 connected with 10.0.0.8 port 44208
+[  4]  0.0- 0.6 sec   512 KBytes  6.56 Mbits/sec
+[  4] local 10.0.0.20 port 5020 connected with 10.0.0.13 port 59308
+[  4]  0.0- 1.6 sec   640 KBytes  3.22 Mbits/sec
+[  4] local 10.0.0.20 port 5020 connected with 10.0.0.10 port 51456
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.73 Mbits/sec
+[  4] local 10.0.0.20 port 5020 connected with 10.0.0.13 port 46418
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.75 Mbits/sec
+[  4] local 10.0.0.20 port 5020 connected with 10.0.0.9 port 47438
+[  4]  0.0- 0.6 sec   512 KBytes  6.72 Mbits/sec
+[  4] local 10.0.0.20 port 5020 connected with 10.0.0.17 port 57896
+[  4]  0.0- 2.0 sec  1.25 MBytes  5.21 Mbits/sec
+[  4] local 10.0.0.20 port 5020 connected with 10.0.0.11 port 46570
+[  4]  0.0- 1.0 sec   384 KBytes  3.14 Mbits/sec
+[  4] local 10.0.0.20 port 5020 connected with 10.0.0.9 port 36692
+[  4]  0.0- 2.0 sec   640 KBytes  2.61 Mbits/sec
+[  4] local 10.0.0.20 port 5020 connected with 10.0.0.3 port 50198
+[  4]  0.0- 1.0 sec   512 KBytes  4.18 Mbits/sec
+[  4] local 10.0.0.20 port 5020 connected with 10.0.0.9 port 48326
+[  4]  0.0- 1.0 sec   640 KBytes  5.24 Mbits/sec
+[  4] local 10.0.0.20 port 5020 connected with 10.0.0.13 port 48562
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.73 Mbits/sec
+[  4] local 10.0.0.20 port 5020 connected with 10.0.0.17 port 54462
+[  4]  0.0- 1.0 sec   384 KBytes  3.12 Mbits/sec
+[  4] local 10.0.0.20 port 5020 connected with 10.0.0.13 port 38936
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.68 Mbits/sec
+[  4] local 10.0.0.20 port 5020 connected with 10.0.0.10 port 55552
+[  4]  0.0- 2.0 sec   640 KBytes  2.61 Mbits/sec
+[  4] local 10.0.0.20 port 5020 connected with 10.0.0.13 port 48806
+[  4]  0.0- 2.0 sec  1.00 MBytes  4.16 Mbits/sec
+[  4] local 10.0.0.20 port 5020 connected with 10.0.0.9 port 38180
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.71 Mbits/sec
+[  4] local 10.0.0.20 port 5020 connected with 10.0.0.9 port 55564
+[  4]  0.0- 2.0 sec   896 KBytes  3.65 Mbits/sec
+[  4] local 10.0.0.20 port 5020 connected with 10.0.0.10 port 36340
+[  4]  0.0- 1.0 sec   640 KBytes  5.18 Mbits/sec
+[  4] local 10.0.0.20 port 5020 connected with 10.0.0.17 port 56880
+[  4]  0.0- 1.0 sec   384 KBytes  3.14 Mbits/sec
+[  4] local 10.0.0.20 port 5020 connected with 10.0.0.9 port 46578
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.71 Mbits/sec
+[  4] local 10.0.0.20 port 5020 connected with 10.0.0.9 port 46592
+[  4]  0.0- 1.0 sec   512 KBytes  4.18 Mbits/sec
+[  4] local 10.0.0.20 port 5020 connected with 10.0.0.3 port 45250
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.76 Mbits/sec
+[  4] local 10.0.0.20 port 5020 connected with 10.0.0.3 port 40192
+[  4]  0.0- 1.0 sec   640 KBytes  5.24 Mbits/sec
+[  4] local 10.0.0.20 port 5020 connected with 10.0.0.3 port 55380
+[  4]  0.0- 1.0 sec   640 KBytes  5.16 Mbits/sec
+[  4] local 10.0.0.20 port 5020 connected with 10.0.0.9 port 39880
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.78 Mbits/sec
+[  4] local 10.0.0.20 port 5020 connected with 10.0.0.9 port 37376
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.77 Mbits/sec
+[  4] local 10.0.0.20 port 5020 connected with 10.0.0.10 port 40158
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.74 Mbits/sec
+[  4] local 10.0.0.20 port 5020 connected with 10.0.0.9 port 41944
+[  4]  0.0- 2.0 sec   640 KBytes  2.61 Mbits/sec
+[  4] local 10.0.0.20 port 5020 connected with 10.0.0.17 port 55796
+[  4]  0.0- 1.0 sec   512 KBytes  4.18 Mbits/sec
+[  4] local 10.0.0.20 port 5020 connected with 10.0.0.13 port 43234
+[  4]  0.0- 1.0 sec   640 KBytes  5.23 Mbits/sec
+[  4] local 10.0.0.20 port 5020 connected with 10.0.0.10 port 42724
+[  4]  0.0- 2.0 sec  1.25 MBytes  5.20 Mbits/sec
+[  4] local 10.0.0.20 port 5020 connected with 10.0.0.13 port 55098
+[  4]  0.0- 2.0 sec   640 KBytes  2.61 Mbits/sec
+[  4] local 10.0.0.20 port 5020 connected with 10.0.0.9 port 56372
+[  4]  0.0- 1.0 sec   384 KBytes  3.15 Mbits/sec
+[  4] local 10.0.0.20 port 5020 connected with 10.0.0.3 port 35304
+[  4]  0.0- 1.0 sec   256 KBytes  2.08 Mbits/sec
+[  4] local 10.0.0.20 port 5020 connected with 10.0.0.13 port 56126
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.75 Mbits/sec
+[  4] local 10.0.0.20 port 5020 connected with 10.0.0.3 port 41268
+[  4]  0.0- 2.0 sec   896 KBytes  3.64 Mbits/sec
+[  4] local 10.0.0.20 port 5020 connected with 10.0.0.17 port 59414
+[  4]  0.0- 2.0 sec   512 KBytes  2.10 Mbits/sec
+[  4] local 10.0.0.20 port 5020 connected with 10.0.0.5 port 56402
+[  4]  0.0- 1.0 sec   384 KBytes  3.09 Mbits/sec
+[  4] local 10.0.0.20 port 5020 connected with 10.0.0.13 port 35908
+[  4]  0.0- 2.0 sec   768 KBytes  3.14 Mbits/sec
+[  4] local 10.0.0.20 port 5020 connected with 10.0.0.9 port 56542
+[  4]  0.0- 2.0 sec   640 KBytes  2.61 Mbits/sec
+[  4] local 10.0.0.20 port 5020 connected with 10.0.0.16 port 47070
+[  4]  0.0- 1.0 sec   512 KBytes  4.14 Mbits/sec
+[  4] local 10.0.0.20 port 5020 connected with 10.0.0.3 port 38284
+[  4]  0.0- 1.0 sec   640 KBytes  5.23 Mbits/sec
+[  4] local 10.0.0.20 port 5020 connected with 10.0.0.3 port 43482
+[  4]  0.0- 1.0 sec   512 KBytes  4.14 Mbits/sec
+[  4] local 10.0.0.20 port 5020 connected with 10.0.0.17 port 59062
+[  4]  0.0- 2.0 sec   896 KBytes  3.67 Mbits/sec
+[  4] local 10.0.0.20 port 5020 connected with 10.0.0.10 port 48438
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.72 Mbits/sec
+[  4] local 10.0.0.20 port 5020 connected with 10.0.0.9 port 38620
+[  4]  0.0- 1.0 sec   384 KBytes  3.13 Mbits/sec
+[  4] local 10.0.0.20 port 5020 connected with 10.0.0.13 port 45908
+[  4]  0.0- 1.0 sec   768 KBytes  6.25 Mbits/sec
+[  4] local 10.0.0.20 port 5020 connected with 10.0.0.13 port 34754
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.71 Mbits/sec
+[  4] local 10.0.0.20 port 5020 connected with 10.0.0.9 port 60942
+[  4]  0.0- 1.0 sec   640 KBytes  5.16 Mbits/sec
+[  4] local 10.0.0.20 port 5020 connected with 10.0.0.10 port 48022
+[  4]  0.0- 1.0 sec   384 KBytes  3.12 Mbits/sec
+[  4] local 10.0.0.20 port 5020 connected with 10.0.0.10 port 45368
+[  4]  0.0- 2.0 sec   640 KBytes  2.61 Mbits/sec
+[  4] local 10.0.0.20 port 5020 connected with 10.0.0.3 port 53568
+[  4]  0.0- 1.0 sec   768 KBytes  6.24 Mbits/sec
+[  4] local 10.0.0.20 port 5020 connected with 10.0.0.17 port 33210
+[  4]  0.0- 2.0 sec   640 KBytes  2.61 Mbits/sec
+[  4] local 10.0.0.20 port 5020 connected with 10.0.0.10 port 56336
+[  4]  0.0- 1.0 sec   512 KBytes  4.18 Mbits/sec
+[  4] local 10.0.0.20 port 5020 connected with 10.0.0.13 port 37716
+[  4]  0.0- 1.0 sec   384 KBytes  3.15 Mbits/sec
+[  4] local 10.0.0.20 port 5020 connected with 10.0.0.3 port 44684
+[  4]  0.0- 1.0 sec   384 KBytes  3.15 Mbits/sec
+[  4] local 10.0.0.20 port 5020 connected with 10.0.0.6 port 49738
+[  4]  0.0- 1.0 sec   384 KBytes  3.13 Mbits/sec
+[  4] local 10.0.0.20 port 5020 connected with 10.0.0.9 port 41296
+[  4]  0.0- 1.0 sec   512 KBytes  4.12 Mbits/sec
+[  4] local 10.0.0.20 port 5020 connected with 10.0.0.3 port 48592
+[  4]  0.0- 1.0 sec   768 KBytes  6.21 Mbits/sec
+[  4] local 10.0.0.20 port 5020 connected with 10.0.0.3 port 42898
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.68 Mbits/sec
+[  4] local 10.0.0.20 port 5020 connected with 10.0.0.15 port 53128
+[  4]  0.0- 0.4 sec   334 KBytes  6.87 Mbits/sec
+[  4] local 10.0.0.20 port 5020 connected with 10.0.0.12 port 58180
+[  4]  0.0- 1.0 sec   384 KBytes  3.10 Mbits/sec
+[  4] local 10.0.0.20 port 5020 connected with 10.0.0.13 port 43452
+[  4]  0.0- 1.0 sec   384 KBytes  3.12 Mbits/sec

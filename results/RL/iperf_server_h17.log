@@ -1,0 +1,139 @@
+------------------------------------------------------------
+Server listening on TCP port 5017
+TCP window size: 85.3 KByte (default)
+------------------------------------------------------------
+[  4] local 10.0.0.17 port 5017 connected with 10.0.0.16 port 59668
+[ ID] Interval       Transfer     Bandwidth
+[  4]  0.0- 1.0 sec   384 KBytes  3.16 Mbits/sec
+[  4] local 10.0.0.17 port 5017 connected with 10.0.0.15 port 42176
+[  4]  0.0- 2.0 sec   640 KBytes  2.63 Mbits/sec
+[  4] local 10.0.0.17 port 5017 connected with 10.0.0.9 port 54580
+[  4]  0.0- 1.0 sec   768 KBytes  6.27 Mbits/sec
+[  4] local 10.0.0.17 port 5017 connected with 10.0.0.3 port 35882
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.78 Mbits/sec
+[  4] local 10.0.0.17 port 5017 connected with 10.0.0.15 port 36434
+[  4]  0.0- 2.0 sec   640 KBytes  2.62 Mbits/sec
+[  4] local 10.0.0.17 port 5017 connected with 10.0.0.3 port 46584
+[  4]  0.0- 1.0 sec   640 KBytes  5.19 Mbits/sec
+[  4] local 10.0.0.17 port 5017 connected with 10.0.0.8 port 45646
+[  4]  0.0- 1.0 sec   512 KBytes  4.18 Mbits/sec
+[  4] local 10.0.0.17 port 5017 connected with 10.0.0.20 port 38462
+[  4]  0.0- 1.0 sec   256 KBytes  2.09 Mbits/sec
+[  4] local 10.0.0.17 port 5017 connected with 10.0.0.9 port 46808
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.68 Mbits/sec
+[  4] local 10.0.0.17 port 5017 connected with 10.0.0.9 port 52230
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.72 Mbits/sec
+[  4] local 10.0.0.17 port 5017 connected with 10.0.0.12 port 58548
+[  4]  0.0- 1.6 sec   896 KBytes  4.62 Mbits/sec
+[  4] local 10.0.0.17 port 5017 connected with 10.0.0.2 port 44940
+[  4]  0.0- 1.0 sec   384 KBytes  3.15 Mbits/sec
+[  4] local 10.0.0.17 port 5017 connected with 10.0.0.8 port 41028
+[  4]  0.0- 1.0 sec   768 KBytes  6.18 Mbits/sec
+[  4] local 10.0.0.17 port 5017 connected with 10.0.0.9 port 53116
+[  4]  0.0- 1.0 sec   640 KBytes  5.23 Mbits/sec
+[  4] local 10.0.0.17 port 5017 connected with 10.0.0.12 port 53940
+[  4]  0.0- 1.0 sec   384 KBytes  3.14 Mbits/sec
+[  4] local 10.0.0.17 port 5017 connected with 10.0.0.9 port 59448
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.71 Mbits/sec
+[  4] local 10.0.0.17 port 5017 connected with 10.0.0.14 port 40574
+[  4]  0.0- 1.0 sec   384 KBytes  3.15 Mbits/sec
+[  4] local 10.0.0.17 port 5017 connected with 10.0.0.12 port 41988
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.72 Mbits/sec
+[  4] local 10.0.0.17 port 5017 connected with 10.0.0.15 port 45750
+[  4]  0.0- 2.0 sec   896 KBytes  3.64 Mbits/sec
+[  4] local 10.0.0.17 port 5017 connected with 10.0.0.13 port 33802
+[  4]  0.0- 1.0 sec   384 KBytes  3.13 Mbits/sec
+[  4] local 10.0.0.17 port 5017 connected with 10.0.0.15 port 46068
+[  4]  0.0- 1.0 sec   384 KBytes  3.14 Mbits/sec
+[  4] local 10.0.0.17 port 5017 connected with 10.0.0.9 port 47190
+[  4]  0.0- 2.0 sec   640 KBytes  2.61 Mbits/sec
+[  4] local 10.0.0.17 port 5017 connected with 10.0.0.5 port 49820
+[  4]  0.0- 1.0 sec   384 KBytes  3.12 Mbits/sec
+[  4] local 10.0.0.17 port 5017 connected with 10.0.0.12 port 51374
+[  4]  0.0- 1.0 sec   640 KBytes  5.20 Mbits/sec
+[  4] local 10.0.0.17 port 5017 connected with 10.0.0.3 port 39002
+[  4]  0.0- 1.0 sec   256 KBytes  2.09 Mbits/sec
+[  4] local 10.0.0.17 port 5017 connected with 10.0.0.9 port 41102
+[  4]  0.0- 1.0 sec   768 KBytes  6.22 Mbits/sec
+[  4] local 10.0.0.17 port 5017 connected with 10.0.0.9 port 55416
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.68 Mbits/sec
+[  4] local 10.0.0.17 port 5017 connected with 10.0.0.8 port 59204
+[  4]  0.0- 1.0 sec   512 KBytes  4.18 Mbits/sec
+[  4] local 10.0.0.17 port 5017 connected with 10.0.0.15 port 56746
+[  4]  0.0- 1.0 sec   512 KBytes  4.17 Mbits/sec
+[  4] local 10.0.0.17 port 5017 connected with 10.0.0.3 port 33352
+[  4]  0.0- 1.0 sec   640 KBytes  5.21 Mbits/sec
+[  4] local 10.0.0.17 port 5017 connected with 10.0.0.3 port 45064
+[  4]  0.0- 1.0 sec   640 KBytes  5.26 Mbits/sec
+[  4] local 10.0.0.17 port 5017 connected with 10.0.0.12 port 52348
+[  4]  0.0- 2.0 sec   640 KBytes  2.61 Mbits/sec
+[  4] local 10.0.0.17 port 5017 connected with 10.0.0.6 port 37478
+[  4]  0.0- 1.0 sec   256 KBytes  2.08 Mbits/sec
+[  4] local 10.0.0.17 port 5017 connected with 10.0.0.3 port 34536
+[  4]  0.0- 1.0 sec   640 KBytes  5.25 Mbits/sec
+[  4] local 10.0.0.17 port 5017 connected with 10.0.0.8 port 35120
+[  4]  0.0- 1.0 sec   512 KBytes  4.20 Mbits/sec
+[  4] local 10.0.0.17 port 5017 connected with 10.0.0.12 port 45232
+[  4]  0.0- 2.0 sec   640 KBytes  2.60 Mbits/sec
+[  4] local 10.0.0.17 port 5017 connected with 10.0.0.9 port 51938
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.72 Mbits/sec
+[  4] local 10.0.0.17 port 5017 connected with 10.0.0.9 port 49120
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.68 Mbits/sec
+[  4] local 10.0.0.17 port 5017 connected with 10.0.0.9 port 52350
+[  4]  0.0- 1.0 sec   640 KBytes  5.23 Mbits/sec
+[  4] local 10.0.0.17 port 5017 connected with 10.0.0.3 port 41488
+[  4]  0.0- 1.0 sec   768 KBytes  6.21 Mbits/sec
+[  4] local 10.0.0.17 port 5017 connected with 10.0.0.12 port 36766
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.72 Mbits/sec
+[  4] local 10.0.0.17 port 5017 connected with 10.0.0.8 port 43096
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.72 Mbits/sec
+[  4] local 10.0.0.17 port 5017 connected with 10.0.0.8 port 33106
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.69 Mbits/sec
+[  4] local 10.0.0.17 port 5017 connected with 10.0.0.9 port 52310
+[  4]  0.0- 2.0 sec   896 KBytes  3.66 Mbits/sec
+[  4] local 10.0.0.17 port 5017 connected with 10.0.0.18 port 40018
+[  4]  0.0- 1.0 sec   512 KBytes  4.13 Mbits/sec
+[  4] local 10.0.0.17 port 5017 connected with 10.0.0.3 port 57642
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.73 Mbits/sec
+[  4] local 10.0.0.17 port 5017 connected with 10.0.0.3 port 47600
+[  4]  0.0- 2.0 sec   896 KBytes  3.67 Mbits/sec
+[  4] local 10.0.0.17 port 5017 connected with 10.0.0.12 port 47962
+[  4]  0.0- 2.0 sec   896 KBytes  3.65 Mbits/sec
+[  4] local 10.0.0.17 port 5017 connected with 10.0.0.9 port 37202
+[  4]  0.0- 1.0 sec   512 KBytes  4.14 Mbits/sec
+[  4] local 10.0.0.17 port 5017 connected with 10.0.0.3 port 39354
+[  4]  0.0- 2.0 sec   640 KBytes  2.62 Mbits/sec
+[  4] local 10.0.0.17 port 5017 connected with 10.0.0.4 port 40188
+[  4]  0.0- 1.0 sec   128 KBytes  1.04 Mbits/sec
+[  4] local 10.0.0.17 port 5017 connected with 10.0.0.8 port 33416
+[  4]  0.0- 1.0 sec   640 KBytes  5.21 Mbits/sec
+[  4] local 10.0.0.17 port 5017 connected with 10.0.0.9 port 57258
+[  4]  0.0- 2.0 sec   640 KBytes  2.60 Mbits/sec
+[  4] local 10.0.0.17 port 5017 connected with 10.0.0.8 port 41928
+[  4]  0.0- 2.0 sec  1.25 MBytes  5.21 Mbits/sec
+[  4] local 10.0.0.17 port 5017 connected with 10.0.0.7 port 37408
+[  4]  0.0- 1.0 sec   512 KBytes  4.13 Mbits/sec
+[  4] local 10.0.0.17 port 5017 connected with 10.0.0.10 port 45362
+[  4]  0.0- 0.6 sec   512 KBytes  6.67 Mbits/sec
+[  4] local 10.0.0.17 port 5017 connected with 10.0.0.12 port 47378
+[  4]  0.0- 1.0 sec   256 KBytes  2.09 Mbits/sec
+[  4] local 10.0.0.17 port 5017 connected with 10.0.0.8 port 58254
+[  4]  0.0- 1.0 sec   512 KBytes  4.19 Mbits/sec
+[  4] local 10.0.0.17 port 5017 connected with 10.0.0.3 port 42980
+[  4]  0.0- 1.0 sec   384 KBytes  3.14 Mbits/sec
+[  4] local 10.0.0.17 port 5017 connected with 10.0.0.12 port 46222
+[  4]  0.0- 2.0 sec   768 KBytes  3.12 Mbits/sec
+[  4] local 10.0.0.17 port 5017 connected with 10.0.0.15 port 50256
+[  4]  0.0- 2.0 sec   640 KBytes  2.60 Mbits/sec
+[  4] local 10.0.0.17 port 5017 connected with 10.0.0.12 port 46092
+[  4]  0.0- 1.0 sec   768 KBytes  6.28 Mbits/sec
+[  4] local 10.0.0.17 port 5017 connected with 10.0.0.15 port 34542
+[  4]  0.0- 2.0 sec   640 KBytes  2.60 Mbits/sec
+[  4] local 10.0.0.17 port 5017 connected with 10.0.0.8 port 47756
+[  4]  0.0- 2.0 sec   896 KBytes  3.66 Mbits/sec
+[  4] local 10.0.0.17 port 5017 connected with 10.0.0.15 port 44016
+[  4]  0.0- 1.0 sec   768 KBytes  6.18 Mbits/sec
+[  4] local 10.0.0.17 port 5017 connected with 10.0.0.12 port 43832
+[  4]  0.0- 2.0 sec   640 KBytes  2.62 Mbits/sec
+[  4] local 10.0.0.17 port 5017 connected with 10.0.0.8 port 37860
+[  4]  0.0- 2.0 sec   640 KBytes  2.60 Mbits/sec

@@ -1,0 +1,55 @@
+------------------------------------------------------------
+Server listening on TCP port 5008
+TCP window size: 85.3 KByte (default)
+------------------------------------------------------------
+[  4] local 10.0.0.8 port 5008 connected with 10.0.0.15 port 36782
+[ ID] Interval       Transfer     Bandwidth
+[  4]  0.0- 1.0 sec   256 KBytes  2.09 Mbits/sec
+[  4] local 10.0.0.8 port 5008 connected with 10.0.0.20 port 50488
+[  4]  0.0- 1.0 sec   640 KBytes  5.22 Mbits/sec
+[  4] local 10.0.0.8 port 5008 connected with 10.0.0.2 port 49904
+[  4]  0.0- 0.6 sec   256 KBytes  3.58 Mbits/sec
+[  4] local 10.0.0.8 port 5008 connected with 10.0.0.20 port 33874
+[  4]  0.0- 2.0 sec   640 KBytes  2.62 Mbits/sec
+[  4] local 10.0.0.8 port 5008 connected with 10.0.0.20 port 48374
+[  4]  0.0- 2.0 sec   640 KBytes  2.60 Mbits/sec
+[  4] local 10.0.0.8 port 5008 connected with 10.0.0.1 port 34282
+[  4]  0.0- 1.0 sec   256 KBytes  2.08 Mbits/sec
+[  4] local 10.0.0.8 port 5008 connected with 10.0.0.20 port 38886
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.76 Mbits/sec
+[  4] local 10.0.0.8 port 5008 connected with 10.0.0.4 port 59082
+[  4]  0.0- 1.0 sec   256 KBytes  2.08 Mbits/sec
+[  4] local 10.0.0.8 port 5008 connected with 10.0.0.6 port 48486
+[  4]  0.0- 1.0 sec   768 KBytes  6.26 Mbits/sec
+[  4] local 10.0.0.8 port 5008 connected with 10.0.0.20 port 45776
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.73 Mbits/sec
+[  4] local 10.0.0.8 port 5008 connected with 10.0.0.6 port 56674
+[  4]  0.0- 2.0 sec   896 KBytes  3.66 Mbits/sec
+[  4] local 10.0.0.8 port 5008 connected with 10.0.0.6 port 59412
+[  4]  0.0- 1.0 sec   512 KBytes  4.20 Mbits/sec
+[  4] local 10.0.0.8 port 5008 connected with 10.0.0.14 port 48108
+[  4]  0.0- 1.0 sec   512 KBytes  4.19 Mbits/sec
+[  4] local 10.0.0.8 port 5008 connected with 10.0.0.20 port 53042
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.68 Mbits/sec
+[  4] local 10.0.0.8 port 5008 connected with 10.0.0.16 port 39670
+[  4]  0.0- 0.6 sec   384 KBytes  5.18 Mbits/sec
+[  4] local 10.0.0.8 port 5008 connected with 10.0.0.6 port 35804
+[  4]  0.0- 2.0 sec  1.25 MBytes  5.20 Mbits/sec
+[  4] local 10.0.0.8 port 5008 connected with 10.0.0.3 port 57746
+[  4]  0.0- 1.0 sec   256 KBytes  2.07 Mbits/sec
+[  4] local 10.0.0.8 port 5008 connected with 10.0.0.9 port 48478
+[  4]  0.0- 0.6 sec   384 KBytes  5.58 Mbits/sec
+[  4] local 10.0.0.8 port 5008 connected with 10.0.0.6 port 46160
+[  4]  0.0- 2.0 sec   512 KBytes  2.09 Mbits/sec
+[  4] local 10.0.0.8 port 5008 connected with 10.0.0.20 port 43410
+[  4]  0.0- 2.0 sec   896 KBytes  3.67 Mbits/sec
+[  4] local 10.0.0.8 port 5008 connected with 10.0.0.20 port 44444
+[  4]  0.0- 1.0 sec   640 KBytes  5.24 Mbits/sec
+[  4] local 10.0.0.8 port 5008 connected with 10.0.0.20 port 39640
+[  4]  0.0- 1.0 sec   256 KBytes  2.06 Mbits/sec
+[  4] local 10.0.0.8 port 5008 connected with 10.0.0.20 port 48068
+[  4]  0.0- 2.0 sec   512 KBytes  2.09 Mbits/sec
+[  4] local 10.0.0.8 port 5008 connected with 10.0.0.20 port 53902
+[  4]  0.0- 2.0 sec   640 KBytes  2.61 Mbits/sec
+[  4] local 10.0.0.8 port 5008 connected with 10.0.0.17 port 42092
+[  4]  0.0- 1.0 sec   384 KBytes  3.14 Mbits/sec

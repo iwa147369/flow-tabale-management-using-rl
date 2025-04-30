@@ -1,0 +1,5 @@
+Summary Statistics
+------------------
+Total Throughput: 3996.92 Mbits/sec
+Average Latency: 0.31 ms
+Average Packet Loss: 0.00%

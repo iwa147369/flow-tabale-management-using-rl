@@ -1,0 +1,67 @@
+------------------------------------------------------------
+Server listening on TCP port 5016
+TCP window size: 85.3 KByte (default)
+------------------------------------------------------------
+[  4] local 10.0.0.16 port 5016 connected with 10.0.0.2 port 38874
+[ ID] Interval       Transfer     Bandwidth
+[  4]  0.0- 1.0 sec   384 KBytes  3.13 Mbits/sec
+[  4] local 10.0.0.16 port 5016 connected with 10.0.0.11 port 49634
+[  4]  0.0- 1.0 sec   512 KBytes  4.18 Mbits/sec
+[  4] local 10.0.0.16 port 5016 connected with 10.0.0.2 port 45836
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.72 Mbits/sec
+[  4] local 10.0.0.16 port 5016 connected with 10.0.0.11 port 33654
+[  4]  0.0- 1.0 sec   640 KBytes  5.22 Mbits/sec
+[  4] local 10.0.0.16 port 5016 connected with 10.0.0.1 port 36140
+[  4]  0.0- 1.0 sec   512 KBytes  4.20 Mbits/sec
+[  4] local 10.0.0.16 port 5016 connected with 10.0.0.11 port 60770
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.72 Mbits/sec
+[  4] local 10.0.0.16 port 5016 connected with 10.0.0.1 port 54690
+[  4]  0.0- 1.0 sec   512 KBytes  4.18 Mbits/sec
+[  4] local 10.0.0.16 port 5016 connected with 10.0.0.1 port 33238
+[  4]  0.0- 2.0 sec   640 KBytes  2.60 Mbits/sec
+[  4] local 10.0.0.16 port 5016 connected with 10.0.0.15 port 49046
+[  4]  0.0- 0.6 sec   512 KBytes  6.49 Mbits/sec
+[  4] local 10.0.0.16 port 5016 connected with 10.0.0.1 port 60904
+[  4]  0.0- 1.0 sec   256 KBytes  2.09 Mbits/sec
+[  4] local 10.0.0.16 port 5016 connected with 10.0.0.1 port 40436
+[  4]  0.0- 2.0 sec  1.00 MBytes  4.16 Mbits/sec
+[  4] local 10.0.0.16 port 5016 connected with 10.0.0.11 port 43512
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.69 Mbits/sec
+[  4] local 10.0.0.16 port 5016 connected with 10.0.0.19 port 48038
+[  4]  0.0- 1.0 sec   256 KBytes  2.06 Mbits/sec
+[  4] local 10.0.0.16 port 5016 connected with 10.0.0.1 port 36410
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.76 Mbits/sec
+[  4] local 10.0.0.16 port 5016 connected with 10.0.0.10 port 36630
+[  4]  0.0- 1.0 sec   256 KBytes  2.06 Mbits/sec
+[  4] local 10.0.0.16 port 5016 connected with 10.0.0.5 port 47578
+[  4]  0.0- 1.0 sec   128 KBytes  1.05 Mbits/sec
+[  4] local 10.0.0.16 port 5016 connected with 10.0.0.11 port 43640
+[  4]  0.0- 2.0 sec   896 KBytes  3.64 Mbits/sec
+[  4] local 10.0.0.16 port 5016 connected with 10.0.0.2 port 38082
+[  4]  0.0- 1.0 sec   512 KBytes  4.14 Mbits/sec
+[  4] local 10.0.0.16 port 5016 connected with 10.0.0.2 port 51340
+[  4]  0.0- 1.0 sec   512 KBytes  4.16 Mbits/sec
+[  4] local 10.0.0.16 port 5016 connected with 10.0.0.6 port 42494
+[  4]  0.0- 1.0 sec   384 KBytes  3.13 Mbits/sec
+[  4] local 10.0.0.16 port 5016 connected with 10.0.0.1 port 55894
+[  4]  0.0- 2.0 sec   640 KBytes  2.61 Mbits/sec
+[  4] local 10.0.0.16 port 5016 connected with 10.0.0.3 port 51466
+[  4]  0.0- 1.0 sec   384 KBytes  3.10 Mbits/sec
+[  4] local 10.0.0.16 port 5016 connected with 10.0.0.2 port 60284
+[  4]  0.0- 1.0 sec   512 KBytes  4.14 Mbits/sec
+[  4] local 10.0.0.16 port 5016 connected with 10.0.0.7 port 44130
+[  4]  0.0- 1.0 sec   384 KBytes  3.12 Mbits/sec
+[  4] local 10.0.0.16 port 5016 connected with 10.0.0.1 port 33450
+[  4]  0.0- 1.0 sec   640 KBytes  5.18 Mbits/sec
+[  4] local 10.0.0.16 port 5016 connected with 10.0.0.1 port 56000
+[  4]  0.0- 1.0 sec   384 KBytes  3.13 Mbits/sec
+[  4] local 10.0.0.16 port 5016 connected with 10.0.0.2 port 37990
+[  4]  0.0- 2.0 sec   640 KBytes  2.61 Mbits/sec
+[  4] local 10.0.0.16 port 5016 connected with 10.0.0.1 port 48848
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.76 Mbits/sec
+[  4] local 10.0.0.16 port 5016 connected with 10.0.0.9 port 42232
+[  4]  0.0- 1.0 sec   512 KBytes  4.15 Mbits/sec
+[  4] local 10.0.0.16 port 5016 connected with 10.0.0.14 port 39904
+[  4]  0.0- 0.7 sec   256 KBytes  3.20 Mbits/sec
+[  4] local 10.0.0.16 port 5016 connected with 10.0.0.20 port 57120
+[  4]  0.0- 1.0 sec   128 KBytes  1.04 Mbits/sec

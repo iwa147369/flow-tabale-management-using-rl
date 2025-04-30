@@ -12,6 +12,7 @@ import colorlog
 import subprocess
 from flow_management_v3 import QNetwork
 import os
+import datetime
 
 class RLController(app_manager.RyuApp):
     OFP_VERSIONS = [ofproto_v1_3.OFP_VERSION]
@@ -21,6 +22,8 @@ class RLController(app_manager.RyuApp):
         self.mac_to_port = {}
         self.flow_table = deque(maxlen=100)  # Track flow entries with max size 100
         self.max_flows = 100
+        self.mininet_host = "10.1.1.51"  # IP of the Mininet host
+        self.log_file = "rl_timings.log"  # Timing log file
         
         # Initialize DQN model with error handling
         try:
@@ -61,12 +64,18 @@ class RLController(app_manager.RyuApp):
         ))
         self.logger.handlers = [handler]
 
+    def log_timing(self, action, duration):
+        """Log timing information to a file with timestamp"""
+        timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        with open(self.log_file, 'a') as f:
+            f.write(f"[{timestamp}] {action}: {duration:.5f} seconds\n")
+
     def get_state(self):
-        """Get and preprocess current flow state directly from switch"""
+        """Get and preprocess current flow state directly from switch via SSH"""
         try:
-            # Get all flows from switch
-            cmd = "sudo ovs-ofctl dump-flows s1"
-            result = subprocess.run(cmd.split(), capture_output=True, text=True, check=True)
+            # Get all flows from switch via SSH
+            cmd = f"ssh mininet@{self.mininet_host} 'sudo ovs-ofctl dump-flows s1'"
+            result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
             
             # Clear and update flow table
             self.flow_table.clear()
@@ -166,6 +175,8 @@ class RLController(app_manager.RyuApp):
         try:
             if self.model is None:
                 self.logger.warning("Model not loaded, using fallback FIFO strategy")
+                duration = time.time() - start_time
+                self.log_timing("Remove Flow Decision", duration)
                 return 0
 
             state = self.get_state()
@@ -194,10 +205,16 @@ class RLController(app_manager.RyuApp):
                          key=lambda x: x[1]['stats']['bytes_count'])[0]
             
             self.logger.debug(f"Action mapping took {time.time() - action_start:.3f} seconds")
+            
+            # Log the total time for the decision
+            duration = time.time() - start_time
+            self.log_timing("Remove Flow Decision", duration)
             return index
                 
         except Exception as e:
             self.logger.error(f"Error in flow selection: {e}")
+            duration = time.time() - start_time
+            self.log_timing("Remove Flow Decision", duration)
             return 0
 
     @set_ev_cls(ofp_event.EventOFPSwitchFeatures, CONFIG_DISPATCHER)
@@ -213,49 +230,125 @@ class RLController(app_manager.RyuApp):
         self.add_flow(datapath, 0, match, actions)
 
     def add_flow(self, datapath, priority, match, actions, buffer_id=None):
+        start_time = time.time()
+        # First, check if this exact match already exists
+        for flow in self.flow_table:
+            if flow['match'] == match:
+                self.logger.info("Flow already exists, skipping addition")
+                return
+
+        # If flow table is full, use RL to select which flow to remove
+        if len(self.flow_table) >= self.max_flows:
+            flow_index = self.select_flow_to_remove()
+            removed_flow = self.flow_table[flow_index]
+            self.logger.warning(
+                f"Flow table full! Removing selected entry: {removed_flow['match']}",
+                extra={'color': 'yellow', 'bold': True}
+            )
+            self.remove_flow(datapath, removed_flow['match'])
+            del self.flow_table[flow_index]
+
+        # Add new flow
+        flow_entry = {
+            'match': match,
+            'priority': priority,
+            'time': time.time()
+        }
+        self.flow_table.append(flow_entry)
+        
+        # Install flow in switch
         ofproto = datapath.ofproto
         parser = datapath.ofproto_parser
-
-        inst = [parser.OFPInstructionActions(ofproto.OFPIT_APPLY_ACTIONS,
-                                           actions)]
+        inst = [parser.OFPInstructionActions(ofproto.OFPIT_APPLY_ACTIONS, actions)]
+        
         if buffer_id:
-            mod = parser.OFPFlowMod(datapath=datapath, buffer_id=buffer_id,
-                                  priority=priority, match=match,
-                                  instructions=inst)
+            mod = parser.OFPFlowMod(
+                datapath=datapath,
+                buffer_id=buffer_id,
+                priority=priority,
+                match=match,
+                instructions=inst,
+                hard_timeout=0,
+                flags=ofproto.OFPFF_SEND_FLOW_REM
+            )
         else:
-            mod = parser.OFPFlowMod(datapath=datapath, priority=priority,
-                                  match=match, instructions=inst)
+            mod = parser.OFPFlowMod(
+                datapath=datapath,
+                priority=priority,
+                match=match,
+                instructions=inst,
+                hard_timeout=0,
+                flags=ofproto.OFPFF_SEND_FLOW_REM
+            )
+        
+        self.logger.info(
+            f"Installing new flow - Priority: {priority}, Match: {match}",
+            extra={'color': 'green'}
+        )
         datapath.send_msg(mod)
+        
+        # Log the time taken for flow installation
+        duration = time.time() - start_time
+        self.log_timing("Install Flow", duration)
 
-    def remove_flow(self, datapath, match_str):
-        """Remove a specific flow entry using ovs-ofctl"""
+    def remove_flow(self, datapath, match):
+        """Remove a specific flow entry using ovs-ofctl via SSH"""
         start_time = time.time()
         try:
-            # Extract only the match criteria without metadata
-            match_parts = match_str.split(',')
-            clean_match = []
-            for part in match_parts:
-                if any(field in part for field in ['in_port=', 'dl_src=', 'dl_dst=']):
-                    clean_match.append(part.strip())
+            # Get match fields
+            match_fields = match.to_jsondict()['OFPMatch']['oxm_fields']
             
-            clean_match_str = ','.join(clean_match)
-            cmd = f"sudo ovs-ofctl del-flows s1 {clean_match_str}"
+            # Skip if match is empty (table-miss entry)
+            if not match_fields:
+                self.logger.warning("Attempted to remove table-miss entry, skipping...")
+                return
+
+            # Build ovs-ofctl command
+            match_str = []
+            for field in match_fields:
+                field_name = field['OXMTlv']['field']
+                field_value = field['OXMTlv']['value']
+                
+                # Convert field names to ovs-ofctl format
+                if field_name == 'in_port':
+                    match_str.append(f"in_port={field_value}")
+                elif field_name == 'eth_dst':
+                    match_str.append(f"dl_dst={field_value}")
+                elif field_name == 'eth_src':
+                    match_str.append(f"dl_src={field_value}")
+
+            # Join all match criteria
+            match_criteria = ",".join(match_str)
+            
+            # Execute ovs-ofctl command via SSH to Mininet host
+            cmd = f"ssh mininet@{self.mininet_host} 'sudo ovs-ofctl del-flows s1 {match_criteria}'"
             self.logger.info(f"Executing command: {cmd}")
             
-            result = subprocess.run(cmd.split(), capture_output=True, text=True, check=True)
-            
-            self.logger.debug(f"Flow removal took {time.time() - start_time:.3f} seconds")
+            result = subprocess.run(
+                cmd,
+                shell=True,
+                capture_output=True,
+                text=True
+            )
             
             if result.returncode == 0:
-                self.logger.info(f"Successfully removed flow: {clean_match_str}")
+                self.logger.info(f"Successfully removed flow: {match_criteria}")
+                # Remove from our tracking table
+                self.flow_table = [f for f in self.flow_table if f['match'] != match]
             else:
-                self.logger.error(f"Failed to remove flow: {result.stderr}")
+                self.logger.warning(f"Failed to remove flow (possibly not exist): {result.stderr}")
+                # Still update flow_table to maintain consistency
+                self.flow_table = [f for f in self.flow_table if f['match'] != match]
 
         except Exception as e:
             self.logger.error(f"Error removing flow: {str(e)}")
+        
+        # Log the time taken for flow removal
+        duration = time.time() - start_time
+        self.log_timing("Remove Flow", duration)
 
     @set_ev_cls(ofp_event.EventOFPPacketIn, MAIN_DISPATCHER)
-    def packet_in_handler(self, ev):
+    def _packet_in_handler(self, ev):
         msg = ev.msg
         datapath = msg.datapath
         ofproto = datapath.ofproto
@@ -264,18 +357,17 @@ class RLController(app_manager.RyuApp):
 
         pkt = packet.Packet(msg.data)
         eth = pkt.get_protocols(ethernet.ethernet)[0]
-        self.logger.info(f"Packet received: {eth.ethertype}")
 
         if eth.ethertype == ether_types.ETH_TYPE_LLDP:
+            # ignore lldp packet
             return
-
         dst = eth.dst
         src = eth.src
 
         dpid = datapath.id
         self.mac_to_port.setdefault(dpid, {})
 
-        # Learn MAC addresses to avoid flooding
+        # learn a mac address to avoid FLOOD next time.
         self.mac_to_port[dpid][src] = in_port
 
         if dst in self.mac_to_port[dpid]:
@@ -285,42 +377,15 @@ class RLController(app_manager.RyuApp):
 
         actions = [parser.OFPActionOutput(out_port)]
 
-        # Install flow entry only if not flooding
+        # install a flow to avoid packet_in next time
         if out_port != ofproto.OFPP_FLOOD:
             match = parser.OFPMatch(in_port=in_port, eth_dst=dst, eth_src=src)
-            match_str = f"in_port={in_port},dl_dst={dst},dl_src={src}"
-            
-            # Check actual flow count in switch
-            result = subprocess.run("sudo ovs-ofctl dump-flows s1 | wc -l", 
-                                 shell=True, capture_output=True, text=True)
-            flow_count = int(result.stdout.strip())
-            
-            # Check if flow table is full
-            if flow_count >= self.max_flows:
-                flow_index = self.select_flow_to_remove()
-                removed_flow = self.flow_table[flow_index]
-                self.remove_flow(datapath, removed_flow['match'])
-                del self.flow_table[flow_index]
-            
-            # Add the new flow
             if msg.buffer_id != ofproto.OFP_NO_BUFFER:
                 self.add_flow(datapath, 1, match, actions, msg.buffer_id)
+                return
             else:
                 self.add_flow(datapath, 1, match, actions)
-                
-            # Track the new flow
-            self.flow_table.append({
-                'match': match_str,
-                'actions': 'output:' + str(out_port),
-                'stats': {
-                    'priority': 1,
-                    'timeout': 0,
-                    'packet_count': 0,
-                    'bytes_count': 0
-                }
-            })
 
-        # Send packet out
         data = None
         if msg.buffer_id == ofproto.OFP_NO_BUFFER:
             data = msg.data

@@ -8,6 +8,7 @@ from collections import deque
 import time
 import colorlog
 import subprocess
+import datetime
 
 class FIFOController(app_manager.RyuApp):
     OFP_VERSIONS = [ofproto_v1_3.OFP_VERSION]
@@ -15,8 +16,10 @@ class FIFOController(app_manager.RyuApp):
     def __init__(self, *args, **kwargs):
         super(FIFOController, self).__init__(*args, **kwargs)
         self.mac_to_port = {}
-        self.flow_table = deque(maxlen=100)  # Track flow entries with FIFO queue
+        self.flow_table = []  # Track flow entries with list instead of deque
         self.max_flows = 100  # Maximum number of flows allowed
+        self.mininet_host = "10.1.1.51"  # IP of the Mininet host
+        self.log_file = "fifo_timings.log"  # Timing log file
         
         # Set up colored logging
         handler = colorlog.StreamHandler()
@@ -37,6 +40,12 @@ class FIFOController(app_manager.RyuApp):
             extra={'color': 'green', 'bold': True}
         )
 
+    def log_timing(self, action, duration):
+        """Log timing information to a file with timestamp"""
+        timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        with open(self.log_file, 'a') as f:
+            f.write(f"[{timestamp}] {action}: {duration:.5f} seconds\n")
+
     @set_ev_cls(ofp_event.EventOFPSwitchFeatures, CONFIG_DISPATCHER)
     def switch_features_handler(self, ev):
         datapath = ev.msg.datapath
@@ -50,7 +59,8 @@ class FIFOController(app_manager.RyuApp):
         self.add_flow(datapath, 0, match, actions)
 
     def remove_flow(self, datapath, match):
-        """Remove a specific flow entry using ovs-ofctl"""
+        """Remove a specific flow entry using ovs-ofctl via SSH"""
+        start_time = time.time()
         try:
             # Get match fields
             match_fields = match.to_jsondict()['OFPMatch']['oxm_fields']
@@ -77,15 +87,15 @@ class FIFOController(app_manager.RyuApp):
             # Join all match criteria
             match_criteria = ",".join(match_str)
             
-            # Execute ovs-ofctl command
-            cmd = f"sudo ovs-ofctl del-flows s1 {match_criteria}"
+            # Execute ovs-ofctl command via SSH to Mininet host
+            cmd = f"ssh mininet@{self.mininet_host} 'sudo ovs-ofctl del-flows s1 {match_criteria}'"
             self.logger.info(f"Executing command: {cmd}")
             
             result = subprocess.run(
-                cmd.split(),
+                cmd,
+                shell=True,
                 capture_output=True,
-                text=True,
-                check=True
+                text=True
             )
             
             if result.returncode == 0:
@@ -93,20 +103,26 @@ class FIFOController(app_manager.RyuApp):
                 # Remove from our tracking table
                 self.flow_table = [f for f in self.flow_table if f['match'] != match]
             else:
-                self.logger.error(f"Failed to remove flow: {result.stderr}")
+                self.logger.warning(f"Failed to remove flow (possibly not exist): {result.stderr}")
+                # Still update flow_table to maintain consistency
+                self.flow_table = [f for f in self.flow_table if f['match'] != match]
 
         except Exception as e:
             self.logger.error(f"Error removing flow: {str(e)}")
+        
+        # Log the time taken for flow removal
+        duration = time.time() - start_time
+        self.log_timing("Remove Flow", duration)
 
     def clear_all_flows(self, datapath):
-        """Clear all flows using ovs-ofctl"""
+        """Clear all flows using ovs-ofctl via SSH"""
         try:
-            cmd = "sudo ovs-ofctl del-flows s1"
+            cmd = f"ssh mininet@{self.mininet_host} 'sudo ovs-ofctl del-flows s1'"
             result = subprocess.run(
-                cmd.split(),
+                cmd,
+                shell=True,
                 capture_output=True,
-                text=True,
-                check=True
+                text=True
             )
             
             if result.returncode == 0:
@@ -118,6 +134,7 @@ class FIFOController(app_manager.RyuApp):
             self.logger.error(f"Error clearing flows: {str(e)}")
 
     def add_flow(self, datapath, priority, match, actions, buffer_id=None):
+        start_time = time.time()
         # First, check if this exact match already exists
         for flow in self.flow_table:
             if flow['match'] == match:
@@ -126,7 +143,7 @@ class FIFOController(app_manager.RyuApp):
 
         # If flow table is full, remove oldest entry (FIFO policy)
         if len(self.flow_table) >= self.max_flows:
-            oldest_flow = self.flow_table.popleft()
+            oldest_flow = self.flow_table.pop(0)  # Remove first element (oldest)
             self.logger.warning(
                 f"Flow table full! Removing oldest entry: {oldest_flow['match']}",
                 extra={'color': 'yellow', 'bold': True}
@@ -153,8 +170,8 @@ class FIFOController(app_manager.RyuApp):
                 priority=priority,
                 match=match,
                 instructions=inst,
-                hard_timeout=0,  # Flow entry never expires
-                flags=ofproto.OFPFF_SEND_FLOW_REM  # Request flow removal notification
+                hard_timeout=0,
+                flags=ofproto.OFPFF_SEND_FLOW_REM
             )
         else:
             mod = parser.OFPFlowMod(
@@ -171,6 +188,10 @@ class FIFOController(app_manager.RyuApp):
             extra={'color': 'green'}
         )
         datapath.send_msg(mod)
+        
+        # Log the time taken for flow installation
+        duration = time.time() - start_time
+        self.log_timing("Install Flow", duration)
 
     @set_ev_cls(ofp_event.EventOFPPacketIn, MAIN_DISPATCHER)
     def _packet_in_handler(self, ev):

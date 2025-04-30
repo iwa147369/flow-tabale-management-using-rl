@@ -1,0 +1,43 @@
+------------------------------------------------------------
+Server listening on TCP port 5005
+TCP window size: 85.3 KByte (default)
+------------------------------------------------------------
+[  4] local 10.0.0.5 port 5005 connected with 10.0.0.15 port 45364
+[ ID] Interval       Transfer     Bandwidth
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.80 Mbits/sec
+[  4] local 10.0.0.5 port 5005 connected with 10.0.0.15 port 39068
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.71 Mbits/sec
+[  4] local 10.0.0.5 port 5005 connected with 10.0.0.15 port 47178
+[  4]  0.0- 1.0 sec   384 KBytes  3.15 Mbits/sec
+[  4] local 10.0.0.5 port 5005 connected with 10.0.0.18 port 43554
+[  4]  0.0- 1.0 sec   256 KBytes  2.10 Mbits/sec
+[  4] local 10.0.0.5 port 5005 connected with 10.0.0.15 port 58406
+[  4]  0.0- 2.0 sec   640 KBytes  2.61 Mbits/sec
+[  4] local 10.0.0.5 port 5005 connected with 10.0.0.17 port 46872
+[  4]  0.0- 0.6 sec   128 KBytes  1.75 Mbits/sec
+[  4] local 10.0.0.5 port 5005 connected with 10.0.0.1 port 53652
+[  4]  0.0- 0.6 sec   256 KBytes  3.76 Mbits/sec
+[  4] local 10.0.0.5 port 5005 connected with 10.0.0.15 port 51142
+[  4]  0.0- 2.0 sec   896 KBytes  3.66 Mbits/sec
+[  4] local 10.0.0.5 port 5005 connected with 10.0.0.15 port 36708
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.74 Mbits/sec
+[  4] local 10.0.0.5 port 5005 connected with 10.0.0.16 port 42324
+[  4]  0.0- 0.6 sec   512 KBytes  7.38 Mbits/sec
+[  4] local 10.0.0.5 port 5005 connected with 10.0.0.14 port 59924
+[  4]  0.0- 0.6 sec   256 KBytes  3.63 Mbits/sec
+[  4] local 10.0.0.5 port 5005 connected with 10.0.0.12 port 37740
+[  4]  0.0- 1.0 sec   384 KBytes  3.13 Mbits/sec
+[  4] local 10.0.0.5 port 5005 connected with 10.0.0.15 port 60132
+[  4]  0.0- 2.0 sec  1.25 MBytes  5.24 Mbits/sec
+[  4] local 10.0.0.5 port 5005 connected with 10.0.0.15 port 60328
+[  4]  0.0- 2.0 sec   640 KBytes  2.60 Mbits/sec
+[  4] local 10.0.0.5 port 5005 connected with 10.0.0.15 port 48498
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.70 Mbits/sec
+[  4] local 10.0.0.5 port 5005 connected with 10.0.0.7 port 56650
+[  4]  0.0- 1.0 sec   128 KBytes  1.04 Mbits/sec
+[  4] local 10.0.0.5 port 5005 connected with 10.0.0.4 port 48266
+[  4]  0.0- 1.0 sec   256 KBytes  2.09 Mbits/sec
+[  4] local 10.0.0.5 port 5005 connected with 10.0.0.3 port 35454
+[  4]  0.0- 1.0 sec   512 KBytes  4.14 Mbits/sec
+[  4] local 10.0.0.5 port 5005 connected with 10.0.0.9 port 45038
+[  4]  0.0- 0.6 sec   256 KBytes  3.47 Mbits/sec

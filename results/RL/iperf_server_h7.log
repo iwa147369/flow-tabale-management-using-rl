@@ -1,0 +1,185 @@
+------------------------------------------------------------
+Server listening on TCP port 5007
+TCP window size: 85.3 KByte (default)
+------------------------------------------------------------
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.13 port 44198
+[ ID] Interval       Transfer     Bandwidth
+[  4]  0.0- 2.0 sec  1.25 MBytes  5.28 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.17 port 33718
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.80 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.6 port 40292
+[  4]  0.0- 1.0 sec   640 KBytes  5.32 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.17 port 43110
+[  4]  0.0- 1.0 sec   512 KBytes  4.11 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.5 port 35724
+[  4]  0.0- 1.0 sec   512 KBytes  4.17 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.17 port 34008
+[  4]  0.0- 2.0 sec  1.00 MBytes  4.19 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.3 port 59708
+[  4]  0.0- 1.6 sec   640 KBytes  3.38 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.17 port 48936
+[  4]  0.0- 1.0 sec   768 KBytes  6.26 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.18 port 50028
+[  4]  0.0- 0.6 sec   512 KBytes  7.12 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.18 port 49936
+[  4]  0.0- 1.0 sec   384 KBytes  3.13 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.13 port 52506
+[  4]  0.0- 2.0 sec  1.25 MBytes  5.20 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.8 port 35550
+[  4]  0.0- 1.0 sec   512 KBytes  4.22 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.14 port 45432
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.68 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.1 port 34028
+[  4]  0.0- 1.0 sec   384 KBytes  3.10 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.8 port 54826
+[  4]  0.0- 2.0 sec   896 KBytes  3.64 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.18 port 57630
+[  4]  0.0- 1.0 sec   384 KBytes  3.13 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.9 port 54064
+[  4]  0.0- 1.0 sec   512 KBytes  4.18 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.14 port 35084
+[  4]  0.0- 1.0 sec   256 KBytes  2.09 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.18 port 34798
+[  4]  0.0- 1.0 sec   256 KBytes  2.09 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.8 port 48872
+[  4]  0.0- 1.0 sec   640 KBytes  5.24 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.8 port 41952
+[  4]  0.0- 1.0 sec   640 KBytes  5.21 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.6 port 44804
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.68 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.8 port 44782
+[  4]  0.0- 1.0 sec   384 KBytes  3.12 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.13 port 36186
+[  4]  0.0- 1.0 sec   512 KBytes  4.15 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.13 port 45378
+[  4]  0.0- 1.0 sec   640 KBytes  5.23 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.18 port 47188
+[  4]  0.0- 1.0 sec   512 KBytes  4.17 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.18 port 55522
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.69 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.14 port 50276
+[  4]  0.0- 1.0 sec   256 KBytes  2.09 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.14 port 53972
+[  4]  0.0- 1.0 sec   512 KBytes  4.16 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.13 port 55728
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.75 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.20 port 46388
+[  4]  0.0- 0.6 sec   256 KBytes  3.54 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.14 port 51310
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.75 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.6 port 57474
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.69 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.14 port 33248
+[  4]  0.0- 2.0 sec   640 KBytes  2.61 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.14 port 51818
+[  4]  0.0- 1.0 sec   384 KBytes  3.12 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.19 port 51118
+[  4]  0.0- 0.6 sec   384 KBytes  5.51 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.18 port 49506
+[  4]  0.0- 1.0 sec   512 KBytes  4.12 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.18 port 36190
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.69 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.17 port 51938
+[  4]  0.0- 1.0 sec   512 KBytes  4.18 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.8 port 37648
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.73 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.18 port 45614
+[  4]  0.0- 1.0 sec   640 KBytes  5.23 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.18 port 32926
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.70 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.4 port 44558
+[  4]  0.0- 1.0 sec   384 KBytes  3.12 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.18 port 54320
+[  4]  0.0- 1.0 sec   768 KBytes  6.19 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.17 port 33354
+[  4]  0.0- 1.0 sec   256 KBytes  2.09 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.6 port 44838
+[  4]  0.0- 1.0 sec   384 KBytes  3.14 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.8 port 58026
+[  4]  0.0- 1.0 sec   512 KBytes  4.18 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.6 port 54962
+[  4]  0.0- 1.0 sec   768 KBytes  6.28 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.15 port 37750
+[  4]  0.0- 1.0 sec   256 KBytes  2.06 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.3 port 51556
+[  4]  0.0- 1.0 sec   384 KBytes  3.13 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.6 port 60006
+[  4]  0.0- 1.0 sec   640 KBytes  5.20 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.6 port 43556
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.68 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.14 port 51278
+[  4]  0.0- 2.0 sec   512 KBytes  2.08 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.8 port 45088
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.69 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.13 port 55636
+[  4]  0.0- 1.0 sec   640 KBytes  5.20 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.8 port 39838
+[  4]  0.0- 2.0 sec   512 KBytes  2.10 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.18 port 37638
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.69 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.18 port 51112
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.70 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.18 port 42094
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.73 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.14 port 52384
+[  4]  0.0- 1.0 sec   768 KBytes  6.28 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.3 port 55670
+[  4]  0.0- 1.0 sec   256 KBytes  2.09 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.2 port 44424
+[  4]  0.0- 1.0 sec   512 KBytes  4.19 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.13 port 35304
+[  4]  0.0- 1.0 sec   640 KBytes  5.15 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.3 port 55888
+[  4]  0.0- 1.0 sec   640 KBytes  5.25 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.18 port 40616
+[  4]  0.0- 1.0 sec   640 KBytes  5.23 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.6 port 45342
+[  4]  0.0- 1.0 sec   512 KBytes  4.13 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.11 port 42700
+[  4]  0.0- 0.6 sec   256 KBytes  3.57 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.14 port 42910
+[  4]  0.0- 1.0 sec   384 KBytes  3.14 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.13 port 42098
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.68 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.14 port 52274
+[  4]  0.0- 2.0 sec   640 KBytes  2.60 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.14 port 52278
+[  4]  0.0- 2.0 sec   896 KBytes  3.65 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.3 port 33722
+[  4]  0.0- 1.0 sec   640 KBytes  5.23 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.13 port 58792
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.72 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.3 port 45362
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.72 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.3 port 49938
+[  4]  0.0- 2.0 sec   640 KBytes  2.61 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.14 port 44208
+[  4]  0.0- 2.0 sec   896 KBytes  3.65 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.14 port 48770
+[  4]  0.0- 2.0 sec   640 KBytes  2.60 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.8 port 35226
+[  4]  0.0- 1.0 sec   256 KBytes  2.07 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.14 port 58584
+[  4]  0.0- 2.0 sec   640 KBytes  2.61 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.13 port 46204
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.72 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.14 port 34652
+[  4]  0.0- 1.0 sec   640 KBytes  5.24 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.17 port 33792
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.73 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.13 port 58462
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.71 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.17 port 44946
+[  4]  0.0- 1.0 sec   768 KBytes  6.19 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.3 port 57894
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.71 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.14 port 46722
+[  4]  0.0- 2.0 sec   896 KBytes  3.67 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.18 port 49334
+[  4]  0.0- 1.0 sec   512 KBytes  4.18 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.14 port 50624
+[  4]  0.0- 2.0 sec   640 KBytes  2.60 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.17 port 41016
+[  4]  0.0- 1.0 sec   256 KBytes  2.06 Mbits/sec
+[  4] local 10.0.0.7 port 5007 connected with 10.0.0.6 port 51214
+[  4]  0.0- 2.0 sec   896 KBytes  3.67 Mbits/sec

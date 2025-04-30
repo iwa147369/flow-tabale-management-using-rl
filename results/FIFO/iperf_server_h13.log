@@ -1,0 +1,85 @@
+------------------------------------------------------------
+Server listening on TCP port 5013
+TCP window size: 85.3 KByte (default)
+------------------------------------------------------------
+[  4] local 10.0.0.13 port 5013 connected with 10.0.0.5 port 44946
+[ ID] Interval       Transfer     Bandwidth
+[  4]  0.0- 0.6 sec   384 KBytes  5.10 Mbits/sec
+[  4] local 10.0.0.13 port 5013 connected with 10.0.0.6 port 52166
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.74 Mbits/sec
+[  4] local 10.0.0.13 port 5013 connected with 10.0.0.4 port 47804
+[  4]  0.0- 0.6 sec   384 KBytes  4.98 Mbits/sec
+[  4] local 10.0.0.13 port 5013 connected with 10.0.0.6 port 47844
+[  4]  0.0- 2.0 sec   896 KBytes  3.64 Mbits/sec
+[  4] local 10.0.0.13 port 5013 connected with 10.0.0.6 port 54698
+[  4]  0.0- 1.0 sec   768 KBytes  6.19 Mbits/sec
+[  4] local 10.0.0.13 port 5013 connected with 10.0.0.15 port 34460
+[  4]  0.0- 1.0 sec   640 KBytes  5.18 Mbits/sec
+[  4] local 10.0.0.13 port 5013 connected with 10.0.0.17 port 56074
+[  4]  0.0- 0.6 sec   256 KBytes  3.33 Mbits/sec
+[  4] local 10.0.0.13 port 5013 connected with 10.0.0.6 port 47334
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.74 Mbits/sec
+[  4] local 10.0.0.13 port 5013 connected with 10.0.0.15 port 54346
+[  4]  0.0- 1.0 sec   640 KBytes  5.16 Mbits/sec
+[  4] local 10.0.0.13 port 5013 connected with 10.0.0.6 port 48192
+[  4]  0.0- 1.0 sec   640 KBytes  5.21 Mbits/sec
+[  4] local 10.0.0.13 port 5013 connected with 10.0.0.14 port 39306
+[  4]  0.0- 0.6 sec   128 KBytes  1.65 Mbits/sec
+[  4] local 10.0.0.13 port 5013 connected with 10.0.0.15 port 39486
+[  4]  0.0- 2.0 sec   640 KBytes  2.62 Mbits/sec
+[  4] local 10.0.0.13 port 5013 connected with 10.0.0.15 port 56110
+[  4]  0.0- 2.0 sec  1.25 MBytes  5.20 Mbits/sec
+[  4] local 10.0.0.13 port 5013 connected with 10.0.0.6 port 40012
+[  4]  0.0- 2.0 sec   896 KBytes  3.65 Mbits/sec
+[  4] local 10.0.0.13 port 5013 connected with 10.0.0.15 port 35940
+[  4]  0.0- 2.0 sec   640 KBytes  2.60 Mbits/sec
+[  4] local 10.0.0.13 port 5013 connected with 10.0.0.20 port 45374
+[  4]  0.0- 1.0 sec   256 KBytes  2.10 Mbits/sec
+[  4] local 10.0.0.13 port 5013 connected with 10.0.0.6 port 60890
+[  4]  0.0- 1.0 sec   640 KBytes  5.21 Mbits/sec
+[  4] local 10.0.0.13 port 5013 connected with 10.0.0.15 port 51502
+[  4]  0.0- 1.0 sec   640 KBytes  5.18 Mbits/sec
+[  4] local 10.0.0.13 port 5013 connected with 10.0.0.6 port 37808
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.76 Mbits/sec
+[  4] local 10.0.0.13 port 5013 connected with 10.0.0.10 port 39600
+[  4]  0.0- 1.0 sec   512 KBytes  4.15 Mbits/sec
+[  4] local 10.0.0.13 port 5013 connected with 10.0.0.6 port 41678
+[  4]  0.0- 2.0 sec   896 KBytes  3.66 Mbits/sec
+[  4] local 10.0.0.13 port 5013 connected with 10.0.0.6 port 58838
+[  4]  0.0- 2.0 sec  1.00 MBytes  4.16 Mbits/sec
+[  4] local 10.0.0.13 port 5013 connected with 10.0.0.6 port 57272
+[  4]  0.0- 1.0 sec   384 KBytes  3.09 Mbits/sec
+[  4] local 10.0.0.13 port 5013 connected with 10.0.0.15 port 60522
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.76 Mbits/sec
+[  4] local 10.0.0.13 port 5013 connected with 10.0.0.8 port 60292
+[  4]  0.0- 1.0 sec   256 KBytes  2.07 Mbits/sec
+[  4] local 10.0.0.13 port 5013 connected with 10.0.0.15 port 41608
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.69 Mbits/sec
+[  4] local 10.0.0.13 port 5013 connected with 10.0.0.6 port 38940
+[  4]  0.0- 2.0 sec   640 KBytes  2.60 Mbits/sec
+[  4] local 10.0.0.13 port 5013 connected with 10.0.0.15 port 51058
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.74 Mbits/sec
+[  4] local 10.0.0.13 port 5013 connected with 10.0.0.6 port 53080
+[  4]  0.0- 2.0 sec   768 KBytes  3.14 Mbits/sec
+[  4] local 10.0.0.13 port 5013 connected with 10.0.0.15 port 54818
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.70 Mbits/sec
+[  4] local 10.0.0.13 port 5013 connected with 10.0.0.6 port 42116
+[  4]  0.0- 2.0 sec   768 KBytes  3.13 Mbits/sec
+[  4] local 10.0.0.13 port 5013 connected with 10.0.0.9 port 58560
+[  4]  0.0- 1.0 sec   384 KBytes  3.13 Mbits/sec
+[  4] local 10.0.0.13 port 5013 connected with 10.0.0.6 port 33978
+[  4]  0.0- 1.0 sec   384 KBytes  3.10 Mbits/sec
+[  4] local 10.0.0.13 port 5013 connected with 10.0.0.15 port 34420
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.71 Mbits/sec
+[  4] local 10.0.0.13 port 5013 connected with 10.0.0.6 port 45694
+[  4]  0.0- 1.0 sec   640 KBytes  5.20 Mbits/sec
+[  4] local 10.0.0.13 port 5013 connected with 10.0.0.3 port 41406
+[  4]  0.0- 1.0 sec   512 KBytes  4.17 Mbits/sec
+[  4] local 10.0.0.13 port 5013 connected with 10.0.0.15 port 32940
+[  4]  0.0- 1.0 sec   640 KBytes  5.19 Mbits/sec
+[  4] local 10.0.0.13 port 5013 connected with 10.0.0.7 port 36734
+[  4]  0.0- 1.0 sec   384 KBytes  3.15 Mbits/sec
+[  4] local 10.0.0.13 port 5013 connected with 10.0.0.11 port 43462
+[  4]  0.0- 1.0 sec   384 KBytes  3.12 Mbits/sec
+[  4] local 10.0.0.13 port 5013 connected with 10.0.0.6 port 36416
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.77 Mbits/sec

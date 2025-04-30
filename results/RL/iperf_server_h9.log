@@ -1,0 +1,63 @@
+------------------------------------------------------------
+Server listening on TCP port 5009
+TCP window size: 85.3 KByte (default)
+------------------------------------------------------------
+[  4] local 10.0.0.9 port 5009 connected with 10.0.0.12 port 46680
+[ ID] Interval       Transfer     Bandwidth
+[  4]  0.0- 1.0 sec   512 KBytes  4.28 Mbits/sec
+[  4] local 10.0.0.9 port 5009 connected with 10.0.0.17 port 46044
+[  4]  0.0- 1.0 sec   768 KBytes  6.35 Mbits/sec
+[  4] local 10.0.0.9 port 5009 connected with 10.0.0.2 port 48028
+[  4]  0.0- 1.0 sec   384 KBytes  3.19 Mbits/sec
+[  4] local 10.0.0.9 port 5009 connected with 10.0.0.7 port 47650
+[  4]  0.0- 1.0 sec   384 KBytes  3.10 Mbits/sec
+[  4] local 10.0.0.9 port 5009 connected with 10.0.0.13 port 49806
+[  4]  0.0- 0.6 sec   256 KBytes  3.48 Mbits/sec
+[  4] local 10.0.0.9 port 5009 connected with 10.0.0.14 port 40100
+[  4]  0.0- 1.0 sec   512 KBytes  4.16 Mbits/sec
+[  4] local 10.0.0.9 port 5009 connected with 10.0.0.12 port 37930
+[  4]  0.0- 2.0 sec   896 KBytes  3.66 Mbits/sec
+[  4] local 10.0.0.9 port 5009 connected with 10.0.0.17 port 48632
+[  4]  0.0- 1.0 sec   384 KBytes  3.14 Mbits/sec
+[  4] local 10.0.0.9 port 5009 connected with 10.0.0.20 port 44456
+[  4]  0.0- 1.0 sec   256 KBytes  2.09 Mbits/sec
+[  4] local 10.0.0.9 port 5009 connected with 10.0.0.6 port 34510
+[  4]  0.0- 0.6 sec   512 KBytes  7.18 Mbits/sec
+[  4] local 10.0.0.9 port 5009 connected with 10.0.0.18 port 35074
+[  4]  0.0- 0.6 sec   256 KBytes  3.51 Mbits/sec
+[  4] local 10.0.0.9 port 5009 connected with 10.0.0.17 port 48238
+[  4]  0.0- 1.0 sec   640 KBytes  5.20 Mbits/sec
+[  4] local 10.0.0.9 port 5009 connected with 10.0.0.12 port 56090
+[  4]  0.0- 1.0 sec   640 KBytes  5.17 Mbits/sec
+[  4] local 10.0.0.9 port 5009 connected with 10.0.0.19 port 50962
+[  4]  0.0- 0.6 sec   384 KBytes  5.23 Mbits/sec
+[  4] local 10.0.0.9 port 5009 connected with 10.0.0.4 port 36952
+[  4]  0.0- 1.0 sec   256 KBytes  2.08 Mbits/sec
+[  4] local 10.0.0.9 port 5009 connected with 10.0.0.11 port 55674
+[  4]  0.0- 1.0 sec   256 KBytes  2.09 Mbits/sec
+[  4] local 10.0.0.9 port 5009 connected with 10.0.0.17 port 45932
+[  4]  0.0- 1.0 sec   640 KBytes  5.25 Mbits/sec
+[  4] local 10.0.0.9 port 5009 connected with 10.0.0.17 port 58720
+[  4]  0.0- 1.0 sec   640 KBytes  5.21 Mbits/sec
+[  4] local 10.0.0.9 port 5009 connected with 10.0.0.17 port 53378
+[  4]  0.0- 1.0 sec   768 KBytes  6.23 Mbits/sec
+[  4] local 10.0.0.9 port 5009 connected with 10.0.0.12 port 39996
+[  4]  0.0- 2.0 sec   768 KBytes  3.12 Mbits/sec
+[  4] local 10.0.0.9 port 5009 connected with 10.0.0.15 port 59352
+[  4]  0.0- 1.0 sec   256 KBytes  2.09 Mbits/sec
+[  4] local 10.0.0.9 port 5009 connected with 10.0.0.17 port 57090
+[  4]  0.0- 1.0 sec   384 KBytes  3.15 Mbits/sec
+[  4] local 10.0.0.9 port 5009 connected with 10.0.0.12 port 48676
+[  4]  0.0- 1.0 sec   384 KBytes  3.15 Mbits/sec
+[  4] local 10.0.0.9 port 5009 connected with 10.0.0.3 port 42906
+[  4]  0.0- 1.0 sec   384 KBytes  3.14 Mbits/sec
+[  4] local 10.0.0.9 port 5009 connected with 10.0.0.17 port 41882
+[  4]  0.0- 1.0 sec   512 KBytes  4.17 Mbits/sec
+[  4] local 10.0.0.9 port 5009 connected with 10.0.0.17 port 43228
+[  4]  0.0- 1.0 sec   768 KBytes  6.27 Mbits/sec
+[  4] local 10.0.0.9 port 5009 connected with 10.0.0.17 port 47354
+[  4]  0.0- 1.0 sec   512 KBytes  4.21 Mbits/sec
+[  4] local 10.0.0.9 port 5009 connected with 10.0.0.17 port 37724
+[  4]  0.0- 1.0 sec   512 KBytes  4.18 Mbits/sec
+[  4] local 10.0.0.9 port 5009 connected with 10.0.0.12 port 45650
+[  4]  0.0- 1.0 sec   512 KBytes  4.19 Mbits/sec

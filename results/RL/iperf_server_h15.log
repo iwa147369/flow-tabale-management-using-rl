@@ -1,0 +1,151 @@
+------------------------------------------------------------
+Server listening on TCP port 5015
+TCP window size: 85.3 KByte (default)
+------------------------------------------------------------
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.8 port 60214
+[ ID] Interval       Transfer     Bandwidth
+[  4]  0.0- 1.0 sec   384 KBytes  3.17 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.9 port 36018
+[  4]  0.0- 2.0 sec   896 KBytes  3.68 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.14 port 52936
+[  4]  0.0- 1.0 sec   512 KBytes  4.34 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.8 port 57884
+[  4]  0.0- 1.0 sec   512 KBytes  4.18 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.7 port 32780
+[  4]  0.0- 1.0 sec   768 KBytes  6.35 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.2 port 52984
+[  4]  0.0- 1.0 sec   512 KBytes  4.17 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.9 port 48070
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.76 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.8 port 60954
+[  4]  0.0- 2.0 sec  1.25 MBytes  5.20 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.14 port 53498
+[  4]  0.0- 1.0 sec   384 KBytes  3.13 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.9 port 52724
+[  4]  0.0- 1.0 sec   256 KBytes  2.09 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.6 port 60146
+[  4]  0.0- 1.0 sec   640 KBytes  5.24 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.3 port 38418
+[  4]  0.0- 0.6 sec   256 KBytes  3.57 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.8 port 59392
+[  4]  0.0- 1.0 sec   768 KBytes  6.19 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.8 port 51462
+[  4]  0.0- 2.0 sec   896 KBytes  3.64 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.17 port 53366
+[  4]  0.0- 1.0 sec   256 KBytes  2.07 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.6 port 40524
+[  4]  0.0- 1.0 sec   512 KBytes  4.18 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.14 port 53018
+[  4]  0.0- 1.0 sec   512 KBytes  4.18 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.14 port 57290
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.75 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.10 port 55264
+[  4]  0.0- 1.0 sec   512 KBytes  4.20 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.14 port 55194
+[  4]  0.0- 1.0 sec   256 KBytes  2.09 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.9 port 59368
+[  4]  0.0- 1.0 sec   640 KBytes  5.20 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.6 port 50996
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.72 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.9 port 49412
+[  4]  0.0- 2.0 sec   640 KBytes  2.62 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.14 port 49220
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.73 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.8 port 54528
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.74 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.6 port 45078
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.72 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.2 port 35642
+[  4]  0.0- 1.0 sec   640 KBytes  5.23 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.6 port 45858
+[  4]  0.0- 2.0 sec   512 KBytes  2.08 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.7 port 35326
+[  4]  0.0- 1.0 sec   640 KBytes  5.24 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.18 port 43340
+[  4]  0.0- 1.0 sec   512 KBytes  4.19 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.8 port 49068
+[  4]  0.0- 1.0 sec   512 KBytes  4.18 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.7 port 54166
+[  4]  0.0- 1.0 sec   384 KBytes  3.09 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.2 port 55100
+[  4]  0.0- 1.0 sec   768 KBytes  6.27 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.14 port 40770
+[  4]  0.0- 1.0 sec   640 KBytes  5.24 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.8 port 50990
+[  4]  0.0- 2.0 sec   896 KBytes  3.67 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.7 port 54394
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.74 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.5 port 50818
+[  4]  0.0- 1.0 sec   256 KBytes  2.07 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.14 port 52918
+[  4]  0.0- 2.0 sec   640 KBytes  2.62 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.2 port 45356
+[  4]  0.0- 1.0 sec   512 KBytes  4.12 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.8 port 36584
+[  4]  0.0- 2.0 sec   640 KBytes  2.61 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.9 port 48870
+[  4]  0.0- 1.0 sec   384 KBytes  3.15 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.8 port 43838
+[  4]  0.0- 1.0 sec   384 KBytes  3.14 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.9 port 36234
+[  4]  0.0- 2.0 sec   896 KBytes  3.66 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.8 port 40020
+[  4]  0.0- 1.0 sec   640 KBytes  5.16 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.9 port 46236
+[  4]  0.0- 1.0 sec   512 KBytes  4.16 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.14 port 48270
+[  4]  0.0- 1.0 sec   256 KBytes  2.10 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.7 port 34570
+[  4]  0.0- 2.0 sec   768 KBytes  3.14 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.6 port 50922
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.71 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.6 port 46994
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.71 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.7 port 44406
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.70 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.14 port 58988
+[  4]  0.0- 2.0 sec   768 KBytes  3.12 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.9 port 39532
+[  4]  0.0- 1.0 sec   512 KBytes  4.12 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.4 port 50294
+[  4]  0.0- 0.3 sec   334 KBytes  8.23 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.6 port 60732
+[  4]  0.0- 2.0 sec   768 KBytes  3.12 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.6 port 49742
+[  4]  0.0- 2.0 sec   640 KBytes  2.62 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.11 port 49990
+[  4]  0.0- 0.2 sec   462 KBytes  19.0 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.7 port 59700
+[  4]  0.0- 1.0 sec   384 KBytes  3.14 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.12 port 55976
+[  4]  0.0- 1.0 sec   512 KBytes  4.19 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.8 port 54946
+[  4]  0.0- 2.0 sec   640 KBytes  2.62 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.7 port 36480
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.76 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.2 port 43636
+[  4]  0.0- 2.0 sec   640 KBytes  2.61 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.6 port 44826
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.69 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.16 port 46818
+[  4]  0.0- 1.0 sec   256 KBytes  2.06 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.2 port 57108
+[  4]  0.0- 2.0 sec   896 KBytes  3.67 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.2 port 37850
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.74 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.8 port 57878
+[  4]  0.0- 1.0 sec   768 KBytes  6.28 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.2 port 44862
+[  4]  0.0- 2.0 sec  1.00 MBytes  4.16 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.6 port 39138
+[  4]  0.0- 1.0 sec   512 KBytes  4.19 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.7 port 34012
+[  4]  0.0- 1.0 sec   768 KBytes  6.19 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.7 port 39150
+[  4]  0.0- 1.0 sec   384 KBytes  3.14 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.7 port 42814
+[  4]  0.0- 2.0 sec   640 KBytes  2.62 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.6 port 36968
+[  4]  0.0- 1.0 sec   768 KBytes  6.22 Mbits/sec
+[  4] local 10.0.0.15 port 5015 connected with 10.0.0.7 port 50488
+[  4]  0.0- 1.0 sec   768 KBytes  6.25 Mbits/sec

@@ -8,6 +8,7 @@ from collections import deque
 import time
 import colorlog
 import subprocess
+import datetime
 
 class LRUController(app_manager.RyuApp):
     OFP_VERSIONS = [ofproto_v1_3.OFP_VERSION]
@@ -15,8 +16,10 @@ class LRUController(app_manager.RyuApp):
     def __init__(self, *args, **kwargs):
         super(LRUController, self).__init__(*args, **kwargs)
         self.mac_to_port = {}
-        self.flow_table = []  # List to track flow entries with timestamps
+        self.flow_table = []  # Track flow entries with list
         self.max_flows = 100  # Maximum number of flows allowed
+        self.mininet_host = "10.1.1.51"  # IP of the Mininet host
+        self.log_file = "lru_timings.log"  # Timing log file
         
         # Set up colored logging
         handler = colorlog.StreamHandler()
@@ -24,7 +27,7 @@ class LRUController(app_manager.RyuApp):
             '%(log_color)s%(levelname)s:%(name)s:%(message)s',
             log_colors={
                 'DEBUG': 'cyan',
-                'INFO': 'green',
+                'INFO': 'green', 
                 'WARNING': 'yellow',
                 'ERROR': 'red',
                 'CRITICAL': 'red,bg_white',
@@ -36,6 +39,12 @@ class LRUController(app_manager.RyuApp):
             f"Initialized LRU Controller with max {self.max_flows} flows",
             extra={'color': 'green', 'bold': True}
         )
+
+    def log_timing(self, action, duration):
+        """Log timing information to a file with timestamp"""
+        timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        with open(self.log_file, 'a') as f:
+            f.write(f"[{timestamp}] {action}: {duration:.5f} seconds\n")
 
     @set_ev_cls(ofp_event.EventOFPSwitchFeatures, CONFIG_DISPATCHER)
     def switch_features_handler(self, ev):
@@ -50,7 +59,8 @@ class LRUController(app_manager.RyuApp):
         self.add_flow(datapath, 0, match, actions)
 
     def remove_flow(self, datapath, match):
-        """Remove a specific flow entry using ovs-ofctl"""
+        """Remove a specific flow entry using ovs-ofctl via SSH"""
+        start_time = time.time()
         try:
             # Get match fields
             match_fields = match.to_jsondict()['OFPMatch']['oxm_fields']
@@ -77,15 +87,15 @@ class LRUController(app_manager.RyuApp):
             # Join all match criteria
             match_criteria = ",".join(match_str)
             
-            # Execute ovs-ofctl command
-            cmd = f"sudo ovs-ofctl del-flows s1 {match_criteria}"
+            # Execute ovs-ofctl command via SSH to Mininet host
+            cmd = f"ssh mininet@{self.mininet_host} 'sudo ovs-ofctl del-flows s1 {match_criteria}'"
             self.logger.info(f"Executing command: {cmd}")
             
             result = subprocess.run(
-                cmd.split(),
+                cmd,
+                shell=True,
                 capture_output=True,
-                text=True,
-                check=True
+                text=True
             )
             
             if result.returncode == 0:
@@ -93,49 +103,62 @@ class LRUController(app_manager.RyuApp):
                 # Remove from our tracking table
                 self.flow_table = [f for f in self.flow_table if f['match'] != match]
             else:
-                self.logger.error(f"Failed to remove flow: {result.stderr}")
+                self.logger.warning(f"Failed to remove flow (possibly not exist): {result.stderr}")
+                # Still update flow_table to maintain consistency
+                self.flow_table = [f for f in self.flow_table if f['match'] != match]
 
         except Exception as e:
             self.logger.error(f"Error removing flow: {str(e)}")
+        
+        # Log the time taken for flow removal
+        duration = time.time() - start_time
+        self.log_timing("Remove Flow", duration)
 
-    def update_flow_usage(self, match):
-        """Update the last_used timestamp for a flow when it's matched"""
-        for flow in self.flow_table:
-            if flow['match'] == match:
-                flow['last_used'] = time.time()
-                self.logger.debug(f"Updated usage time for flow: {match}")
-                return True
-        return False
+    def clear_all_flows(self, datapath):
+        """Clear all flows using ovs-ofctl via SSH"""
+        try:
+            cmd = f"ssh mininet@{self.mininet_host} 'sudo ovs-ofctl del-flows s1'"
+            result = subprocess.run(
+                cmd,
+                shell=True,
+                capture_output=True,
+                text=True
+            )
+            
+            if result.returncode == 0:
+                self.logger.info("Successfully cleared all flows")
+            else:
+                self.logger.error(f"Failed to clear flows: {result.stderr}")
+                
+        except Exception as e:
+            self.logger.error(f"Error clearing flows: {str(e)}")
 
     def add_flow(self, datapath, priority, match, actions, buffer_id=None):
+        start_time = time.time()
         # First, check if this exact match already exists
-        if self.update_flow_usage(match):
-            self.logger.info("Flow already exists, updated usage time")
-            return
+        for flow in self.flow_table:
+            if flow['match'] == match:
+                # Update access time for LRU
+                flow['time'] = time.time()
+                self.logger.info("Flow already exists, updating access time")
+                return
 
         # If flow table is full, remove least recently used entry
         if len(self.flow_table) >= self.max_flows:
-            lru_flow = min(self.flow_table, key=lambda x: x['last_used'])
+            # Find flow with oldest access time
+            lru_flow = min(self.flow_table, key=lambda x: x['time'])
+            self.flow_table.remove(lru_flow)
             self.logger.warning(
-                f"Flow table full! Removing LRU entry: {lru_flow['match']}",
+                f"Flow table full! Removing least recently used entry: {lru_flow['match']}",
                 extra={'color': 'yellow', 'bold': True}
             )
             self.remove_flow(datapath, lru_flow['match'])
-            
-            # Recheck if we're still at the limit after removal
-            if len(self.flow_table) >= self.max_flows:
-                self.logger.warning(
-                    "Flow table still full after removal, skipping flow installation",
-                    extra={'color': 'yellow', 'bold': True}
-                )
-                return
 
-        # Add new flow to tracking table
+        # Add new flow
         flow_entry = {
             'match': match,
             'priority': priority,
-            'last_used': time.time(),
-            'created_time': time.time()
+            'time': time.time()  # Current time as access time
         }
         self.flow_table.append(flow_entry)
         
@@ -151,8 +174,8 @@ class LRUController(app_manager.RyuApp):
                 priority=priority,
                 match=match,
                 instructions=inst,
-                hard_timeout=0,  # Flow entry never expires
-                flags=ofproto.OFPFF_SEND_FLOW_REM  # Request flow removal notification
+                hard_timeout=0,
+                flags=ofproto.OFPFF_SEND_FLOW_REM
             )
         else:
             mod = parser.OFPFlowMod(
@@ -169,6 +192,11 @@ class LRUController(app_manager.RyuApp):
             extra={'color': 'green'}
         )
         datapath.send_msg(mod)
+        
+        # Log the time taken for flow installation
+        duration = time.time() - start_time
+        self.log_timing("Install Flow", duration)
+
     @set_ev_cls(ofp_event.EventOFPPacketIn, MAIN_DISPATCHER)
     def _packet_in_handler(self, ev):
         msg = ev.msg

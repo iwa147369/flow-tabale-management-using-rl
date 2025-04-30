@@ -1,0 +1,83 @@
+------------------------------------------------------------
+Server listening on TCP port 5006
+TCP window size: 85.3 KByte (default)
+------------------------------------------------------------
+[  4] local 10.0.0.6 port 5006 connected with 10.0.0.14 port 53082
+[ ID] Interval       Transfer     Bandwidth
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.74 Mbits/sec
+[  4] local 10.0.0.6 port 5006 connected with 10.0.0.19 port 37838
+[  4]  0.0- 1.0 sec   512 KBytes  4.16 Mbits/sec
+[  4] local 10.0.0.6 port 5006 connected with 10.0.0.14 port 49074
+[  4]  0.0- 2.0 sec   896 KBytes  3.67 Mbits/sec
+[  4] local 10.0.0.6 port 5006 connected with 10.0.0.19 port 38206
+[  4]  0.0- 2.0 sec  1.00 MBytes  4.17 Mbits/sec
+[  4] local 10.0.0.6 port 5006 connected with 10.0.0.14 port 52428
+[  4]  0.0- 2.0 sec   896 KBytes  3.67 Mbits/sec
+[  4] local 10.0.0.6 port 5006 connected with 10.0.0.19 port 38010
+[  4]  0.0- 2.0 sec   896 KBytes  3.65 Mbits/sec
+[  4] local 10.0.0.6 port 5006 connected with 10.0.0.3 port 55544
+[  4]  0.0- 1.0 sec   256 KBytes  2.06 Mbits/sec
+[  4] local 10.0.0.6 port 5006 connected with 10.0.0.14 port 38094
+[  4]  0.0- 1.0 sec   640 KBytes  5.19 Mbits/sec
+[  4] local 10.0.0.6 port 5006 connected with 10.0.0.20 port 53426
+[  4]  0.0- 0.7 sec   512 KBytes  6.43 Mbits/sec
+[  4] local 10.0.0.6 port 5006 connected with 10.0.0.14 port 50424
+[  4]  0.0- 1.0 sec   384 KBytes  3.11 Mbits/sec
+[  4] local 10.0.0.6 port 5006 connected with 10.0.0.16 port 44226
+[  4]  0.0- 0.7 sec   384 KBytes  4.82 Mbits/sec
+[  4] local 10.0.0.6 port 5006 connected with 10.0.0.1 port 56518
+[  4]  0.0- 1.6 sec   512 KBytes  2.56 Mbits/sec
+[  4] local 10.0.0.6 port 5006 connected with 10.0.0.1 port 38794
+[  4]  0.0- 1.0 sec   512 KBytes  4.19 Mbits/sec
+[  4] local 10.0.0.6 port 5006 connected with 10.0.0.1 port 52804
+[  4]  0.0- 2.0 sec  1.00 MBytes  4.20 Mbits/sec
+[  4] local 10.0.0.6 port 5006 connected with 10.0.0.7 port 38198
+[  4]  0.0- 1.0 sec   256 KBytes  2.09 Mbits/sec
+[  4] local 10.0.0.6 port 5006 connected with 10.0.0.2 port 50204
+[  4]  0.0- 0.6 sec   384 KBytes  4.91 Mbits/sec
+[  4] local 10.0.0.6 port 5006 connected with 10.0.0.1 port 59282
+[  4]  0.0- 1.0 sec   640 KBytes  5.16 Mbits/sec
+[  4] local 10.0.0.6 port 5006 connected with 10.0.0.19 port 35024
+[  4]  0.0- 1.0 sec   384 KBytes  3.11 Mbits/sec
+[  4] local 10.0.0.6 port 5006 connected with 10.0.0.12 port 60888
+[  4]  0.0- 0.6 sec   384 KBytes  4.94 Mbits/sec
+[  4] local 10.0.0.6 port 5006 connected with 10.0.0.14 port 38744
+[  4]  0.0- 1.0 sec   256 KBytes  2.09 Mbits/sec
+[  4] local 10.0.0.6 port 5006 connected with 10.0.0.1 port 50068
+[  4]  0.0- 1.0 sec   384 KBytes  3.13 Mbits/sec
+[  4] local 10.0.0.6 port 5006 connected with 10.0.0.1 port 43992
+[  4]  0.0- 2.0 sec   640 KBytes  2.62 Mbits/sec
+[  4] local 10.0.0.6 port 5006 connected with 10.0.0.14 port 40600
+[  4]  0.0- 2.0 sec  1.25 MBytes  5.20 Mbits/sec
+[  4] local 10.0.0.6 port 5006 connected with 10.0.0.14 port 41276
+[  4]  0.0- 1.0 sec   768 KBytes  6.27 Mbits/sec
+[  4] local 10.0.0.6 port 5006 connected with 10.0.0.1 port 55616
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.70 Mbits/sec
+[  4] local 10.0.0.6 port 5006 connected with 10.0.0.14 port 60594
+[  4]  0.0- 2.0 sec   512 KBytes  2.09 Mbits/sec
+[  4] local 10.0.0.6 port 5006 connected with 10.0.0.1 port 57872
+[  4]  0.0- 2.0 sec   896 KBytes  3.64 Mbits/sec
+[  4] local 10.0.0.6 port 5006 connected with 10.0.0.8 port 47452
+[  4]  0.0- 1.0 sec   512 KBytes  4.16 Mbits/sec
+[  4] local 10.0.0.6 port 5006 connected with 10.0.0.1 port 49506
+[  4]  0.0- 1.0 sec   640 KBytes  5.22 Mbits/sec
+[  4] local 10.0.0.6 port 5006 connected with 10.0.0.14 port 55664
+[  4]  0.0- 1.0 sec   768 KBytes  6.30 Mbits/sec
+[  4] local 10.0.0.6 port 5006 connected with 10.0.0.14 port 44028
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.72 Mbits/sec
+[  4] local 10.0.0.6 port 5006 connected with 10.0.0.19 port 44982
+[  4]  0.0- 2.0 sec   768 KBytes  3.12 Mbits/sec
+[  4] local 10.0.0.6 port 5006 connected with 10.0.0.11 port 38682
+[  4]  0.0- 1.0 sec   384 KBytes  3.11 Mbits/sec
+[  4] local 10.0.0.6 port 5006 connected with 10.0.0.1 port 48836
+[  4]  0.0- 1.0 sec   384 KBytes  3.12 Mbits/sec
+[  4] local 10.0.0.6 port 5006 connected with 10.0.0.14 port 36490
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.71 Mbits/sec
+[  4] local 10.0.0.6 port 5006 connected with 10.0.0.13 port 44728
+[  4]  0.0- 1.0 sec   512 KBytes  4.14 Mbits/sec
+[  4] local 10.0.0.6 port 5006 connected with 10.0.0.1 port 44546
+[  4]  0.0- 1.0 sec   512 KBytes  4.12 Mbits/sec
+[  4] local 10.0.0.6 port 5006 connected with 10.0.0.19 port 38702
+[  4]  0.0- 1.0 sec   384 KBytes  3.11 Mbits/sec
+[  4] local 10.0.0.6 port 5006 connected with 10.0.0.1 port 38454
+[  4]  0.0- 2.0 sec   640 KBytes  2.60 Mbits/sec

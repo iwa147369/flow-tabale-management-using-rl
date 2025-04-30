@@ -1,0 +1,103 @@
+------------------------------------------------------------
+Server listening on TCP port 5014
+TCP window size: 85.3 KByte (default)
+------------------------------------------------------------
+[  4] local 10.0.0.14 port 5014 connected with 10.0.0.17 port 59202
+[ ID] Interval       Transfer     Bandwidth
+[  4]  0.0- 2.0 sec   640 KBytes  2.60 Mbits/sec
+[  4] local 10.0.0.14 port 5014 connected with 10.0.0.6 port 60144
+[  4]  0.0- 1.0 sec   512 KBytes  4.19 Mbits/sec
+[  4] local 10.0.0.14 port 5014 connected with 10.0.0.17 port 38964
+[  4]  0.0- 1.0 sec   384 KBytes  3.09 Mbits/sec
+[  4] local 10.0.0.14 port 5014 connected with 10.0.0.7 port 38234
+[  4]  0.0- 2.0 sec   512 KBytes  2.08 Mbits/sec
+[  4] local 10.0.0.14 port 5014 connected with 10.0.0.9 port 52330
+[  4]  0.0- 0.5 sec   590 KBytes  9.67 Mbits/sec
+[  4] local 10.0.0.14 port 5014 connected with 10.0.0.17 port 47896
+[  4]  0.0- 1.0 sec   768 KBytes  6.19 Mbits/sec
+[  4] local 10.0.0.14 port 5014 connected with 10.0.0.17 port 48310
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.71 Mbits/sec
+[  4] local 10.0.0.14 port 5014 connected with 10.0.0.17 port 43484
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.72 Mbits/sec
+[  4] local 10.0.0.14 port 5014 connected with 10.0.0.11 port 46014
+[  4]  0.0- 0.5 sec   334 KBytes  5.83 Mbits/sec
+[  4] local 10.0.0.14 port 5014 connected with 10.0.0.7 port 56206
+[  4]  0.0- 1.0 sec   768 KBytes  6.25 Mbits/sec
+[  4] local 10.0.0.14 port 5014 connected with 10.0.0.18 port 34110
+[  4]  0.0- 1.0 sec   256 KBytes  2.06 Mbits/sec
+[  4] local 10.0.0.14 port 5014 connected with 10.0.0.7 port 33316
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.68 Mbits/sec
+[  4] local 10.0.0.14 port 5014 connected with 10.0.0.11 port 50790
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.69 Mbits/sec
+[  4] local 10.0.0.14 port 5014 connected with 10.0.0.7 port 52060
+[  4]  0.0- 2.0 sec   512 KBytes  2.08 Mbits/sec
+[  4] local 10.0.0.14 port 5014 connected with 10.0.0.17 port 53980
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.72 Mbits/sec
+[  4] local 10.0.0.14 port 5014 connected with 10.0.0.9 port 39868
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.78 Mbits/sec
+[  4] local 10.0.0.14 port 5014 connected with 10.0.0.10 port 40038
+[  4]  0.0- 1.0 sec   128 KBytes  1.04 Mbits/sec
+[  4] local 10.0.0.14 port 5014 connected with 10.0.0.3 port 42156
+[  4]  0.0- 0.6 sec   512 KBytes  6.48 Mbits/sec
+[  4] local 10.0.0.14 port 5014 connected with 10.0.0.17 port 56862
+[  4]  0.0- 1.0 sec   768 KBytes  6.24 Mbits/sec
+[  4] local 10.0.0.14 port 5014 connected with 10.0.0.9 port 53704
+[  4]  0.0- 1.0 sec   512 KBytes  4.20 Mbits/sec
+[  4] local 10.0.0.14 port 5014 connected with 10.0.0.11 port 53068
+[  4]  0.0- 2.0 sec   640 KBytes  2.60 Mbits/sec
+[  4] local 10.0.0.14 port 5014 connected with 10.0.0.17 port 57428
+[  4]  0.0- 1.0 sec   512 KBytes  4.17 Mbits/sec
+[  4] local 10.0.0.14 port 5014 connected with 10.0.0.17 port 43186
+[  4]  0.0- 2.0 sec   896 KBytes  3.65 Mbits/sec
+[  4] local 10.0.0.14 port 5014 connected with 10.0.0.1 port 36926
+[  4]  0.0- 1.0 sec   128 KBytes  1.03 Mbits/sec
+[  4] local 10.0.0.14 port 5014 connected with 10.0.0.9 port 46272
+[  4]  0.0- 2.0 sec   640 KBytes  2.61 Mbits/sec
+[  4] local 10.0.0.14 port 5014 connected with 10.0.0.9 port 49070
+[  4]  0.0- 1.0 sec   512 KBytes  4.19 Mbits/sec
+[  4] local 10.0.0.14 port 5014 connected with 10.0.0.7 port 37422
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.75 Mbits/sec
+[  4] local 10.0.0.14 port 5014 connected with 10.0.0.12 port 36910
+[  4]  0.0- 0.6 sec   256 KBytes  3.28 Mbits/sec
+[  4] local 10.0.0.14 port 5014 connected with 10.0.0.17 port 37708
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.69 Mbits/sec
+[  4] local 10.0.0.14 port 5014 connected with 10.0.0.11 port 35266
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.73 Mbits/sec
+[  4] local 10.0.0.14 port 5014 connected with 10.0.0.17 port 34990
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.68 Mbits/sec
+[  4] local 10.0.0.14 port 5014 connected with 10.0.0.11 port 37024
+[  4]  0.0- 2.0 sec  1.00 MBytes  4.16 Mbits/sec
+[  4] local 10.0.0.14 port 5014 connected with 10.0.0.8 port 52986
+[  4]  0.0- 0.6 sec   384 KBytes  4.92 Mbits/sec
+[  4] local 10.0.0.14 port 5014 connected with 10.0.0.4 port 34514
+[  4]  0.0- 0.6 sec   256 KBytes  3.25 Mbits/sec
+[  4] local 10.0.0.14 port 5014 connected with 10.0.0.17 port 60032
+[  4]  0.0- 1.0 sec   512 KBytes  4.18 Mbits/sec
+[  4] local 10.0.0.14 port 5014 connected with 10.0.0.11 port 53032
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.75 Mbits/sec
+[  4] local 10.0.0.14 port 5014 connected with 10.0.0.17 port 49742
+[  4]  0.0- 1.0 sec   256 KBytes  2.08 Mbits/sec
+[  4] local 10.0.0.14 port 5014 connected with 10.0.0.7 port 49856
+[  4]  0.0- 1.0 sec   256 KBytes  2.08 Mbits/sec
+[  4] local 10.0.0.14 port 5014 connected with 10.0.0.11 port 40634
+[  4]  0.0- 1.0 sec   640 KBytes  5.21 Mbits/sec
+[  4] local 10.0.0.14 port 5014 connected with 10.0.0.20 port 33466
+[  4]  0.0- 1.0 sec   512 KBytes  4.19 Mbits/sec
+[  4] local 10.0.0.14 port 5014 connected with 10.0.0.15 port 49366
+[  4]  0.0- 1.0 sec   384 KBytes  3.14 Mbits/sec
+[  4] local 10.0.0.14 port 5014 connected with 10.0.0.9 port 54166
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.72 Mbits/sec
+[  4] local 10.0.0.14 port 5014 connected with 10.0.0.9 port 46026
+[  4]  0.0- 2.0 sec  1.00 MBytes  4.16 Mbits/sec
+[  4] local 10.0.0.14 port 5014 connected with 10.0.0.13 port 48848
+[  4]  0.0- 1.0 sec   384 KBytes  3.09 Mbits/sec
+[  4] local 10.0.0.14 port 5014 connected with 10.0.0.7 port 52468
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.71 Mbits/sec
+[  4] local 10.0.0.14 port 5014 connected with 10.0.0.19 port 43922
+[  4]  0.0- 1.0 sec   512 KBytes  4.17 Mbits/sec
+[  4] local 10.0.0.14 port 5014 connected with 10.0.0.9 port 44026
+[  4]  0.0- 1.0 sec   512 KBytes  4.19 Mbits/sec
+[  4] local 10.0.0.14 port 5014 connected with 10.0.0.5 port 47292
+[  4]  0.0- 1.0 sec   512 KBytes  4.17 Mbits/sec
+[  4] local 10.0.0.14 port 5014 connected with 10.0.0.11 port 50844
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.77 Mbits/sec

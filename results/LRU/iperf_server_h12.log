@@ -1,0 +1,149 @@
+------------------------------------------------------------
+Server listening on TCP port 5012
+TCP window size: 85.3 KByte (default)
+------------------------------------------------------------
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.8 port 51236
+[ ID] Interval       Transfer     Bandwidth
+[  4]  0.0- 1.0 sec   640 KBytes  5.15 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.7 port 50576
+[  4]  0.0- 1.0 sec   768 KBytes  6.31 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.18 port 48674
+[  4]  0.0- 1.0 sec   256 KBytes  2.12 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.13 port 42220
+[  4]  0.0- 1.0 sec   256 KBytes  2.10 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.8 port 55056
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.68 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.8 port 47012
+[  4]  0.0- 1.0 sec   512 KBytes  4.15 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.7 port 34536
+[  4]  0.0- 1.0 sec   384 KBytes  3.15 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.7 port 45562
+[  4]  0.0- 1.0 sec   384 KBytes  3.12 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.8 port 36124
+[  4]  0.0- 2.0 sec   640 KBytes  2.62 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.5 port 39862
+[  4]  0.0- 1.0 sec   384 KBytes  3.11 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.16 port 40122
+[  4]  0.0- 1.0 sec   512 KBytes  4.19 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.7 port 38984
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.70 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.8 port 41246
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.73 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.9 port 52934
+[  4]  0.0- 2.0 sec   896 KBytes  3.65 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.8 port 54944
+[  4]  0.0- 1.0 sec   640 KBytes  5.15 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.7 port 53074
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.75 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.8 port 40964
+[  4]  0.0- 1.0 sec   512 KBytes  4.11 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.13 port 60820
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.77 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.9 port 59166
+[  4]  0.0- 2.0 sec   640 KBytes  2.62 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.13 port 40276
+[  4]  0.0- 2.0 sec  1.00 MBytes  4.19 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.7 port 56382
+[  4]  0.0- 1.0 sec   384 KBytes  3.14 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.13 port 46288
+[  4]  0.0- 2.0 sec  1.00 MBytes  4.16 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.15 port 40998
+[  4]  0.0- 1.0 sec   512 KBytes  4.18 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.9 port 35056
+[  4]  0.0- 1.0 sec   640 KBytes  5.20 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.9 port 32874
+[  4]  0.0- 1.0 sec   640 KBytes  5.15 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.16 port 47222
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.69 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.16 port 47230
+[  4]  0.0- 1.0 sec   640 KBytes  5.24 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.13 port 41308
+[  4]  0.0- 1.0 sec   640 KBytes  5.22 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.17 port 37346
+[  4]  0.0- 1.0 sec   384 KBytes  3.09 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.7 port 42638
+[  4]  0.0- 1.0 sec   384 KBytes  3.15 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.8 port 37626
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.67 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.9 port 58402
+[  4]  0.0- 1.0 sec   512 KBytes  4.18 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.8 port 33360
+[  4]  0.0- 1.0 sec   512 KBytes  4.19 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.8 port 50066
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.76 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.16 port 51886
+[  4]  0.0- 1.0 sec   512 KBytes  4.17 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.13 port 40742
+[  4]  0.0- 2.0 sec  1.25 MBytes  5.23 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.7 port 37184
+[  4]  0.0- 1.0 sec   768 KBytes  6.26 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.13 port 48552
+[  4]  0.0- 1.0 sec   768 KBytes  6.29 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.9 port 38656
+[  4]  0.0- 1.0 sec   512 KBytes  4.13 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.8 port 44676
+[  4]  0.0- 1.0 sec   384 KBytes  3.09 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.16 port 44230
+[  4]  0.0- 1.0 sec   256 KBytes  2.09 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.13 port 55148
+[  4]  0.0- 2.0 sec   640 KBytes  2.62 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.13 port 49298
+[  4]  0.0- 1.0 sec   384 KBytes  3.14 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.8 port 50796
+[  4]  0.0- 2.0 sec   896 KBytes  3.64 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.16 port 44838
+[  4]  0.0- 1.0 sec   256 KBytes  2.08 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.4 port 33460
+[  4]  0.0- 1.0 sec   256 KBytes  2.07 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.8 port 38772
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.70 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.10 port 41780
+[  4]  0.0- 1.0 sec   384 KBytes  3.09 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.3 port 46974
+[  4]  0.0- 1.0 sec   512 KBytes  4.17 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.8 port 45292
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.68 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.7 port 56412
+[  4]  0.0- 2.0 sec  1.38 MBytes  5.71 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.8 port 39758
+[  4]  0.0- 2.0 sec  1.25 MBytes  5.20 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.6 port 52386
+[  4]  0.0- 1.0 sec   128 KBytes  1.04 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.9 port 33986
+[  4]  0.0- 1.0 sec   768 KBytes  6.29 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.8 port 36968
+[  4]  0.0- 1.0 sec   640 KBytes  5.21 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.2 port 33548
+[  4]  0.0- 1.0 sec   256 KBytes  2.09 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.7 port 60336
+[  4]  0.0- 1.0 sec   512 KBytes  4.20 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.9 port 55662
+[  4]  0.0- 1.0 sec   512 KBytes  4.17 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.13 port 34020
+[  4]  0.0- 1.0 sec   384 KBytes  3.10 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.16 port 34194
+[  4]  0.0- 2.0 sec   640 KBytes  2.61 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.7 port 34798
+[  4]  0.0- 2.0 sec  1.25 MBytes  5.24 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.13 port 38184
+[  4]  0.0- 1.0 sec   384 KBytes  3.09 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.8 port 57456
+[  4]  0.0- 2.0 sec   640 KBytes  2.61 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.7 port 49944
+[  4]  0.0- 1.0 sec   384 KBytes  3.08 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.16 port 37746
+[  4]  0.0- 2.0 sec   896 KBytes  3.63 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.9 port 36236
+[  4]  0.0- 2.0 sec  1.00 MBytes  4.17 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.8 port 55206
+[  4]  0.0- 1.0 sec   384 KBytes  3.10 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.1 port 45004
+[  4]  0.0- 1.0 sec   256 KBytes  2.09 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.20 port 55342
+[  4]  0.0- 1.0 sec   512 KBytes  4.19 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.13 port 51814
+[  4]  0.0- 2.0 sec  1.12 MBytes  4.68 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.13 port 43750
+[  4]  0.0- 2.0 sec   512 KBytes  2.09 Mbits/sec
+[  4] local 10.0.0.12 port 5012 connected with 10.0.0.8 port 54540
+[  4]  0.0- 2.0 sec   640 KBytes  2.60 Mbits/sec
