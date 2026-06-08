@@ -67,6 +67,25 @@ class TraceRecorder:
 
         self.raw_events.append(FlowEvent(flow_id, timestamp, bytes, packets))
 
+    def add_stats(self, flow_id: int, bytes: int = 0, packets: int = 0, timestamp: Optional[float] = None):
+        """Add traffic totals for a flow WITHOUT recording a new arrival.
+
+        Call this from byte-accounting events (e.g. an OpenFlow FlowRemoved, which
+        carries the flow's lifetime byte/packet counts). Unlike record_flow, this
+        does not append to `arrivals` — arrivals must stay equal to the number of
+        times the flow (re)appeared, since the simulator uses them for return
+        detection."""
+        if timestamp is None:
+            timestamp = time.time() - self.start_time
+
+        if flow_id not in self.flows:
+            self.flows[flow_id] = FlowTrace(flow_id=flow_id, first_seen=timestamp)
+
+        ft = self.flows[flow_id]
+        ft.total_bytes += bytes
+        ft.total_packets += packets
+        ft.last_seen = max(ft.last_seen, timestamp)
+
     def get_trace(self) -> Dict[int, FlowTrace]:
         return self.flows
 

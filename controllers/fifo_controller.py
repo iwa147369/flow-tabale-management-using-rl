@@ -8,7 +8,7 @@ import time
 import colorlog
 import datetime
 
-from controllers.flow_utils import is_critical_flow, filter_evictable_flows
+from controllers.flow_utils import is_critical_flow, filter_evictable_flows, flow_id_of
 from training.trace_simulator import TraceRecorder
 import os
 import datetime
@@ -80,10 +80,9 @@ class FIFOController(app_manager.RyuApp):
         self._install_flow(datapath, priority, match, actions, buffer_id)
         self.log_timing("Install Flow", time.time() - start_time)
 
-        # Trace recording (Phase 0.5)
+        # Trace recording (Phase 0.5): install = one arrival (bytes captured on removal)
         if self.trace_recorder is not None:
-            flow_id = hash(str(match)) & 0xFFFFFFFF
-            self.trace_recorder.record_flow(flow_id, bytes=0, packets=0)
+            self.trace_recorder.record_flow(flow_id_of(match), bytes=0, packets=0)
 
     def remove_flow(self, datapath, match, priority):
         start_time = time.time()
@@ -172,4 +171,10 @@ class FIFOController(app_manager.RyuApp):
 
     @set_ev_cls(ofp_event.EventOFPFlowRemoved, MAIN_DISPATCHER)
     def flow_removed_handler(self, ev):
+        # The FlowRemoved event carries the flow's lifetime byte/packet counts.
+        # Record them against the same flow id used at install (no new arrival).
+        if self.trace_recorder is not None and ev.msg.priority != 0:
+            self.trace_recorder.add_stats(
+                flow_id_of(ev.msg.match), ev.msg.byte_count, ev.msg.packet_count
+            )
         self.logger.info(f"Flow removed from switch: {ev.msg.match}")
