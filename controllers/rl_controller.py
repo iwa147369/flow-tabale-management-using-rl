@@ -16,7 +16,7 @@ import datetime
 import os
 
 from training.model import QNetwork
-from controllers.flow_utils import is_critical_flow, filter_evictable_flows
+from controllers.flow_utils import is_critical_flow, filter_evictable_flows, flow_id_of
 from training.trace_simulator import TraceRecorder
 
 
@@ -124,20 +124,20 @@ class RLController(app_manager.RyuApp):
                     entry['packet_count'] = stat.packet_count
                     entry['bytes_count'] = stat.byte_count
                     break
-
-            # Trace recording: update byte/packet counts for real traffic analysis
-            if self.trace_recorder is not None:
-                flow_id = hash(key) & 0xFFFFFFFF
-                self.trace_recorder.record_flow(
-                    flow_id,
-                    bytes=stat.byte_count,
-                    packets=stat.packet_count
-                )
+            # Note: trace byte/packet totals are recorded once per flow lifetime in
+            # flow_removed_handler (FlowRemoved). Stats replies are cumulative and
+            # polled repeatedly, so accumulating them here would overcount.
 
     @set_ev_cls(ofp_event.EventOFPFlowRemoved, MAIN_DISPATCHER)
     def flow_removed_handler(self, ev):
         match_key = self._match_key(ev.msg.match)
         self.flow_table = [e for e in self.flow_table if e['match_key'] != match_key]
+        # FlowRemoved carries lifetime byte/packet counts — record against the
+        # same flow id used at install (no new arrival).
+        if self.trace_recorder is not None and ev.msg.priority != 0:
+            self.trace_recorder.add_stats(
+                flow_id_of(ev.msg.match), ev.msg.byte_count, ev.msg.packet_count
+            )
         self.logger.info(f"Flow removed from switch: {ev.msg.match}")
 
     @set_ev_cls(ofp_event.EventOFPPacketIn, MAIN_DISPATCHER)
@@ -210,10 +210,9 @@ class RLController(app_manager.RyuApp):
         self._install_flow(datapath, priority, match, actions, buffer_id)
         self.log_timing("Install Flow", time.time() - start_time)
 
-        # Trace recording (Phase 0.5)
+        # Trace recording (Phase 0.5): install = one arrival (bytes on removal)
         if self.trace_recorder is not None:
-            flow_id = hash(self._match_key(match)) & 0xFFFFFFFF  # stable int id
-            self.trace_recorder.record_flow(flow_id, bytes=0, packets=0)
+            self.trace_recorder.record_flow(flow_id_of(match), bytes=0, packets=0)
 
         # Request a stats refresh so the next eviction decision has fresh data
         self.request_flow_stats(datapath)

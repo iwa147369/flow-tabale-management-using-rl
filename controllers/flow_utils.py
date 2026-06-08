@@ -43,6 +43,25 @@ def is_critical_flow(flow: Dict[str, Any]) -> bool:
     return False
 
 
+def flow_id_of(match: Any) -> int:
+    """
+    Derive a stable 32-bit flow id from an OpenFlow match.
+
+    Must be consistent everywhere a flow is referenced in a trace — on install
+    (the arrival) and on removal (the byte/packet stats) — so the recorded bytes
+    accrue to the same flow as its arrivals. We normalise on the sorted oxm
+    fields so the id does not depend on OFPMatch string-formatting quirks (which
+    can differ between a locally-built match and one parsed from a FlowRemoved
+    message).
+    """
+    try:
+        fields = match.to_jsondict()['OFPMatch']['oxm_fields']
+        key = str(sorted(str(f) for f in fields))
+    except Exception:
+        key = str(match)
+    return hash(key) & 0xFFFFFFFF
+
+
 def filter_evictable_flows(flow_table: list) -> list:
     """
     Return only the flows that are legal to evict.
