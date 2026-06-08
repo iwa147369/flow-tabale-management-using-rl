@@ -8,6 +8,10 @@ import time
 import subprocess
 import re
 import random
+import argparse
+import os
+import datetime
+from pathlib import Path
 
 class SingleSwitchTopo(Topo):
     def __init__(self, n=20):
@@ -22,14 +26,18 @@ class SingleSwitchTopo(Topo):
             host = self.addHost(f'h{h+1}', ip=f'10.0.0.{h+1}')
             self.addLink(host, switch)
 
-def run_test(num_hosts=20, controller_type='fifo'):
+def run_test(num_hosts=20, controller_type='fifo', run_index=None, num_runs=None,
+             controller_ip='127.0.0.1', controller_port=6633):
     # Create topology
     topo = SingleSwitchTopo(num_hosts)
-    
-    # Create network with remote controller at 172.22.239.130:6633
+
+    # Create network with the remote Ryu controller.
+    # Default 127.0.0.1 assumes Ryu runs inside the same VM as Mininet.
+    # If Ryu runs on the host, pass the host bridge IP (e.g. 192.168.122.1).
+    info(f"Connecting to remote controller at {controller_ip}:{controller_port}\n")
     net = Mininet(
         topo=topo,
-        controller=lambda name: RemoteController(name, ip='172.22.239.130', port=6633)
+        controller=lambda name: RemoteController(name, ip=controller_ip, port=controller_port)
     )
     
     # Start network
@@ -161,14 +169,94 @@ def run_test(num_hosts=20, controller_type='fifo'):
     info(f"Average Latency: {avg_latency_all:.2f} ms\n")
     info(f"Average Packet Loss: {avg_packet_loss:.2f}%\n")
 
-    # Keep network running for manual inspection
-    CLI(net)
+    # Keep network running for manual inspection (only on last run or single run)
+    if run_index is None or run_index == num_runs:
+        CLI(net)
     
     # Stop network
     net.stop()
 
-if __name__ == '__main__':
-    setLogLevel('info')
-    controller_type = sys.argv[1] if len(sys.argv) > 1 else 'fifo'
-    num_hosts = int(sys.argv[2]) if len(sys.argv) > 2 else 20
-    run_test(num_hosts, controller_type)
+    return {
+        "controller": controller_type,
+        "run": run_index or 1,
+        "total_throughput": total_throughput,
+        "avg_latency": avg_latency_all,
+        "avg_packet_loss": avg_packet_loss,
+        "install_count": cycle_count,
+        "removal_count": flow_removals,
+    }
+
+
+def run_multi_experiment(num_runs=1, controller_type="fifo", num_hosts=20,
+                         controller_ip='127.0.0.1', controller_port=6633):
+    """Run the experiment multiple times and collect statistics."""
+    results = []
+    timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    base_dir = Path("results") / f"benchmark_{controller_type}_{timestamp}"
+    base_dir.mkdir(parents=True, exist_ok=True)
+
+    for i in range(1, num_runs + 1):
+        info(f"\n{'='*60}\n")
+        info(f"Starting run {i}/{num_runs} for controller={controller_type}\n")
+        info(f"{'='*60}\n")
+
+        # Each run gets its own result file inside the run directory
+        run_dir = base_dir / f"run_{i:03d}"
+        run_dir.mkdir(exist_ok=True)
+
+        # Change to run dir so result files are written there
+        original_cwd = os.getcwd()
+        os.chdir(run_dir)
+
+        try:
+            res = run_test(num_hosts=num_hosts, controller_type=controller_type, run_index=i, num_runs=num_runs,
+                           controller_ip=controller_ip, controller_port=controller_port)
+            results.append(res)
+        finally:
+            os.chdir(original_cwd)
+
+    # Write aggregate summary
+    summary_path = base_dir / "summary.csv"
+    import csv
+    with open(summary_path, "w", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=["run", "controller", "total_throughput", "avg_latency", "avg_packet_loss", "install_count", "removal_count"])
+        writer.writeheader()
+        for r in results:
+            writer.writerow(r)
+
+    # Print aggregate stats
+    if results:
+        throughputs = [r["total_throughput"] for r in results]
+        latencies = [r["avg_latency"] for r in results]
+        info(f"\n=== Aggregate Results ({num_runs} runs) ===\n")
+        info(f"Throughput: mean={sum(throughputs)/len(throughputs):.2f}  std={ (sum((x-sum(throughputs)/len(throughputs))**2 for x in throughputs)/len(throughputs))**0.5 :.2f}\n")
+        info(f"Latency:    mean={sum(latencies)/len(latencies):.3f}  std={ (sum((x-sum(latencies)/len(latencies))**2 for x in latencies)/len(latencies))**0.5 :.3f}\n")
+        info(f"Full results + logs saved under: {base_dir}\n")
+
+    return results
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Run Mininet flow table management benchmarks")
+    parser.add_argument("--controller", choices=["fifo", "lru", "rl"], default="fifo",
+                        help="Which controller to test")
+    parser.add_argument("--runs", type=int, default=1,
+                        help="Number of independent runs to execute")
+    parser.add_argument("--hosts", type=int, default=20,
+                        help="Number of hosts in the topology")
+    parser.add_argument("--controller-ip", default="127.0.0.1",
+                        help="Ryu controller IP. 127.0.0.1 = Ryu in this VM; "
+                             "use the host bridge IP (e.g. 192.168.122.1) if Ryu runs on the host.")
+    parser.add_argument("--controller-port", type=int, default=6633,
+                        help="Ryu controller OpenFlow port")
+    args = parser.parse_args()
+
+    setLogLevel("info")
+
+    if args.runs > 1:
+        run_multi_experiment(num_runs=args.runs, controller_type=args.controller, num_hosts=args.hosts,
+                             controller_ip=args.controller_ip, controller_port=args.controller_port)
+    else:
+        run_test(num_hosts=args.hosts, controller_type=args.controller,
+                 controller_ip=args.controller_ip, controller_port=args.controller_port)
+
