@@ -16,9 +16,51 @@ traces for the honest comparison.
 """
 
 import argparse
+import datetime
+import os
+import sys
 
 from training.set_environment import SetFlowTableEnvironment, NUM_FEATURES
+from training.trace_replay_env import TraceReplayEnvironment
 from training.ppo_model import PPOAgent
+
+LOG_DIR = "logs"
+
+
+class _Tee:
+    """Write print() output to the terminal and a log file at once."""
+
+    def __init__(self, *streams):
+        self.streams = streams
+
+    def write(self, s):
+        for st in self.streams:
+            st.write(s)
+            st.flush()
+
+    def flush(self):
+        for st in self.streams:
+            st.flush()
+
+
+def _start_run_log(args):
+    """Open a uniquely-named log for this run under logs/ and tee stdout to it.
+
+    One file per run (named by trace source + timestamp), so logs never clobber
+    each other and the repo root stays clean. Returns the open file handle."""
+    os.makedirs(LOG_DIR, exist_ok=True)
+    if args.trace_file:
+        source = os.path.splitext(os.path.basename(args.trace_file))[0]
+    elif args.use_trace_reward:
+        source = "synthetic_trace"
+    else:
+        source = "heuristic"
+    stamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    path = os.path.join(LOG_DIR, f"ppo_{source}_{stamp}.log")
+    f = open(path, "w")
+    sys.stdout = _Tee(sys.__stdout__, f)
+    print(f"[log] this run is being saved to {path}")
+    return f
 
 try:
     from training.trace_simulator import (
@@ -45,52 +87,77 @@ def collect_episode(env, agent):
         roll["values"].append(value)
         roll["dones"].append(1.0 if done else 0.0)
         total_reward += reward
-        misses = info.get("miss_count", misses)
+        # synthetic env reports "miss_count"; trace-replay reports "decisions" (= ep length)
+        misses = info.get("miss_count", info.get("decisions", misses))
         obs = next_obs
 
     # bootstrap value for the final (terminal) state is 0
     return roll, total_reward, misses
 
 
-def build_trace_sim(args, env):
-    if not args.use_trace_reward and not args.trace_file:
-        return None
-    if TraceSimulator is None:
-        print("Warning: trace_simulator unavailable; falling back to heuristic reward.")
-        return None
+def build_env(args):
+    """Pick the training environment.
 
+    - --trace-file  → TraceReplayEnvironment: replays the recorded arrivals using the
+      trace's own flow ids and second-timestamps, so the delayed penalty actually fires.
+    - --use-trace-reward → synthetic SetFlowTableEnvironment with delayed reward (ids 0..299,
+      step-time — this lookup path only works for the synthetic generator).
+    - neither → synthetic SetFlowTableEnvironment, heuristic + miss reward only.
+    """
     if args.trace_file:
+        if TraceRecorder is None:
+            raise SystemExit("trace_simulator module unavailable; cannot load --trace-file")
         print(f"Loading real trace from {args.trace_file}")
-        rec = TraceRecorder.load(args.trace_file)
-        traces = rec.get_trace()
-    else:
-        print("Generating improved synthetic trace for realistic delayed rewards...")
-        traces = generate_synthetic_trace_from_universe(env.flow_universe, num_steps=8000, seed=42)
+        trace = TraceRecorder.load(args.trace_file).get_trace()
+        total = sum(len(t.arrivals) for t in trace.values())
+        print(f"Trace ready: {len(trace)} unique flows, {total} total arrivals")
+        print("Using TraceReplayEnvironment (real arrivals; ids/time consistent).\n")
+        return TraceReplayEnvironment(trace, table_size=args.table_size,
+                                      max_decisions=args.max_decisions, reuse_window=args.reuse_window)
 
-    total_arrivals = sum(len(t.arrivals) for t in traces.values())
-    print(f"Trace ready: {len(traces)} unique flows, {total_arrivals} total arrivals\n")
-    return TraceSimulator(traces)
+    if args.use_trace_reward and generate_synthetic_trace_from_universe is not None:
+        print("Generating improved synthetic trace for realistic delayed rewards...")
+        base = SetFlowTableEnvironment(table_size=args.table_size)
+        traces = generate_synthetic_trace_from_universe(base.flow_universe, num_steps=8000, seed=42)
+        total = sum(len(t.arrivals) for t in traces.values())
+        print(f"Trace ready: {len(traces)} unique flows, {total} total arrivals\n")
+        return SetFlowTableEnvironment(table_size=args.table_size, trace_simulator=TraceSimulator(traces))
+
+    return SetFlowTableEnvironment(table_size=args.table_size)
 
 
 def main():
     p = argparse.ArgumentParser(description="Train pointer-network PPO flow-table agent")
     p.add_argument("--episodes", type=int, default=1000)
-    p.add_argument("--gamma", type=float, default=0.99)
-    p.add_argument("--lr", type=float, default=3e-4)
+    p.add_argument("--gamma", type=float, default=None,
+                   help="Discount. Default: 0.9 for --trace-file (near-immediate reward), else 0.99")
+    p.add_argument("--lr", type=float, default=None,
+                   help="Learning rate. Default: 1e-3 for --trace-file, else 3e-4")
     p.add_argument("--use-trace-reward", action="store_true",
                    help="Use synthetic TraceSimulator delayed rewards")
     p.add_argument("--trace-file", type=str, default=None,
-                   help="Path to a real recorded trace .pkl (overrides synthetic)")
+                   help="Path to a real recorded trace .pkl → trains via TraceReplayEnvironment")
+    p.add_argument("--table-size", type=int, default=100,
+                   help="Flow-table capacity (set to the real switch limit)")
+    p.add_argument("--reuse-window", type=int, default=200,
+                   help="Reuse window in # of upcoming arrivals (trace-replay reward)")
+    p.add_argument("--max-decisions", type=int, default=1000,
+                   help="Eviction decisions per episode (trace-replay)")
     p.add_argument("--save-every", type=int, default=100)
     p.add_argument("--save-prefix", type=str, default="models/ppo_model")
     args = p.parse_args()
 
-    # A bare env first so we can build the trace simulator from its flow universe,
-    # then attach the simulator to the real training env.
-    base_env = SetFlowTableEnvironment()
-    trace_sim = build_trace_sim(args, base_env)
-    env = SetFlowTableEnvironment(trace_simulator=trace_sim)
+    _start_run_log(args)
 
+    # Trace-replay reward is near-immediate (a per-step bandit), so it wants a lower
+    # discount + higher lr than the synthetic long-horizon reward.
+    if args.gamma is None:
+        args.gamma = 0.9 if args.trace_file else 0.99
+    if args.lr is None:
+        args.lr = 1e-3 if args.trace_file else 3e-4
+    print(f"[config] gamma={args.gamma} lr={args.lr}")
+
+    env = build_env(args)
     agent = PPOAgent(num_features=NUM_FEATURES, gamma=args.gamma, lr=args.lr)
 
     recent = []

@@ -27,7 +27,8 @@ class SingleSwitchTopo(Topo):
             self.addLink(host, switch)
 
 def run_test(num_hosts=20, controller_type='fifo', run_index=None, num_runs=None,
-             controller_ip='127.0.0.1', controller_port=6633):
+             controller_ip='127.0.0.1', controller_port=6633,
+             ping_count=1, settle_time=3):
     # Create topology
     topo = SingleSwitchTopo(num_hosts)
 
@@ -95,8 +96,8 @@ def run_test(num_hosts=20, controller_type='fifo', run_index=None, num_runs=None
                     if match:
                         packet_loss = float(match.group(2))
 
-            # Measure latency using ping
-            ping_result = src_host.cmd(f'ping -c 4 {dst_host.IP()}')
+            # Measure latency using ping (ping_count packets — fewer = faster test)
+            ping_result = src_host.cmd(f'ping -c {ping_count} {dst_host.IP()}')
             avg_latency = 0
             for line in ping_result.splitlines():
                 if 'rtt min/avg/max' in line:
@@ -116,8 +117,8 @@ def run_test(num_hosts=20, controller_type='fifo', run_index=None, num_runs=None
             time.sleep(0.01)  # Small delay between flows
             flow_count += 1
 
-    # Wait for all flows to complete
-    time.sleep(15)
+    # Wait for residual flows to settle
+    time.sleep(settle_time)
 
     # Collect flow statistics from the switch
     info("Collecting flow statistics...\n")
@@ -188,7 +189,8 @@ def run_test(num_hosts=20, controller_type='fifo', run_index=None, num_runs=None
 
 
 def run_multi_experiment(num_runs=1, controller_type="fifo", num_hosts=20,
-                         controller_ip='127.0.0.1', controller_port=6633):
+                         controller_ip='127.0.0.1', controller_port=6633,
+                         ping_count=1, settle_time=3):
     """Run the experiment multiple times and collect statistics."""
     results = []
     timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -210,7 +212,8 @@ def run_multi_experiment(num_runs=1, controller_type="fifo", num_hosts=20,
 
         try:
             res = run_test(num_hosts=num_hosts, controller_type=controller_type, run_index=i, num_runs=num_runs,
-                           controller_ip=controller_ip, controller_port=controller_port)
+                           controller_ip=controller_ip, controller_port=controller_port,
+                           ping_count=ping_count, settle_time=settle_time)
             results.append(res)
         finally:
             os.chdir(original_cwd)
@@ -249,14 +252,20 @@ if __name__ == "__main__":
                              "use the host bridge IP (e.g. 192.168.122.1) if Ryu runs on the host.")
     parser.add_argument("--controller-port", type=int, default=6633,
                         help="Ryu controller OpenFlow port")
+    parser.add_argument("--ping-count", type=int, default=1,
+                        help="ICMP packets per flow for latency (lower = faster test; was 4)")
+    parser.add_argument("--settle-time", type=int, default=3,
+                        help="Seconds to wait for residual flows after the run (was 15)")
     args = parser.parse_args()
 
     setLogLevel("info")
 
     if args.runs > 1:
         run_multi_experiment(num_runs=args.runs, controller_type=args.controller, num_hosts=args.hosts,
-                             controller_ip=args.controller_ip, controller_port=args.controller_port)
+                             controller_ip=args.controller_ip, controller_port=args.controller_port,
+                             ping_count=args.ping_count, settle_time=args.settle_time)
     else:
         run_test(num_hosts=args.hosts, controller_type=args.controller,
-                 controller_ip=args.controller_ip, controller_port=args.controller_port)
+                 controller_ip=args.controller_ip, controller_port=args.controller_port,
+                 ping_count=args.ping_count, settle_time=args.settle_time)
 
