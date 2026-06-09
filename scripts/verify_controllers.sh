@@ -31,6 +31,17 @@ FLOWRL_MAX_FLOWS="$MAXF" PYTHONPATH="$PWD" \
 RYU_PID=$!
 sleep 5   # let the controller connect on 6633
 
+# Bail out early if the controller died at startup (e.g. the eventlet/Ryu
+# ImportError) — otherwise the topology runs against nothing and the analysis
+# falsely passes on an empty log.
+if ! kill -0 "$RYU_PID" 2>/dev/null; then
+    echo "ERROR: ${CTRL} controller exited at startup. Last lines of ${OUT}:" >&2
+    tail -15 "$OUT" >&2
+    echo "Hint: if it is an eventlet ImportError, pin deps:" >&2
+    echo "  python3 -m pip install --user 'eventlet==0.30.2' 'dnspython==1.16.0'" >&2
+    exit 1
+fi
+
 echo "[3/4] Running Mininet topology (feeding 'exit' so the CLI does not block)..."
 echo exit | sudo python3 tests/topology.py --controller "$CTRL" --hosts "$HOSTS" --runs 1 \
     || true

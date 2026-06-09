@@ -111,6 +111,9 @@ def main():
     print(f"  evicted while full    : {r['full_at_evict']}/{r['evictions']}")
 
     checks = []
+    # Guard against a dead controller (e.g. ryu-manager crashed at startup): an empty
+    # log has 0 installs and would otherwise pass every other (vacuous) check.
+    checks.append(("controller produced installs (it actually ran)", r["installs"] > 0))
     checks.append(("table never exceeds capacity", r["max_resident"] <= args.max_flows))
     # Allow a small slack: re-installs of returning flows reduce the eviction count.
     checks.append(("eviction fires under pressure",
