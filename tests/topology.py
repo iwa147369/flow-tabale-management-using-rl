@@ -28,7 +28,10 @@ class SingleSwitchTopo(Topo):
 
 def run_test(num_hosts=20, controller_type='fifo', run_index=None, num_runs=None,
              controller_ip='127.0.0.1', controller_port=6633,
-             ping_count=1, settle_time=3):
+             ping_count=1, settle_time=3, traffic_file=None):
+    # Resolve the traffic file before any chdir (multi-run cd's into a result dir).
+    if traffic_file is None:
+        traffic_file = os.path.abspath(f'{num_hosts}_hosts_test.txt')
     # Create topology
     topo = SingleSwitchTopo(num_hosts)
 
@@ -61,7 +64,7 @@ def run_test(num_hosts=20, controller_type='fifo', run_index=None, num_runs=None
     flow_count = 1
     stats = []
     
-    with open(f'{num_hosts}_hosts_test.txt', 'r') as f:
+    with open(traffic_file, 'r') as f:
         for line in f:
             src, dst, bandwidth, duration = line.strip().split()
             src_idx = int(src) - 1  # Convert to 0-based index
@@ -193,6 +196,8 @@ def run_multi_experiment(num_runs=1, controller_type="fifo", num_hosts=20,
                          ping_count=1, settle_time=3):
     """Run the experiment multiple times and collect statistics."""
     results = []
+    # Resolve before any chdir below — each run cd's into its own result dir.
+    traffic_file = os.path.abspath(f'{num_hosts}_hosts_test.txt')
     timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
     base_dir = Path("results") / f"benchmark_{controller_type}_{timestamp}"
     base_dir.mkdir(parents=True, exist_ok=True)
@@ -213,7 +218,7 @@ def run_multi_experiment(num_runs=1, controller_type="fifo", num_hosts=20,
         try:
             res = run_test(num_hosts=num_hosts, controller_type=controller_type, run_index=i, num_runs=num_runs,
                            controller_ip=controller_ip, controller_port=controller_port,
-                           ping_count=ping_count, settle_time=settle_time)
+                           ping_count=ping_count, settle_time=settle_time, traffic_file=traffic_file)
             results.append(res)
         finally:
             os.chdir(original_cwd)
