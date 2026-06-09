@@ -21,7 +21,10 @@ class FIFOController(app_manager.RyuApp):
         super(FIFOController, self).__init__(*args, **kwargs)
         self.mac_to_port = {}
         self.flow_table = []
-        self.max_flows = 100
+        # Table capacity. Override with FLOWRL_MAX_FLOWS to run controlled
+        # verification with a small table (eviction triggers early and is
+        # easy to read in the log).
+        self.max_flows = int(os.environ.get("FLOWRL_MAX_FLOWS", 100))
         self.log_file = "fifo_timings.log"
 
         handler = colorlog.StreamHandler()

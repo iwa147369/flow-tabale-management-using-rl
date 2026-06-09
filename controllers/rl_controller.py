@@ -30,7 +30,9 @@ class RLController(app_manager.RyuApp):
         # Unified flow table: list of dicts with consistent schema.
         # Each entry: {match, priority, timeout (age in s), packet_count, bytes_count}
         self.flow_table = []
-        self.max_flows = 100
+        # Table capacity. Override with FLOWRL_MAX_FLOWS for controlled
+        # verification with a small table.
+        self.max_flows = int(os.environ.get("FLOWRL_MAX_FLOWS", 100))
         self.datapath = None
         self.log_file = "rl_timings.log"
 

@@ -9,6 +9,14 @@ CLAUDE.md
 
 # run logs (regenerated each run)
 *_log.txt
+logs/
+vm_logs/
+verify_*.log
+*_timings.log
+*_results.txt
+
+# generated traffic files (from generate_data.py)
+*_hosts_test.txt
 
 # runtime trace data (collected in the VM, not source)
 traces/
