@@ -26,6 +26,10 @@ import argparse
 import re
 
 ANSI = re.compile(r"\x1b\[[0-9;]*m")
+# Real log records start with "LEVEL:logger:". The controller logger emits each
+# record twice (a colorlog handler + log propagation): once level-prefixed and
+# once as the bare message. Count only the prefixed copy so events aren't doubled.
+LEVEL = re.compile(r"^\s*(DEBUG|INFO|WARNING|ERROR|CRITICAL):")
 
 EVICT_PHRASES = (
     "removing oldest legal flow:",   # FIFO
@@ -54,6 +58,8 @@ def parse(path, controller):
     with open(path, "r", errors="replace") as f:
         for raw in f:
             line = ANSI.sub("", raw)
+            if not LEVEL.match(line):
+                continue           # skip the bare-message duplicate + iperf/mininet noise
 
             if any(p in line for p in EVICT_PHRASES):
                 evictions += 1
