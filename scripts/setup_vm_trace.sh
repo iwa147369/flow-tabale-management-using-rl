@@ -13,8 +13,9 @@
 set -e
 
 echo "[1/3] Installing controller dependencies (Ryu + colorlog)..."
-# Ryu is picky on Python 3.10+. If this fails, see the NOTE at the bottom.
-python3 -m pip install --user ryu colorlog
+# Pin eventlet/dnspython: newer eventlet (>=0.30.3) dropped ALREADY_HANDLED, which
+# Ryu still imports — ryu-manager then crashes at startup with an ImportError.
+python3 -m pip install --user 'eventlet==0.30.2' 'dnspython==1.16.0' ryu colorlog
 
 echo "[2/3] Generating the 20-host traffic file (20_hosts_test.txt)..."
 python3 tests/generate_data.py

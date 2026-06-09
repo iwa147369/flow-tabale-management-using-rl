@@ -5,19 +5,6 @@ NUM_HOSTS = 20
 DEFAULT_FLOWS = 1500   # was 1000; faster per-flow (ping -c 1) lets us exchange more
 
 
-def generate_sequential_flows(num_hosts=NUM_HOSTS):
-    """Deterministic sequence: every distinct directed host pair exactly once,
-    in a fixed order. Used by the controlled controller-verification test — with
-    a small table the eviction victim at each step is then predictable (FIFO must
-    evict the oldest-installed pair, etc.)."""
-    flows = []
-    for h1 in range(1, num_hosts + 1):
-        for h2 in range(1, num_hosts + 1):
-            if h1 != h2:
-                flows.append(f"{h1} {h2} 1 1")
-    return flows
-
-
 def generate_test_flows(total_flows=DEFAULT_FLOWS, repeat_percentage=0.8, num_hosts=NUM_HOSTS):
     # Create list of hosts
     hosts = [f"{i}" for i in range(1, num_hosts + 1)]
@@ -61,15 +48,9 @@ if __name__ == "__main__":
                         help="Total number of flows to generate")
     parser.add_argument("--hosts", type=int, default=NUM_HOSTS,
                         help="Number of hosts (must match the topology)")
-    parser.add_argument("--sequential", action="store_true",
-                        help="Emit every distinct host pair once, in fixed order "
-                             "(deterministic workload for controller verification)")
     args = parser.parse_args()
 
-    if args.sequential:
-        flows = generate_sequential_flows(num_hosts=args.hosts)
-    else:
-        flows = generate_test_flows(total_flows=args.flows, num_hosts=args.hosts)
+    flows = generate_test_flows(total_flows=args.flows, num_hosts=args.hosts)
     out = f"{args.hosts}_hosts_test.txt"
     with open(out, "w") as f:
         for flow in flows:

@@ -21,10 +21,7 @@ class FIFOController(app_manager.RyuApp):
         super(FIFOController, self).__init__(*args, **kwargs)
         self.mac_to_port = {}
         self.flow_table = []
-        # Table capacity. Override with FLOWRL_MAX_FLOWS to run controlled
-        # verification with a small table (eviction triggers early and is
-        # easy to read in the log).
-        self.max_flows = int(os.environ.get("FLOWRL_MAX_FLOWS", 100))
+        self.max_flows = 100
         self.log_file = "fifo_timings.log"
 
         handler = colorlog.StreamHandler()
@@ -64,7 +61,11 @@ class FIFOController(app_manager.RyuApp):
     def add_flow(self, datapath, priority, match, actions, buffer_id=None):
         start_time = time.time()
 
-        if any(e['match'] == match for e in self.flow_table):
+        # Stable identity for dedup + eviction. Entries MUST carry this: the
+        # eviction filter below compares by match_key, and without it the filter
+        # would wipe the whole table (None != None is False for every entry).
+        match_key = flow_id_of(match)
+        if any(e.get('match_key') == match_key for e in self.flow_table):
             self.logger.info("Flow already exists, skipping addition")
             return
 
@@ -79,7 +80,8 @@ class FIFOController(app_manager.RyuApp):
             else:
                 self.logger.warning("No legal flows to evict — table full of critical entries")
 
-        self.flow_table.append({'match': match, 'priority': priority, 'time': time.time()})
+        self.flow_table.append({'match': match, 'match_key': match_key,
+                                'priority': priority, 'time': time.time()})
         self._install_flow(datapath, priority, match, actions, buffer_id)
         self.log_timing("Install Flow", time.time() - start_time)
 

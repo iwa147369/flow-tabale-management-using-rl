@@ -21,9 +21,7 @@ class LRUController(app_manager.RyuApp):
         super(LRUController, self).__init__(*args, **kwargs)
         self.mac_to_port = {}
         self.flow_table = []
-        # Table capacity. Override with FLOWRL_MAX_FLOWS for controlled
-        # verification with a small table.
-        self.max_flows = int(os.environ.get("FLOWRL_MAX_FLOWS", 100))
+        self.max_flows = 100
         self.log_file = "lru_timings.log"
 
         handler = colorlog.StreamHandler()
@@ -63,9 +61,11 @@ class LRUController(app_manager.RyuApp):
     def add_flow(self, datapath, priority, match, actions, buffer_id=None):
         start_time = time.time()
 
+        # Stable identity for dedup + eviction (do not rely on OFPMatch __eq__).
+        match_key = flow_id_of(match)
         # Update access time if already exists (LRU refresh)
         for entry in self.flow_table:
-            if entry['match'] == match:
+            if entry.get('match_key') == match_key:
                 entry['time'] = time.time()
                 self.logger.info("Flow already exists, updating access time")
                 return
@@ -83,7 +83,8 @@ class LRUController(app_manager.RyuApp):
             else:
                 self.logger.warning("No legal flows to evict — table full of critical entries")
 
-        self.flow_table.append({'match': match, 'priority': priority, 'time': time.time()})
+        self.flow_table.append({'match': match, 'match_key': match_key,
+                                'priority': priority, 'time': time.time()})
         self._install_flow(datapath, priority, match, actions, buffer_id)
         self.log_timing("Install Flow", time.time() - start_time)
 
