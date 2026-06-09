@@ -11,11 +11,12 @@ Those eviction lines do NOT appear in the *_timings.log (that file only has
 timings); they are on stdout, so capture stdout when running the controller:
     FLOWRL_MAX_FLOWS=5 PYTHONPATH="$PWD" ryu-manager controllers/fifo_controller.py > run.log 2>&1
 
-This script reconstructs residency from the install/eviction order and checks:
-  * eviction actually fired under pressure (evictions == installs - capacity for a
-    workload of distinct flows), exposing a stuck eviction path,
-  * the table never exceeded the configured capacity,
-  * (FIFO only) the victim was always the oldest-installed resident.
+We cannot observe the controller's internal table size from the log, so the
+reliable signal is the **eviction-to-install ratio**. With more distinct active
+flows than the capacity, a correct policy must evict on nearly every install once
+the table is warm (ratio → 1). A ratio near 1/capacity means the table keeps
+emptying — a broken eviction path (e.g. a filter that wipes the whole table).
+For FIFO we additionally check the victim is the oldest-installed resident.
 
 Usage:
     python3 tests/parse_eviction_log.py run.log --controller fifo --max-flows 5
@@ -43,12 +44,12 @@ def match_key(text):
     return f"in={inp.group(1) if inp else '?'},src={src.group(1)},dst={dst.group(1)}"
 
 
-def parse(path, max_flows, controller):
-    residency = []          # current residents, oldest first (install order)
+def parse(path, controller):
     installs = evictions = 0
-    max_resident = 0
+    distinct = set()
+    order = []               # resident keys in install order (deduped) for FIFO check
+    resident = set()
     fifo_ok = fifo_total = 0
-    full_at_evict = 0       # evictions where the table was at capacity
 
     with open(path, "r", errors="replace") as f:
         for raw in f:
@@ -57,16 +58,15 @@ def parse(path, max_flows, controller):
             if any(p in line for p in EVICT_PHRASES):
                 evictions += 1
                 victim = match_key(line)
-                if len(residency) >= max_flows:
-                    full_at_evict += 1
-                if controller == "fifo" and residency:
+                if controller == "fifo" and order:
                     fifo_total += 1
-                    if victim == residency[0]:
+                    if victim == order[0]:
                         fifo_ok += 1
-                if victim in residency:
-                    residency.remove(victim)
-                elif residency:
-                    residency.pop(0)   # fall back to oldest if key unparsable
+                if victim in resident:
+                    resident.discard(victim)
+                    order = [k for k in order if k != victim]
+                elif order:
+                    resident.discard(order.pop(0))
                 continue
 
             if "Installing flow" in line:
@@ -77,15 +77,15 @@ def parse(path, max_flows, controller):
                 if key is None:
                     continue
                 installs += 1
-                residency.append(key)
-                max_resident = max(max_resident, len(residency))
+                distinct.add(key)
+                if key not in resident:
+                    resident.add(key)
+                    order.append(key)
 
     return {
         "installs": installs,
         "evictions": evictions,
-        "max_resident": max_resident,
-        "final_resident": len(residency),
-        "full_at_evict": full_at_evict,
+        "distinct": len(distinct),
         "fifo_ok": fifo_ok,
         "fifo_total": fifo_total,
     }
@@ -99,28 +99,25 @@ def main():
                     help="The FLOWRL_MAX_FLOWS the controller ran with")
     args = ap.parse_args()
 
-    r = parse(args.logfile, args.max_flows, args.controller)
-    expected_evictions = max(0, r["installs"] - args.max_flows)
+    r = parse(args.logfile, args.controller)
+    ratio = r["evictions"] / r["installs"] if r["installs"] else 0.0
+    # Once warm, a bounded table evicts on nearly every install: target ratio.
+    target = max(0.0, (r["installs"] - args.max_flows) / r["installs"]) if r["installs"] else 0.0
 
     print(f"=== eviction verification: {args.controller.upper()} (capacity {args.max_flows}) ===")
-    print(f"  installs (priority>0) : {r['installs']}")
-    print(f"  evictions             : {r['evictions']}")
-    print(f"  expected evictions    : {expected_evictions}  (installs - capacity, distinct workload)")
-    print(f"  max resident observed : {r['max_resident']}  (must be <= {args.max_flows})")
-    print(f"  final resident        : {r['final_resident']}")
-    print(f"  evicted while full    : {r['full_at_evict']}/{r['evictions']}")
+    print(f"  installs (priority>0)   : {r['installs']}")
+    print(f"  distinct flows          : {r['distinct']}  (re-installs imply thrash under a small table)")
+    print(f"  evictions               : {r['evictions']}")
+    print(f"  evict/install ratio     : {ratio:.3f}   (target ~{target:.3f}; ~1/capacity means the table keeps emptying)")
 
     checks = []
-    # Guard against a dead controller (e.g. ryu-manager crashed at startup): an empty
-    # log has 0 installs and would otherwise pass every other (vacuous) check.
     checks.append(("controller produced installs (it actually ran)", r["installs"] > 0))
-    checks.append(("table never exceeds capacity", r["max_resident"] <= args.max_flows))
-    # Allow a small slack: re-installs of returning flows reduce the eviction count.
-    checks.append(("eviction fires under pressure",
-                   r["evictions"] >= 0.8 * expected_evictions if expected_evictions else True))
+    # Only meaningful once there is real pressure (installs well above capacity).
+    if r["installs"] > 3 * args.max_flows:
+        checks.append(("eviction keeps pace (table stays bounded)", ratio >= 0.8))
     if args.controller == "fifo" and r["fifo_total"]:
         rate = r["fifo_ok"] / r["fifo_total"]
-        print(f"  FIFO evict-oldest     : {r['fifo_ok']}/{r['fifo_total']} ({100 * rate:.0f}%)")
+        print(f"  FIFO evict-oldest       : {r['fifo_ok']}/{r['fifo_total']} ({100 * rate:.0f}%)")
         checks.append(("FIFO evicts oldest-installed", rate >= 0.95))
     if args.controller == "lru":
         print("  note: LRU recency only refreshes when a resident flow triggers a new")

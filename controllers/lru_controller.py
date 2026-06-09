@@ -63,9 +63,11 @@ class LRUController(app_manager.RyuApp):
     def add_flow(self, datapath, priority, match, actions, buffer_id=None):
         start_time = time.time()
 
+        # Stable identity for dedup + eviction (do not rely on OFPMatch __eq__).
+        match_key = flow_id_of(match)
         # Update access time if already exists (LRU refresh)
         for entry in self.flow_table:
-            if entry['match'] == match:
+            if entry.get('match_key') == match_key:
                 entry['time'] = time.time()
                 self.logger.info("Flow already exists, updating access time")
                 return
@@ -83,7 +85,8 @@ class LRUController(app_manager.RyuApp):
             else:
                 self.logger.warning("No legal flows to evict — table full of critical entries")
 
-        self.flow_table.append({'match': match, 'priority': priority, 'time': time.time()})
+        self.flow_table.append({'match': match, 'match_key': match_key,
+                                'priority': priority, 'time': time.time()})
         self._install_flow(datapath, priority, match, actions, buffer_id)
         self.log_timing("Install Flow", time.time() - start_time)
 
